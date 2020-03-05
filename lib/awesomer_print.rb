@@ -39,3 +39,4 @@ unless defined?(AwesomerPrint::Inspector)
   require 'awesomer_print/ext/sequel'         if defined?(Sequel)
   require 'awesomer_print/ext/ostruct'        if defined?(OpenStruct)
 end
+# test
