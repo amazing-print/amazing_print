@@ -7,7 +7,7 @@
 [![RubyGems][gem_downloads_badge]][ruby_gems]
 [![Gitter](https://badges.gitter.im/awesomer-print/community.svg)](https://gitter.im/awesomer-print/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Awesomer Print is a fork of [Awesome Print](https://github.com/awesomer-print/awesomer_print) which became stale and should be used in it's place to avoid conflicts. It is a Ruby library that pretty prints Ruby objects in full color exposing their internal structure with proper indentation. Rails ActiveRecord objects and usage within Rails templates are supported via included mixins.
+Awesomer Print is a fork of [Awesome Print](https://github.com/awesome-print/awesome_print) which became stale and should be used in it's place to avoid conflicts. It is a Ruby library that pretty prints Ruby objects in full color exposing their internal structure with proper indentation. Rails ActiveRecord objects and usage within Rails templates are supported via included mixins.
 
 ### Supported Versions ###
 
