@@ -3,7 +3,9 @@ require 'spec_helper'
 RSpec.describe 'AwesomerPrint/Nokogiri' do
   it 'should colorize tags' do
     xml = Nokogiri::XML('<html><body><h1></h1></body></html>')
-    expect(xml.ai).to eq <<-EOS
+    # Due to something strange with Nokogiri and JRuby, we need to remove extra blank lines.
+    output = xml.ai.gsub(/\n\n/, "\n")
+    expect(output).to eq <<-EOS
 <?xml version=\"1.0\"?>\e[1;32m
 \e[0m<\e[1;36mhtml\e[0m>\e[1;32m
   \e[0m<\e[1;36mbody\e[0m>\e[1;32m
@@ -26,13 +28,15 @@ RSpec.describe 'AwesomerPrint/Nokogiri' do
   end
 
   it 'should colorize class and id' do
-    xml = Nokogiri::XML('<html><body><h1><span id="hello" class="world"></span></h1></body></html>')
-    expect(xml.ai).to eq <<-EOS
+    xml = Nokogiri::XML('<html><body><h1><span class="world" id="hello"></span></h1></body></html>')
+    # Due to something strange with Nokogiri and JRuby, we need to remove extra blank lines.
+    output = xml.ai.gsub(/\n\n/, "\n")
+    expect(output).to eq <<-EOS
 <?xml version=\"1.0\"?>\e[1;32m
 \e[0m<\e[1;36mhtml\e[0m>\e[1;32m
   \e[0m<\e[1;36mbody\e[0m>\e[1;32m
     \e[0m<\e[1;36mh1\e[0m>\e[1;32m
-      \e[0m<\e[1;36mspan\e[0m \e[1;33mid=\"hello\"\e[0m \e[1;33mclass=\"world\"\e[0m/>\e[1;32m
+      \e[0m<\e[1;36mspan\e[0m \e[1;33mclass=\"world\"\e[0m \e[1;33mid=\"hello\"\e[0m/>\e[1;32m
     \e[0m<\e[1;36m/h1\e[0m>\e[1;32m
   \e[0m<\e[1;36m/body\e[0m>\e[1;32m
 \e[0m<\e[1;36m/html\e[0m>
