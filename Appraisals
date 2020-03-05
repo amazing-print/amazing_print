@@ -7,11 +7,15 @@
 # end
 
 appraise 'rails-5.1' do
+  gem 'activerecord-jdbcsqlite3-adapter', '~> 51.0', platform: :jruby
   gem 'rails', '~> 5.1.0'
+  gem 'sqlite3', platform: :mri
 end
 
 appraise 'rails-5.2' do
+  gem 'activerecord-jdbcsqlite3-adapter', '~> 52.0', platform: :jruby
   gem 'rails', '~> 5.2.0'
+  gem 'sqlite3', platform: :mri
 end
 
 appraise 'rails-6.0' do
