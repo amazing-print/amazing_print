@@ -151,7 +151,12 @@ EOS
             ActiveRecordData.raw_3_2_diana_legacy
           end
         end
-        # puts out
+
+      if activerecord_5_2? && RUBY_PLATFORM == 'java'
+        raw_object_string.gsub!(
+          'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
+          'ArJdbc::SQLite3::SQLite3Integer')
+      end
       raw_object_string.sub!('?', '1992-10-10 12:30:00')
       expect(out).to be_similar_to(raw_object_string)
     end
@@ -185,6 +190,12 @@ EOS
             ActiveRecordData.raw_3_2_multi_legacy
           end
         end
+
+      if activerecord_5_2? && RUBY_PLATFORM == 'java'
+        raw_object_string.gsub!(
+          'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
+          'ArJdbc::SQLite3::SQLite3Integer')
+      end
       raw_object_string.sub!('?', '1992-10-10 12:30:00')
       raw_object_string.sub!('?', '2003-05-26 14:15:00')
       expect(out).to be_similar_to(raw_object_string)
