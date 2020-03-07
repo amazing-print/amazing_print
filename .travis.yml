@@ -7,6 +7,8 @@ rvm:
   - 2.5
   - 2.6
   - ruby-head
+  - jruby-9.1
+  - jruby-9.2
 
 before_install:
   - gem install bundler
@@ -25,6 +27,8 @@ matrix:
       rvm: 2.3
     - gemfile: gemfiles/rails_6.0.gemfile
       rvm: 2.4
+    - gemfile: gemfiles/rails_6.0.gemfile
+      rvm: jruby-9.1
   include:
     - rvm: ruby-head
       env: RUBYOPT="--enable-frozen-string-literal"

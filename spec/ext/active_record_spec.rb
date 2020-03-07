@@ -151,7 +151,12 @@ EOS
             ActiveRecordData.raw_3_2_diana_legacy
           end
         end
-        # puts out
+
+      if RUBY_PLATFORM == 'java'
+        raw_object_string.gsub!(
+          'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
+          'ArJdbc::SQLite3::SQLite3Integer')
+      end
       raw_object_string.sub!('?', '1992-10-10 12:30:00')
       expect(out).to be_similar_to(raw_object_string)
     end
@@ -185,6 +190,12 @@ EOS
             ActiveRecordData.raw_3_2_multi_legacy
           end
         end
+
+      if RUBY_PLATFORM == 'java'
+        raw_object_string.gsub!(
+          'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
+          'ArJdbc::SQLite3::SQLite3Integer')
+      end
       raw_object_string.sub!('?', '1992-10-10 12:30:00')
       raw_object_string.sub!('?', '2003-05-26 14:15:00')
       expect(out).to be_similar_to(raw_object_string)
@@ -238,7 +249,11 @@ class SubUser < User {
       out = @ap.awesome(User.methods.grep(/first/))
 
       if ActiveRecord::VERSION::STRING >= '3.2'
-        if RUBY_VERSION >= '2.4.4'
+        if RUBY_PLATFORM == 'java'
+          expect(out).to match(
+            /\s+first\(\*args,\s&block\)\s+#<Class:\w+>\s+\(ActiveRecord::Querying\)/
+          )
+        elsif RUBY_VERSION >= '2.4.4'
           expect(out).to match(/\sfirst\(\*arg.*?\)\s+User/)
         elsif RUBY_VERSION >= '1.9'
           expect(out).to match(/\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/)
@@ -251,7 +266,11 @@ class SubUser < User {
 
       # spec 2
       out = @ap.awesome(User.methods.grep(/primary_key/))
-      if RUBY_VERSION >= '2.4.4'
+      if RUBY_PLATFORM == 'java'
+        expect(out).to match(
+          /\sprimary_key\(.*?\)\s+#<Class:\w+>\s\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
+        )
+      elsif RUBY_VERSION >= '2.4.4'
         expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
       else
         expect(out).to match(/\sprimary_key\(.*?\)\s+Class \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
@@ -260,10 +279,13 @@ class SubUser < User {
       # spec 3
       out = @ap.awesome(User.methods.grep(/validate/))
 
+
       if ActiveRecord::VERSION::MAJOR < 3
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
       else
-        if RUBY_VERSION >= '2.4.4'
+        if RUBY_PLATFORM == 'java'
+          expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:\w+> \(ActiveModel::Validations::ClassMethods\)/)
+        elsif RUBY_VERSION >= '2.4.4'
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
         else
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/)
