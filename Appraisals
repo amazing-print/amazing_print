@@ -19,7 +19,9 @@ appraise 'rails-5.2' do
 end
 
 appraise 'rails-6.0' do
+  gem 'activerecord-jdbcsqlite3-adapter', '~> 60.0', platform: :jruby
   gem 'rails', '~> 6.0.0'
+  gem 'sqlite3', platform: :mri
 end
 
 appraise 'mongoid-4.0' do
