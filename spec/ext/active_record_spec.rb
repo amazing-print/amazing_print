@@ -152,7 +152,7 @@ EOS
           end
         end
 
-      if activerecord_5_2? && RUBY_PLATFORM == 'java'
+      if RUBY_PLATFORM == 'java'
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
           'ArJdbc::SQLite3::SQLite3Integer')
@@ -191,7 +191,7 @@ EOS
           end
         end
 
-      if activerecord_5_2? && RUBY_PLATFORM == 'java'
+      if RUBY_PLATFORM == 'java'
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
           'ArJdbc::SQLite3::SQLite3Integer')
