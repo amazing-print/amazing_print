@@ -14,11 +14,17 @@ before_install:
 gemfile:
   - gemfiles/rails_5.1.gemfile
   - gemfiles/rails_5.2.gemfile
+  - gemfiles/rails_6.0.gemfile
   - gemfiles/mongoid_4.0.gemfile
   - gemfiles/mongoid_5.0.gemfile
   - gemfiles/mongoid_6.0.gemfile
 
 matrix:
+  exclude:
+    - gemfile: gemfiles/rails_6.0.gemfile
+      rvm: 2.3
+    - gemfile: gemfiles/rails_6.0.gemfile
+      rvm: 2.4
   include:
     - rvm: ruby-head
       env: RUBYOPT="--enable-frozen-string-literal"
