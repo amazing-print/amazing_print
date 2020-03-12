@@ -3,6 +3,9 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
+
+# frozen_string_literal: true
+
 class String
   #
   # ANSI color codes:
@@ -16,12 +19,20 @@ class String
   #
   %w(gray red green yellow blue purple cyan white).zip(
   %w(black darkred darkgreen brown navy darkmagenta darkcyan slategray)).each_with_index do |(color, shade), i|
-    define_method color do |*html|
-      html[0] ? %Q|<kbd style="color:#{color}">#{self}</kbd>| : "\e[1;#{30 + i}m#{self}\e[0m"
+    # NOTE: Format strings are created once only, for performance, and remembered by closures.
+
+    term_bright_seq = "\e[1;#{30 + i}m%s\e[0m"
+    html_bright_seq = %Q|<kbd style="color:#{color}">%s</kbd>|
+
+    define_method color do |html = false,*|
+      (html ? html_bright_seq : term_bright_seq) % self
     end
 
-    define_method "#{color}ish" do |*html|
-      html[0] ? %Q|<kbd style="color:#{shade}">#{self}</kbd>| : "\e[0;#{30 + i}m#{self}\e[0m"
+    term_normal_seq = "\e[0;#{30 + i}m%s\e[0m"
+    html_normal_seq = %Q|<kbd style="color:#{shade}">%s</kbd>|
+
+    define_method "#{color}ish" do |html = false,*|
+      (html ? html_normal_seq : term_normal_seq) % self
     end
   end
 
