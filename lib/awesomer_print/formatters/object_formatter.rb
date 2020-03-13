@@ -60,7 +60,13 @@ module AwesomerPrint
 
       def awesome_instance
         str = object.send(options[:class_name]).to_s
-        str << format(':0x%08x', (object.__id__ * 2)) if options[:object_id]
+        # We need to ensure that the original Kernel#format is used here instead of the one defined
+        # above.
+        # rubocop:disable Style/ColonMethodCall
+        if options[:object_id]
+          str << Kernel::format(':0x%08x', (object.__id__ * 2))
+        end
+        # rubocop:enable Style/ColonMethodCall
         str
       end
 
