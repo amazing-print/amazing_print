@@ -1,5 +1,4 @@
 module ExtVerifier
-
   def require_dependencies!(dependencies)
     dependencies.each do |dependency|
       begin

@@ -8,7 +8,7 @@
 # so do nothing for subsequent requires.
 #
 unless defined?(AwesomerPrint::Inspector)
-  %w(awesome_method_array string method object class kernel).each do |file|
+  %w[awesome_method_array string method object class kernel].each do |file|
     require "awesomer_print/core_ext/#{file}"
   end
 
@@ -21,8 +21,12 @@ unless defined?(AwesomerPrint::Inspector)
   # Load the following under normal circumstances as well as in Rails
   # console when required from ~/.irbrc or ~/.pryrc.
   #
-  require 'awesomer_print/ext/active_record'  if defined?(ActiveRecord)  || AwesomerPrint.rails_console?
-  require 'awesomer_print/ext/active_support' if defined?(ActiveSupport) || AwesomerPrint.rails_console?
+  if defined?(ActiveRecord) || AwesomerPrint.rails_console?
+    require 'awesomer_print/ext/active_record'
+  end
+  if defined?(ActiveSupport) || AwesomerPrint.rails_console?
+    require 'awesomer_print/ext/active_support'
+  end
   #
   # Load remaining extensions.
   #

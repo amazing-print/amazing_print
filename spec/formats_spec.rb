@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'bigdecimal'
-require 'rational'
 require 'set'
 
 RSpec.describe 'AwesomerPrint' do
@@ -14,71 +13,71 @@ RSpec.describe 'AwesomerPrint' do
     end
 
     it 'plain multiline' do
-      expect(@arr.ai(plain: true)).to eq <<-EOS.strip
-[
-    [0] 1,
-    [1] :two,
-    [2] "three",
-    [3] [
-        [0] nil,
-        [1] [
-            [0] true,
-            [1] false
+      expect(@arr.ai(plain: true)).to eq <<~EOS.strip
+        [
+            [0] 1,
+            [1] :two,
+            [2] "three",
+            [3] [
+                [0] nil,
+                [1] [
+                    [0] true,
+                    [1] false
+                ]
+            ]
         ]
-    ]
-]
-EOS
-      end
+      EOS
+    end
 
     it 'plain multiline without index' do
-      expect(@arr.ai(plain: true, index: false)).to eq <<-EOS.strip
-[
-    1,
-    :two,
-    "three",
-    [
-        nil,
+      expect(@arr.ai(plain: true, index: false)).to eq <<~EOS.strip
         [
-            true,
-            false
+            1,
+            :two,
+            "three",
+            [
+                nil,
+                [
+                    true,
+                    false
+                ]
+            ]
         ]
-    ]
-]
-EOS
-      end
+      EOS
+    end
 
     it 'plain multiline indented' do
-      expect(@arr.ai(plain: true, indent: 2)).to eq <<-EOS.strip
-[
-  [0] 1,
-  [1] :two,
-  [2] "three",
-  [3] [
-    [0] nil,
-    [1] [
-      [0] true,
-      [1] false
-    ]
-  ]
-]
-EOS
+      expect(@arr.ai(plain: true, indent: 2)).to eq <<~EOS.strip
+        [
+          [0] 1,
+          [1] :two,
+          [2] "three",
+          [3] [
+            [0] nil,
+            [1] [
+              [0] true,
+              [1] false
+            ]
+          ]
+        ]
+      EOS
     end
 
     it 'plain multiline indented without index' do
-      expect(@arr.ai(plain: true, indent: 2, index: false)).to eq <<-EOS.strip
-[
-  1,
-  :two,
-  "three",
-  [
-    nil,
-    [
-      true,
-      false
-    ]
-  ]
-]
-EOS
+      expect(@arr.ai(plain: true, indent: 2, index: false)).to eq <<~EOS.strip
+        [
+          1,
+          :two,
+          "three",
+          [
+            nil,
+            [
+              true,
+              false
+            ]
+          ]
+        ]
+      EOS
     end
 
     it 'plain single line' do
@@ -86,37 +85,37 @@ EOS
     end
 
     it 'colored multiline (default)' do
-      expect(@arr.ai).to eq <<-EOS.strip
-[
-    \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
-    \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
-    \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
-    \e[1;37m[3] \e[0m[
-        \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
-        \e[1;37m[1] \e[0m[
-            \e[1;37m[0] \e[0m\e[1;32mtrue\e[0m,
-            \e[1;37m[1] \e[0m\e[1;31mfalse\e[0m
-        ]
-    ]
-]
-EOS
-      end
-
-    it 'colored multiline indented' do
-      expect(@arr.ai(indent: 8)).to eq <<-EOS.strip
-[
-        \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
-        \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
-        \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
-        \e[1;37m[3] \e[0m[
+      expect(@arr.ai).to eq <<~EOS.strip
+        [
+            \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
+            \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
+            \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+            \e[1;37m[3] \e[0m[
                 \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
                 \e[1;37m[1] \e[0m[
-                        \e[1;37m[0] \e[0m\e[1;32mtrue\e[0m,
-                        \e[1;37m[1] \e[0m\e[1;31mfalse\e[0m
+                    \e[1;37m[0] \e[0m\e[1;32mtrue\e[0m,
+                    \e[1;37m[1] \e[0m\e[1;31mfalse\e[0m
+                ]
+            ]
+        ]
+      EOS
+    end
+
+    it 'colored multiline indented' do
+      expect(@arr.ai(indent: 8)).to eq <<~EOS.strip
+        [
+                \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
+                \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
+                \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+                \e[1;37m[3] \e[0m[
+                        \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
+                        \e[1;37m[1] \e[0m[
+                                \e[1;37m[0] \e[0m\e[1;32mtrue\e[0m,
+                                \e[1;37m[1] \e[0m\e[1;31mfalse\e[0m
+                        ]
                 ]
         ]
-]
-EOS
+      EOS
     end
 
     it 'colored single line' do
@@ -132,23 +131,23 @@ EOS
     end
 
     it 'plain multiline' do
-      expect(@arr.ai(plain: true)).to eq <<-EOS.strip
-[
-    [0] 1,
-    [1] 2,
-    [2] [...]
-]
-EOS
+      expect(@arr.ai(plain: true)).to eq <<~EOS.strip
+        [
+            [0] 1,
+            [1] 2,
+            [2] [...]
+        ]
+      EOS
     end
 
     it 'plain multiline without index' do
-      expect(@arr.ai(plain: true, index: false)).to eq <<-EOS.strip
-[
-    1,
-    2,
-    [...]
-]
-EOS
+      expect(@arr.ai(plain: true, index: false)).to eq <<~EOS.strip
+        [
+            1,
+            2,
+            [...]
+        ]
+      EOS
     end
 
     it 'plain single line' do
@@ -163,64 +162,64 @@ EOS
     end
 
     it 'plain limited output large' do
-      expect(@arr.ai(plain: true, limit: true)).to eq <<-EOS.strip
-[
-    [  0] 1,
-    [  1] 2,
-    [  2] 3,
-    [  3] .. [996],
-    [997] 998,
-    [998] 999,
-    [999] 1000
-]
-EOS
+      expect(@arr.ai(plain: true, limit: true)).to eq <<~EOS.strip
+        [
+            [  0] 1,
+            [  1] 2,
+            [  2] 3,
+            [  3] .. [996],
+            [997] 998,
+            [998] 999,
+            [999] 1000
+        ]
+      EOS
     end
 
     it 'plain limited output small' do
       @arr = @arr[0..3]
-      expect(@arr.ai(plain: true, limit: true)).to eq <<-EOS.strip
-[
-    [0] 1,
-    [1] 2,
-    [2] 3,
-    [3] 4
-]
-EOS
+      expect(@arr.ai(plain: true, limit: true)).to eq <<~EOS.strip
+        [
+            [0] 1,
+            [1] 2,
+            [2] 3,
+            [3] 4
+        ]
+      EOS
     end
 
     it 'plain limited output with 10 lines' do
-      expect(@arr.ai(plain: true, limit: 10)).to eq <<-EOS.strip
-[
-    [  0] 1,
-    [  1] 2,
-    [  2] 3,
-    [  3] 4,
-    [  4] 5,
-    [  5] .. [995],
-    [996] 997,
-    [997] 998,
-    [998] 999,
-    [999] 1000
-]
-EOS
+      expect(@arr.ai(plain: true, limit: 10)).to eq <<~EOS.strip
+        [
+            [  0] 1,
+            [  1] 2,
+            [  2] 3,
+            [  3] 4,
+            [  4] 5,
+            [  5] .. [995],
+            [996] 997,
+            [997] 998,
+            [998] 999,
+            [999] 1000
+        ]
+      EOS
     end
 
     it 'plain limited output with 11 lines' do
-      expect(@arr.ai(plain: true, limit: 11)).to eq <<-EOS.strip
-[
-    [  0] 1,
-    [  1] 2,
-    [  2] 3,
-    [  3] 4,
-    [  4] 5,
-    [  5] .. [994],
-    [995] 996,
-    [996] 997,
-    [997] 998,
-    [998] 999,
-    [999] 1000
-]
-EOS
+      expect(@arr.ai(plain: true, limit: 11)).to eq <<~EOS.strip
+        [
+            [  0] 1,
+            [  1] 2,
+            [  2] 3,
+            [  3] 4,
+            [  4] 5,
+            [  5] .. [994],
+            [995] 996,
+            [996] 997,
+            [997] 998,
+            [998] 999,
+            [999] 1000
+        ]
+      EOS
     end
   end
 
@@ -231,17 +230,17 @@ EOS
     end
 
     it 'plain limited output' do
-      expect(@hash.ai(sort_keys: true, plain: true, limit: true)).to eq <<-EOS.strip
-{
-    "a" => :a,
-    "b" => :b,
-    "c" => :c,
-    "d" => :d .. "w" => :w,
-    "x" => :x,
-    "y" => :y,
-    "z" => :z
-}
-EOS
+      expect(@hash.ai(sort_keys: true, plain: true, limit: true)).to eq <<~EOS.strip
+        {
+            "a" => :a,
+            "b" => :b,
+            "c" => :c,
+            "d" => :d .. "w" => :w,
+            "x" => :x,
+            "y" => :y,
+            "z" => :z
+        }
+      EOS
     end
   end
 
@@ -256,51 +255,51 @@ EOS
     end
 
     it 'plain multiline' do
-      expect(@hash.ai(plain: true)).to eq <<-EOS.strip
-{
-    1 => {
-        :sym => {
-            "str" => {
-                [ 1, 2, 3 ] => {
-                    { :k => :v } => Hash < Object
+      expect(@hash.ai(plain: true)).to eq <<~EOS.strip
+        {
+            1 => {
+                :sym => {
+                    "str" => {
+                        [ 1, 2, 3 ] => {
+                            { :k => :v } => Hash < Object
+                        }
+                    }
                 }
             }
         }
-    }
-}
-EOS
+      EOS
     end
 
     it 'new hash syntax' do
-      expect(@hash.ai(plain: true, ruby19_syntax: true)).to eq <<-EOS.strip
-{
-    1 => {
-        sym: {
-            "str" => {
-                [ 1, 2, 3 ] => {
-                    { k: :v } => Hash < Object
+      expect(@hash.ai(plain: true, ruby19_syntax: true)).to eq <<~EOS.strip
+        {
+            1 => {
+                sym: {
+                    "str" => {
+                        [ 1, 2, 3 ] => {
+                            { k: :v } => Hash < Object
+                        }
+                    }
                 }
             }
         }
-    }
-}
-EOS
+      EOS
     end
 
     it 'plain multiline indented' do
-      expect(@hash.ai(plain: true, indent: 1)).to eq <<-EOS.strip
-{
- 1 => {
-  :sym => {
-   "str" => {
-    [ 1, 2, 3 ] => {
-     { :k => :v } => Hash < Object
-    }
-   }
-  }
- }
-}
-EOS
+      expect(@hash.ai(plain: true, indent: 1)).to eq <<~EOS.strip
+        {
+         1 => {
+          :sym => {
+           "str" => {
+            [ 1, 2, 3 ] => {
+             { :k => :v } => Hash < Object
+            }
+           }
+          }
+         }
+        }
+      EOS
     end
 
     it 'plain single line' do
@@ -308,57 +307,56 @@ EOS
     end
 
     it 'colored multiline (default)' do
-      expect(@hash.ai).to eq <<-EOS.strip
-{
-    1\e[0;37m => \e[0m{
-        :sym\e[0;37m => \e[0m{
-            \"str\"\e[0;37m => \e[0m{
-                [ 1, 2, 3 ]\e[0;37m => \e[0m{
-                    { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+      expect(@hash.ai).to eq <<~EOS.strip
+        {
+            1\e[0;37m => \e[0m{
+                :sym\e[0;37m => \e[0m{
+                    \"str\"\e[0;37m => \e[0m{
+                        [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                            { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                        }
+                    }
                 }
             }
         }
-    }
-}
-EOS
+      EOS
     end
 
     it 'colored with new hash syntax' do
-      expect(@hash.ai(ruby19_syntax: true)).to eq <<-EOS.strip
-{
-    1\e[0;37m => \e[0m{
-        sym\e[0;37m: \e[0m{
-            \"str\"\e[0;37m => \e[0m{
-                [ 1, 2, 3 ]\e[0;37m => \e[0m{
-                    { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+      expect(@hash.ai(ruby19_syntax: true)).to eq <<~EOS.strip
+        {
+            1\e[0;37m => \e[0m{
+                sym\e[0;37m: \e[0m{
+                    \"str\"\e[0;37m => \e[0m{
+                        [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                            { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                        }
+                    }
                 }
             }
         }
-    }
-}
-EOS
+      EOS
     end
 
     it 'colored multiline indented' do
-      expect(@hash.ai(indent: 2)).to eq <<-EOS.strip
-{
-  1\e[0;37m => \e[0m{
-    :sym\e[0;37m => \e[0m{
-      \"str\"\e[0;37m => \e[0m{
-        [ 1, 2, 3 ]\e[0;37m => \e[0m{
-          { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+      expect(@hash.ai(indent: 2)).to eq <<~EOS.strip
+        {
+          1\e[0;37m => \e[0m{
+            :sym\e[0;37m => \e[0m{
+              \"str\"\e[0;37m => \e[0m{
+                [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                  { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                }
+              }
+            }
+          }
         }
-      }
-    }
-  }
-}
-EOS
+      EOS
     end
 
     it 'colored single line' do
       expect(@hash.ai(multiline: false)).to eq("{ 1\e[0;37m => \e[0m{ :sym\e[0;37m => \e[0m{ \"str\"\e[0;37m => \e[0m{ [ 1, 2, 3 ]\e[0;37m => \e[0m{ { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m } } } } }")
     end
-
   end
 
   #------------------------------------------------------------------------------
@@ -369,11 +367,11 @@ EOS
     end
 
     it 'plain multiline' do
-      expect(@hash.ai(plain: true)).to eq <<-EOS.strip
-{
-    :a => {...}
-}
-EOS
+      expect(@hash.ai(plain: true)).to eq <<~EOS.strip
+        {
+            :a => {...}
+        }
+      EOS
     end
 
     it 'plain single line' do
@@ -396,28 +394,27 @@ EOS
         expect(out).to match(/         :z => "z",?/)
         expect(out).to match(/    "alpha" => "alpha",?$/)
       else
-        expect(out).to eq <<-EOS.strip
-{
-        "b" => "b",
-         :a => "a",
-         :z => "z",
-    "alpha" => "alpha"
-}
-EOS
+        expect(out).to eq <<~EOS.strip
+          {
+                  "b" => "b",
+                   :a => "a",
+                   :z => "z",
+              "alpha" => "alpha"
+          }
+        EOS
       end
     end
 
     it 'plain multiline with sorted keys' do
-      expect(@hash.ai(plain: true, sort_keys: true)).to eq <<-EOS.strip
-{
-         :a => "a",
-    "alpha" => "alpha",
-        "b" => "b",
-         :z => "z"
-}
-EOS
+      expect(@hash.ai(plain: true, sort_keys: true)).to eq <<~EOS.strip
+        {
+                 :a => "a",
+            "alpha" => "alpha",
+                "b" => "b",
+                 :z => "z"
+        }
+      EOS
     end
-
   end
 
   #------------------------------------------------------------------------------
@@ -429,51 +426,51 @@ EOS
     it 'hash keys must be left aligned' do
       hash = { [0, 0, 255] => :yellow, :red => 'rgb(255, 0, 0)', 'magenta' => 'rgb(255, 0, 255)' }
       out = hash.ai(plain: true, indent: -4, sort_keys: true)
-      expect(out).to eq <<-EOS.strip
-{
-    [ 0, 0, 255 ] => :yellow,
-    "magenta"     => "rgb(255, 0, 255)",
-    :red          => "rgb(255, 0, 0)"
-}
-EOS
+      expect(out).to eq <<~EOS.strip
+        {
+            [ 0, 0, 255 ] => :yellow,
+            "magenta"     => "rgb(255, 0, 255)",
+            :red          => "rgb(255, 0, 0)"
+        }
+      EOS
     end
 
     it 'nested hash keys should be indented (array of hashes)' do
       arr = [{ a: 1, bb: 22, ccc: 333 }, { 1 => :a, 22 => :bb, 333 => :ccc }]
       out = arr.ai(plain: true, indent: -4, sort_keys: true)
-      expect(out).to eq <<-EOS.strip
-[
-    [0] {
-        :a   => 1,
-        :bb  => 22,
-        :ccc => 333
-    },
-    [1] {
-        1   => :a,
-        22  => :bb,
-        333 => :ccc
-    }
-]
-EOS
+      expect(out).to eq <<~EOS.strip
+        [
+            [0] {
+                :a   => 1,
+                :bb  => 22,
+                :ccc => 333
+            },
+            [1] {
+                1   => :a,
+                22  => :bb,
+                333 => :ccc
+            }
+        ]
+      EOS
     end
 
     it 'nested hash keys should be indented (hash of hashes)' do
       arr = { first: { a: 1, bb: 22, ccc: 333 }, second: { 1 => :a, 22 => :bb, 333 => :ccc } }
       out = arr.ai(plain: true, indent: -4, sort_keys: true)
-      expect(out).to eq <<-EOS.strip
-{
-    :first  => {
-        :a   => 1,
-        :bb  => 22,
-        :ccc => 333
-    },
-    :second => {
-        1   => :a,
-        22  => :bb,
-        333 => :ccc
-    }
-}
-EOS
+      expect(out).to eq <<~EOS.strip
+        {
+            :first  => {
+                :a   => 1,
+                :bb  => 22,
+                :ccc => 333
+            },
+            :second => {
+                1   => :a,
+                22  => :bb,
+                333 => :ccc
+            }
+        }
+      EOS
     end
   end
 
@@ -514,7 +511,7 @@ EOS
     end
 
     it 'should present Rational object with arbitrary precision' do
-      rat = Rational(201020102010201020102010201020102010, 2)
+      rat = Rational(201_020_102_010_201_020_102_010_201_020_102_010, 2)
       out = rat.ai(plain: true)
       #
       # Ruby 1.9 slightly changed the format of Rational#to_s, see
@@ -589,11 +586,11 @@ EOS
   #------------------------------------------------------------------------------
   describe 'Struct' do
     before do
-      @struct = unless defined?(Struct::SimpleStruct)
-        Struct.new('SimpleStruct', :name, :address).new
-      else
-        Struct::SimpleStruct.new
-      end
+      @struct = if defined?(Struct::SimpleStruct)
+                  Struct::SimpleStruct.new
+                else
+                  Struct.new('SimpleStruct', :name, :address).new
+                end
       @struct.name = 'Herman Munster'
       @struct.address = '1313 Mockingbird Lane'
     end
@@ -606,11 +603,11 @@ EOS
       s1 = <<-EOS.strip
     address = \"1313 Mockingbird Lane\",
     name = \"Herman Munster\"
-EOS
+      EOS
       s2 = <<-EOS.strip
     name = \"Herman Munster\",
     address = \"1313 Mockingbird Lane\"
-EOS
+      EOS
       expect(@struct.ai(plain: true)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
 
@@ -618,11 +615,11 @@ EOS
       s1 = <<-EOS.strip
  address = "1313 Mockingbird Lane",
  name = "Herman Munster"
-EOS
+      EOS
       s2 = <<-EOS.strip
  name = "Herman Munster",
  address = "1313 Mockingbird Lane"
-EOS
+      EOS
       expect(@struct.ai(plain: true, indent: 1)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
 
@@ -636,11 +633,11 @@ EOS
       s1 = <<-EOS.strip
     address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m,
     name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m
-EOS
+      EOS
       s2 = <<-EOS.strip
     name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m,
     address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m
-EOS
+      EOS
       expect(@struct.ai).to satisfy { |out| out.include?(s1) || out.include?(s2) }
     end
   end
@@ -655,45 +652,49 @@ EOS
       class My < Array; end
 
       my = My.new([1, :two, 'three', [nil, [true, false]]])
-      expect(my.ai(plain: true)).to eq <<-EOS.strip
-[
-    [0] 1,
-    [1] :two,
-    [2] "three",
-    [3] [
-        [0] nil,
-        [1] [
-            [0] true,
-            [1] false
+      expect(my.ai(plain: true)).to eq <<~EOS.strip
+        [
+            [0] 1,
+            [1] :two,
+            [2] "three",
+            [3] [
+                [0] nil,
+                [1] [
+                    [0] true,
+                    [1] false
+                ]
+            ]
         ]
-    ]
-]
-EOS
+      EOS
     end
 
     it 'inherited from Hash should be displayed as Hash' do
       class My < Hash; end
 
       my = My[{ 1 => { sym: { 'str' => { [1, 2, 3] => { { k: :v } => Hash } } } } }]
-      expect(my.ai(plain: true)).to eq <<-EOS.strip
-{
-    1 => {
-        :sym => {
-            "str" => {
-                [ 1, 2, 3 ] => {
-                    { :k => :v } => Hash < Object
+      expect(my.ai(plain: true)).to eq <<~EOS.strip
+        {
+            1 => {
+                :sym => {
+                    "str" => {
+                        [ 1, 2, 3 ] => {
+                            { :k => :v } => Hash < Object
+                        }
+                    }
                 }
             }
         }
-    }
-}
-EOS
+      EOS
     end
 
     it 'inherited from File should be displayed as File' do
       class My < File; end
 
-      my = File.new('/dev/null') rescue File.new('nul')
+      my = begin
+             File.new('/dev/null')
+           rescue StandardError
+             File.new('nul')
+           end
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" << `ls -alF #{my.path}`.chop)
     end
 
@@ -728,8 +729,7 @@ EOS
     describe 'should handle a class that defines its own #to_hash method' do
       it 'that takes arguments' do
         class My
-          def to_hash(a, b)
-          end
+          def to_hash(a, b); end
         end
 
         my = My.new
@@ -738,8 +738,8 @@ EOS
 
       it 'that returns nil' do
         class My
-          def to_hash()
-            return nil
+          def to_hash
+            nil
           end
         end
 
@@ -749,11 +749,11 @@ EOS
 
       it "that returns an object that doesn't support #keys" do
         class My
-          def to_hash()
+          def to_hash
             object = Object.new
             object.define_singleton_method('[]') { return nil }
 
-            return object
+            object
           end
         end
 
@@ -763,11 +763,11 @@ EOS
 
       it "that returns an object that doesn't support subscripting" do
         class My
-          def to_hash()
+          def to_hash
             object = Object.new
             object.define_singleton_method(:keys) { return [:foo] }
 
-            return object
+            object
           end
         end
 

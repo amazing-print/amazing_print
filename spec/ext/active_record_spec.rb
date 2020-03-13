@@ -12,14 +12,14 @@ RSpec.describe 'AwesomerPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? 
 
     it 'display single record' do
       out = @ap.awesome(@diana)
-      str = <<-EOS.strip
-#<User:placeholder_id> {
-         :admin => false,
-    :created_at => ?,
-            :id => nil,
-          :name => "Diana",
-          :rank => 1
-}
+      str = <<~EOS.strip
+        #<User:placeholder_id> {
+                 :admin => false,
+            :created_at => ?,
+                    :id => nil,
+                  :name => "Diana",
+                  :rank => 1
+        }
       EOS
       if RUBY_VERSION < '1.9'
         str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
@@ -31,23 +31,23 @@ RSpec.describe 'AwesomerPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? 
 
     it 'display multiple records' do
       out = @ap.awesome([@diana, @laura])
-      str = <<-EOS.strip
-[
-    [0] #<User:placeholder_id> {
-             :admin => false,
-        :created_at => ??,
-                :id => nil,
-              :name => "Diana",
-              :rank => 1
-    },
-    [1] #<User:placeholder_id> {
-             :admin => true,
-        :created_at => ?!,
-                :id => nil,
-              :name => "Laura",
-              :rank => 2
-    }
-]
+      str = <<~EOS.strip
+        [
+            [0] #<User:placeholder_id> {
+                     :admin => false,
+                :created_at => ??,
+                        :id => nil,
+                      :name => "Diana",
+                      :rank => 1
+            },
+            [1] #<User:placeholder_id> {
+                     :admin => true,
+                :created_at => ?!,
+                        :id => nil,
+                      :name => "Laura",
+                      :rank => 2
+            }
+        ]
       EOS
       if RUBY_VERSION < '1.9'
         str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
@@ -63,23 +63,23 @@ RSpec.describe 'AwesomerPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? 
       @diana.save
       @laura.save
       out = @ap.awesome(User.all)
-      str = <<-EOS.strip
-[
-    [0] #<User:placeholder_id> {
-             :admin => false,
-        :created_at => ??,
-                :id => 1,
-              :name => "Diana",
-              :rank => 1
-    },
-    [1] #<User:placeholder_id> {
-             :admin => true,
-        :created_at => ?!,
-                :id => 2,
-              :name => "Laura",
-              :rank => 2
-    }
-]
+      str = <<~EOS.strip
+        [
+            [0] #<User:placeholder_id> {
+                     :admin => false,
+                :created_at => ??,
+                        :id => 1,
+                      :name => "Diana",
+                      :rank => 1
+            },
+            [1] #<User:placeholder_id> {
+                     :admin => true,
+                :created_at => ?!,
+                        :id => 2,
+                      :name => "Laura",
+                      :rank => 2
+            }
+        ]
       EOS
       if RUBY_VERSION < '1.9'
         str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
@@ -103,12 +103,12 @@ RSpec.describe 'AwesomerPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? 
       u.emails << e
       email_record = User.joins(:emails).select('users.id, emails.email_address').last
       out = @ap.awesome(email_record)
-      raw_object_string = <<-EOS.strip
-#<User:placeholder_id> {
-               "id" => #{u.id},
-    "email_address" => "#{e.email_address}"
-}
-EOS
+      raw_object_string = <<~EOS.strip
+        #<User:placeholder_id> {
+                       "id" => #{u.id},
+            "email_address" => "#{e.email_address}"
+        }
+      EOS
       expect(out).to be_similar_to(raw_object_string)
     end
   end
@@ -155,7 +155,8 @@ EOS
       if RUBY_PLATFORM == 'java'
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
-          'ArJdbc::SQLite3::SQLite3Integer')
+          'ArJdbc::SQLite3::SQLite3Integer'
+        )
       end
       raw_object_string.sub!('?', '1992-10-10 12:30:00')
       expect(out).to be_similar_to(raw_object_string)
@@ -194,7 +195,8 @@ EOS
       if RUBY_PLATFORM == 'java'
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
-          'ArJdbc::SQLite3::SQLite3Integer')
+          'ArJdbc::SQLite3::SQLite3Integer'
+        )
       end
       raw_object_string.sub!('?', '1992-10-10 12:30:00')
       raw_object_string.sub!('?', '2003-05-26 14:15:00')
@@ -209,27 +211,27 @@ EOS
     end
 
     it 'should print the class' do
-      expect(@ap.awesome(User)).to eq <<-EOS.strip
-class User < ActiveRecord::Base {
-            :id => :integer,
-          :name => :string,
-          :rank => :integer,
-         :admin => :boolean,
-    :created_at => :datetime
-}
+      expect(@ap.awesome(User)).to eq <<~EOS.strip
+        class User < ActiveRecord::Base {
+                    :id => :integer,
+                  :name => :string,
+                  :rank => :integer,
+                 :admin => :boolean,
+            :created_at => :datetime
+        }
       EOS
     end
 
     it 'should print the class for non-direct subclasses of ActiveRecord::Base' do
       out = @ap.awesome(SubUser)
-      expect(out).to eq <<-EOS.strip
-class SubUser < User {
-            :id => :integer,
-          :name => :string,
-          :rank => :integer,
-         :admin => :boolean,
-    :created_at => :datetime
-}
+      expect(out).to eq <<~EOS.strip
+        class SubUser < User {
+                    :id => :integer,
+                  :name => :string,
+                  :rank => :integer,
+                 :admin => :boolean,
+            :created_at => :datetime
+        }
       EOS
     end
 
@@ -279,7 +281,6 @@ class SubUser < User {
       # spec 3
       out = @ap.awesome(User.methods.grep(/validate/))
 
-
       if ActiveRecord::VERSION::MAJOR < 3
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
       else
@@ -291,7 +292,6 @@ class SubUser < User {
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/)
         end
       end
-
     end
   end
 end

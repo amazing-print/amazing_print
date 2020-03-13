@@ -3,7 +3,6 @@ require_relative 'base_formatter'
 module AwesomerPrint
   module Formatters
     class StructFormatter < BaseFormatter
-
       attr_reader :struct, :variables, :inspector, :options
 
       def initialize(struct, inspector)
@@ -17,9 +16,9 @@ module AwesomerPrint
         vars = variables.map do |var|
           property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
           accessor = if struct.respond_to?(:"#{property}=")
-            struct.respond_to?(property) ? :accessor : :writer
-          else
-            struct.respond_to?(property) ? :reader : nil
+                       struct.respond_to?(property) ? :accessor : :writer
+                     else
+                       struct.respond_to?(property) ? :reader : nil
           end
           if accessor
             ["attr_#{accessor} :#{property}", var]
@@ -35,7 +34,7 @@ module AwesomerPrint
 
           unless options[:plain]
             if key =~ /(@\w+)/
-              key.sub!($1, colorize($1, :variable))
+              key.sub!(Regexp.last_match(1), colorize(Regexp.last_match(1), :variable))
             else
               key.sub!(/(attr_\w+)\s(\:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
             end
@@ -47,7 +46,7 @@ module AwesomerPrint
         end
 
         if options[:multiline]
-          "#<#{awesome_instance}\n#{data.join(%Q/,\n/)}\n#{outdent}>"
+          "#<#{awesome_instance}\n#{data.join(%(,\n))}\n#{outdent}>"
         else
           "#<#{awesome_instance} #{data.join(', ')}>"
         end
@@ -56,7 +55,7 @@ module AwesomerPrint
       private
 
       def awesome_instance
-        "#{struct.class.superclass}:#{struct.class}:0x%08x" % (struct.__id__ * 2)
+        format("#{struct.class.superclass}:#{struct.class}:0x%08x", (struct.__id__ * 2))
       end
 
       def left_aligned

@@ -36,13 +36,13 @@ module AwesomerPrint
       end
 
       def multiline_array
-        data = unless should_be_limited?
-                 generate_printable_array
-               else
+        data = if should_be_limited?
                  limited(generate_printable_array, width(array))
+               else
+                 generate_printable_array
                end
 
-        %Q([\n#{data.join(",\n")}\n#{outdent}])
+        %([\n#{data.join(",\n")}\n#{outdent}])
       end
 
       def generate_printable_array
@@ -91,7 +91,7 @@ module AwesomerPrint
       def name_and_args_width
         name_and_args = tuples.transpose
 
-        return name_and_args[0].map(&:size).max, name_and_args[1].map(&:size).max
+        [name_and_args[0].map(&:size).max, name_and_args[1].map(&:size).max]
       end
 
       def tuple_prefix(iteration, width)
@@ -112,18 +112,18 @@ module AwesomerPrint
 
         meth = begin
           object.method(name)
-        rescue NameError, ArgumentError
-          nil
+               rescue NameError, ArgumentError
+                 nil
         end
 
         meth || begin
           object.instance_method(name)
-        rescue NameError
-          nil
+                rescue NameError
+                  nil
         end
       end
 
-      def generic_prefix(iteration, width, padding='')
+      def generic_prefix(iteration, width, padding = '')
         if options[:index]
           indent + colorize("[#{iteration.to_s.rjust(width)}] ", :array)
         else

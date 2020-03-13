@@ -6,4 +6,6 @@
 #
 # Load awesomer_print when installed as Rails 2.3.x plugin.
 #
-require File.join(File.dirname(__FILE__), '..', 'init') unless defined?(AwesomerPrint)
+unless defined?(AwesomerPrint)
+  require File.join(File.dirname(__FILE__), '..', 'init')
+end

@@ -3,7 +3,6 @@ require_relative 'base_formatter'
 module AwesomerPrint
   module Formatters
     class ClassFormatter < BaseFormatter
-
       attr_reader :klass, :inspector, :options
 
       def initialize(klass, inspector)

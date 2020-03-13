@@ -1,12 +1,15 @@
 require 'spec_helper'
 
-
 require 'logger'
 require 'awesomer_print/core_ext/logger'
 
 RSpec.describe 'AwesomerPrint logging extensions' do
   before(:all) do
-    @logger = Logger.new('/dev/null') rescue Logger.new('nul')
+    @logger = begin
+                Logger.new('/dev/null')
+              rescue StandardError
+                Logger.new('nul')
+              end
   end
 
   describe 'ap method' do
@@ -39,5 +42,3 @@ RSpec.describe 'AwesomerPrint logging extensions' do
     end
   end
 end
-
-

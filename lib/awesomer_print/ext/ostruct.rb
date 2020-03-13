@@ -12,7 +12,7 @@ module AwesomerPrint
 
     def cast_with_ostruct(object, type)
       cast = cast_without_ostruct(object, type)
-      if (defined?(::OpenStruct)) && (object.is_a?(::OpenStruct))
+      if defined?(::OpenStruct) && object.is_a?(::OpenStruct)
         cast = :open_struct_instance
       end
       cast
@@ -24,4 +24,4 @@ module AwesomerPrint
   end
 end
 
-AwesomerPrint::Formatter.send(:include, AwesomerPrint::OpenStruct)
+AwesomerPrint::Formatter.include AwesomerPrint::OpenStruct

@@ -19,4 +19,4 @@ module AwesomerPrint
   end
 end
 
-ActionView::Base.send(:include, AwesomerPrint::ActionView)
+ActionView::Base.include AwesomerPrint::ActionView

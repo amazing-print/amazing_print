@@ -1,6 +1,5 @@
 module AwesomerPrint
   class Indentator
-
     attr_reader :shift_width, :indentation
 
     def initialize(indentation)

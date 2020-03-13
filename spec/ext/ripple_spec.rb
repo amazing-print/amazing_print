@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe 'AwesomerPrint/Ripple', skip: -> { !ExtVerifier.has_ripple? }.call do
-
   if ExtVerifier.has_ripple?
     before :all do
       class RippleUser
@@ -27,22 +26,22 @@ RSpec.describe 'AwesomerPrint/Ripple', skip: -> { !ExtVerifier.has_ripple? }.cal
     user = RippleUser.new _id: '12345', first_name: 'Al', last_name: 'Capone'
     out = @ap.send :awesome, user
 
-    expect(out).to be_similar_to <<-EOS.strip
-#<RippleUser:placeholder_id> {
-           :_id => "12345",
-    :first_name => "Al",
-     :last_name => "Capone"
-}
+    expect(out).to be_similar_to <<~EOS.strip
+      #<RippleUser:placeholder_id> {
+                 :_id => "12345",
+          :first_name => "Al",
+           :last_name => "Capone"
+      }
     EOS
   end
 
   it 'should print the class' do
-    expect(@ap.send(:awesome, RippleUser)).to eq <<-EOS.strip
-class RippleUser < Object {
-           :_id => :string,
-    :first_name => :string,
-     :last_name => :string
-}
+    expect(@ap.send(:awesome, RippleUser)).to eq <<~EOS.strip
+      class RippleUser < Object {
+                 :_id => :string,
+          :first_name => :string,
+           :last_name => :string
+      }
     EOS
   end
 end

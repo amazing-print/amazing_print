@@ -5,7 +5,6 @@
 #------------------------------------------------------------------------------
 module AwesomerPrint
   module ActiveRecord
-
     def self.included(base)
       base.send :alias_method, :cast_without_active_record, :cast
       base.send :alias_method, :cast, :cast_with_active_record
@@ -15,7 +14,7 @@ module AwesomerPrint
     #------------------------------------------------------------------------------
     def cast_with_active_record(object, type)
       cast = cast_without_active_record(object, type)
-      return cast if !defined?(::ActiveRecord::Base)
+      return cast unless defined?(::ActiveRecord::Base)
 
       if object.is_a?(::ActiveRecord::Base)
         cast = :active_record_instance
@@ -41,18 +40,17 @@ module AwesomerPrint
     #
     #------------------------------------------------------------------------------
     def awesome_active_record_instance(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
+      return object.inspect unless defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
       data = if object.class.column_names != object.attributes.keys
                object.attributes
              else
-               object.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
+               object.class.column_names.each_with_object(::ActiveSupport::OrderedHash.new) do |name, hash|
                  if object.has_attribute?(name) || object.new_record?
                    value = object.respond_to?(name) ? object.send(name) : object.read_attribute(name)
                    hash[name.to_sym] = value
                  end
-                 hash
                end
              end
       "#{object} " << awesome_hash(data)
@@ -61,12 +59,15 @@ module AwesomerPrint
     # Format ActiveRecord class object.
     #------------------------------------------------------------------------------
     def awesome_active_record_class(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == 'ActiveRecord::Base'
-      return awesome_class(object) if object.respond_to?(:abstract_class?) && object.abstract_class?
+      if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == 'ActiveRecord::Base'
+        return object.inspect
+      end
+      if object.respond_to?(:abstract_class?) && object.abstract_class?
+        return awesome_class(object)
+      end
 
-      data = object.columns.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
+      data = object.columns.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
         hash[c.name.to_sym] = c.type
-        hash
       end
 
       name = "class #{awesome_simple(object.to_s, :class)}"
@@ -78,26 +79,25 @@ module AwesomerPrint
     # Format ActiveModel error object.
     #------------------------------------------------------------------------------
     def awesome_active_model_error(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
+      return object.inspect unless defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
       object_dump = object.marshal_dump.first
       data = if object_dump.class.column_names != object_dump.attributes.keys
                object_dump.attributes
              else
-               object_dump.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
+               object_dump.class.column_names.each_with_object(::ActiveSupport::OrderedHash.new) do |name, hash|
                  if object_dump.has_attribute?(name) || object_dump.new_record?
                    value = object_dump.respond_to?(name) ? object_dump.send(name) : object_dump.read_attribute(name)
                    hash[name.to_sym] = value
                  end
-                 hash
                end
              end
 
-      data.merge!({details: object.details, messages: object.messages})
+      data.merge!({ details: object.details, messages: object.messages })
       "#{object} " << awesome_hash(data)
     end
   end
 end
 
-AwesomerPrint::Formatter.send(:include, AwesomerPrint::ActiveRecord)
+AwesomerPrint::Formatter.include AwesomerPrint::ActiveRecord

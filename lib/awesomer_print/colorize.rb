@@ -2,7 +2,6 @@ autoload :CGI, 'cgi'
 
 module AwesomerPrint
   module Colorize
-
     # Pick the color and apply it to the given string as necessary.
     #------------------------------------------------------------------------------
     def colorize(str, type)
@@ -16,7 +15,9 @@ module AwesomerPrint
       elsif str.method(options[:color][type]).arity == -1 # Accepts html parameter.
         str.send(options[:color][type], options[:html])
       else
-        str = %Q|<kbd style="color:#{options[:color][type]}">#{str}</kbd>| if options[:html]
+        if options[:html]
+          str = %(<kbd style="color:#{options[:color][type]}">#{str}</kbd>)
+        end
         str.send(options[:color][type])
       end
     end

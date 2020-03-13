@@ -10,7 +10,7 @@ class Object #:nodoc:
   #
   # Remaining instance '_methods' are handled in core_ext/class.rb.
   #
-  %w(methods private_methods protected_methods public_methods singleton_methods).each do |name|
+  %w[methods private_methods protected_methods public_methods singleton_methods].each do |name|
     original_method = instance_method(name)
 
     define_method name do |*args|
