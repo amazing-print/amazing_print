@@ -6,13 +6,13 @@ RSpec.describe 'AwesomerPrint' do
       stream.instance_eval do
         def tty?
           true
-                             end
+        end
       end
     else
       stream.instance_eval do
         def tty?
           false
-                             end
+        end
       end
     end
   end
