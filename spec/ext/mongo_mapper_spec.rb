@@ -231,11 +231,11 @@ RSpec.describe 'AwesomerPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_ma
 
     describe 'with show associations turned on and inline embedded turned on' do
       before :each do
-        @ap = AwesomerPrint::Inspector.new(plain: true,
+        @ap = AwesomerPrint::Inspector.new plain: true,
                                            mongo_mapper: {
                                              show_associations: true,
                                              inline_embedded: true
-                                           })
+                                           }
       end
 
       it 'should render an instance with associations shown and embeds there' do
