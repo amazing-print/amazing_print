@@ -7,7 +7,7 @@ RSpec.describe 'AwesomerPrint logging extensions' do
   before(:all) do
     @logger = begin
                 Logger.new('/dev/null')
-              rescue StandardError
+              rescue Errno::ENOENT
                 Logger.new('nul')
               end
   end
