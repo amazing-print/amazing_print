@@ -10,7 +10,7 @@ class Class #:nodoc:
   #
   # Remaining public/private etc. '_methods' are handled in core_ext/object.rb.
   #
-  %w(instance_methods private_instance_methods protected_instance_methods public_instance_methods).each do |name|
+  %w[instance_methods private_instance_methods protected_instance_methods public_instance_methods].each do |name|
     original_method = instance_method(name)
 
     define_method name do |*args|

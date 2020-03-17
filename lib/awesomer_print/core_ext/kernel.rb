@@ -4,7 +4,6 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 module Kernel
-
   def ai(options = {})
     ap = AwesomerPrint::Inspector.new(options)
     awesome = ap.awesome self
@@ -14,13 +13,13 @@ module Kernel
     end
     awesome
   end
-  alias :awesome_inspect :ai
+  alias awesome_inspect ai
 
   def ap(object, options = {})
     puts object.ai(options)
     object unless AwesomerPrint.console?
   end
-  alias :awesomer_print :ap
+  alias awesomer_print ap
 
   module_function :ap
 end

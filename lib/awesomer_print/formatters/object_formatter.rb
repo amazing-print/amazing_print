@@ -3,7 +3,6 @@ require_relative 'base_formatter'
 module AwesomerPrint
   module Formatters
     class ObjectFormatter < BaseFormatter
-
       attr_reader :object, :variables, :inspector, :options
 
       def initialize(object, inspector)
@@ -17,9 +16,9 @@ module AwesomerPrint
         vars = variables.map do |var|
           property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
           accessor = if object.respond_to?(:"#{property}=")
-            object.respond_to?(property) ? :accessor : :writer
-          else
-            object.respond_to?(property) ? :reader : nil
+                       object.respond_to?(property) ? :accessor : :writer
+                     else
+                       object.respond_to?(property) ? :reader : nil
           end
           if accessor
             ["attr_#{accessor} :#{property}", var]
@@ -35,7 +34,7 @@ module AwesomerPrint
 
           unless options[:plain]
             if key =~ /(@\w+)/
-              key.sub!($1, colorize($1, :variable))
+              key.sub!(Regexp.last_match(1), colorize(Regexp.last_match(1), :variable))
             else
               key.sub!(/(attr_\w+)\s(\:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
             end
@@ -47,7 +46,7 @@ module AwesomerPrint
         end
 
         if options[:multiline]
-          "#<#{awesome_instance}\n#{data.join(%Q/,\n/)}\n#{outdent}>"
+          "#<#{awesome_instance}\n#{data.join(%(,\n))}\n#{outdent}>"
         else
           "#<#{awesome_instance} #{data.join(', ')}>"
         end
@@ -61,7 +60,13 @@ module AwesomerPrint
 
       def awesome_instance
         str = object.send(options[:class_name]).to_s
-        str << ":0x%08x" % (object.__id__ * 2) if options[:object_id]
+        # We need to ensure that the original Kernel#format is used here instead of the one defined
+        # above.
+        # rubocop:disable Style/ColonMethodCall
+        if options[:object_id]
+          str << Kernel::format(':0x%08x', (object.__id__ * 2))
+        end
+        # rubocop:enable Style/ColonMethodCall
         str
       end
 

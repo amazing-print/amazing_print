@@ -5,7 +5,6 @@
 #------------------------------------------------------------------------------
 module AwesomerPrint
   module Logger
-
     # Add ap method to logger
     #------------------------------------------------------------------------------
     def ap(object, level = nil)
@@ -16,5 +15,7 @@ module AwesomerPrint
   end
 end
 
-Logger.send(:include, AwesomerPrint::Logger)
-ActiveSupport::BufferedLogger.send(:include, AwesomerPrint::Logger) if defined?(ActiveSupport::BufferedLogger)
+Logger.include AwesomerPrint::Logger
+if defined?(ActiveSupport::BufferedLogger)
+  ActiveSupport::BufferedLogger.include AwesomerPrint::Logger
+end

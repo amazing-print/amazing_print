@@ -3,15 +3,23 @@ require 'spec_helper'
 RSpec.describe 'AwesomerPrint' do
   def stub_tty!(output = true, stream = STDOUT)
     if output
-      stream.instance_eval { def tty?;  true; end }
+      stream.instance_eval do
+        def tty?
+          true
+        end
+      end
     else
-      stream.instance_eval { def tty?; false; end }
+      stream.instance_eval do
+        def tty?
+          false
+        end
+      end
     end
   end
 
   describe 'colorization' do
-    PLAIN = '[ 1, :two, "three", [ nil, [ true, false ] ] ]'
-    COLORIZED = "[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]"
+    PLAIN = '[ 1, :two, "three", [ nil, [ true, false ] ] ]'.freeze
+    COLORIZED = "[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]".freeze
 
     before do
       ENV['TERM'] = 'xterm-colors'

@@ -5,7 +5,6 @@
 #------------------------------------------------------------------------------
 module AwesomerPrint
   module MongoMapper
-
     def self.included(base)
       base.send :alias_method, :cast_without_mongo_mapper, :cast
       base.send :alias_method, :cast, :cast_with_mongo_mapper
@@ -35,11 +34,12 @@ module AwesomerPrint
     # Format MongoMapper class object.
     #------------------------------------------------------------------------------
     def awesome_mongo_mapper_class(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
+      if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
+        return object.inspect
+      end
 
-      data = object.keys.sort.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
+      data = object.keys.sort.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
         hash[c.first] = (c.last.type || 'undefined').to_s.underscore.intern
-        hash
       end
 
       # Add in associations
@@ -65,18 +65,17 @@ module AwesomerPrint
     #
     #------------------------------------------------------------------------------
     def awesome_mongo_mapper_instance(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
+      return object.inspect unless defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
-      data = object.keys.keys.sort_by { |k| k }.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
+      data = object.keys.keys.sort.each_with_object(::ActiveSupport::OrderedHash.new) do |name, hash|
         hash[name] = object[name]
-        hash
       end
 
       # Add in associations
       if @options[:mongo_mapper][:show_associations]
         object.associations.each do |name, assoc|
-          data[name.to_s] = if @options[:mongo_mapper][:inline_embedded] and assoc.embeddable?
+          data[name.to_s] = if @options[:mongo_mapper][:inline_embedded] && assoc.embeddable?
                               object.send(name)
                             else
                               assoc
@@ -85,7 +84,9 @@ module AwesomerPrint
       end
 
       label = object.to_s
-      label = "#{colorize('embedded', :assoc)} #{label}" if object.is_a?(::MongoMapper::EmbeddedDocument)
+      if object.is_a?(::MongoMapper::EmbeddedDocument)
+        label = "#{colorize('embedded', :assoc)} #{label}"
+      end
 
       "#{label} " << awesome_hash(data)
     end
@@ -93,7 +94,7 @@ module AwesomerPrint
     # Format MongoMapper association object.
     #------------------------------------------------------------------------------
     def awesome_mongo_mapper_association(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
+      return object.inspect unless defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
       association = object.class.name.split('::').last.titleize.downcase.sub(/ association$/, '')
@@ -121,4 +122,4 @@ module AwesomerPrint
   end
 end
 
-AwesomerPrint::Formatter.send(:include, AwesomerPrint::MongoMapper)
+AwesomerPrint::Formatter.include AwesomerPrint::MongoMapper

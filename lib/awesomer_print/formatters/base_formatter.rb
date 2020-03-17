@@ -28,7 +28,7 @@ module AwesomerPrint
       # ]
       #------------------------------------------------------------------------------
       def should_be_limited?
-        options[:limit] or (options[:limit].is_a?(Integer) and options[:limit] > 0)
+        options[:limit] || (options[:limit].is_a?(Integer) && (options[:limit] > 0))
       end
 
       def get_limit_size
@@ -62,7 +62,6 @@ module AwesomerPrint
         end
       end
 
-
       def method_tuple(method)
         if method.respond_to?(:parameters) # Ruby 1.9.2+
           # See http://readruby.chengguangnan.com/methods#method-objects-parameters
@@ -70,10 +69,10 @@ module AwesomerPrint
           args = method.parameters.inject([]) do |arr, (type, name)|
             name ||= (type == :block ? 'block' : "arg#{arr.size + 1}")
             arr << case type
-              when :req        then name.to_s
-              when :opt, :rest then "*#{name}"
-              when :block      then "&#{name}"
-              else '?'
+                   when :req        then name.to_s
+                   when :opt, :rest then "*#{name}"
+                   when :block      then "&#{name}"
+                   else '?'
             end
           end
         else # See http://ruby-doc.org/core/classes/Method.html#M001902
@@ -91,10 +90,10 @@ module AwesomerPrint
         # #<UnboundMethod: Hello#world>
         #
         if method.to_s =~ /(Unbound)*Method: (.*)[#\.]/
-          unbound = $1 && '(unbound)'
-          klass = $2
-          if klass && klass =~ /(\(\w+:\s.*?\))/  # Is this ActiveRecord-style class?
-            klass.sub!($1, '')                    # Yes, strip the fields leaving class name only.
+          unbound = Regexp.last_match(1) && '(unbound)'
+          klass = Regexp.last_match(2)
+          if klass && klass =~ /(\(\w+:\s.*?\))/ # Is this ActiveRecord-style class?
+            klass.sub!(Regexp.last_match(1), '') # Yes, strip the fields leaving class name only.
           end
           owner = "#{klass}#{unbound}".gsub('(', ' (')
         end
@@ -117,14 +116,14 @@ module AwesomerPrint
       INDENT_CACHE = (0..100).map { |i| ' ' * i }.map(&:freeze).freeze
 
       def indent(n = indentation)
-        INDENT_CACHE[n] or ' ' * n
+        INDENT_CACHE[n] || ' ' * n
       end
 
       def outdent
         ' ' * (indentation - options[:indent].abs)
         i = indentation - options[:indent].abs
 
-        INDENT_CACHE[i] or ' ' * i
+        INDENT_CACHE[i] || ' ' * i
       end
 
       def align(value, width)
@@ -141,7 +140,6 @@ module AwesomerPrint
           value
         end
       end
-
     end
   end
 end

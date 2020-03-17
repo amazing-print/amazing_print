@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'String extensions' do
-  [:gray, :red, :green, :yellow, :blue, :purple, :cyan, :white].each_with_index do |color, i|
+  %i[gray red green yellow blue purple cyan white].each_with_index do |color, i|
     it "should have #{color} color" do
       expect(color.to_s.send(color)).to eq("\e[1;#{30 + i}m#{color}\e[0m")
     end

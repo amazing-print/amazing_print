@@ -12,4 +12,3 @@ module AwesomerPrint
     require 'awesomer_print/colorize'
   end
 end
-

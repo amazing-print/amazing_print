@@ -4,7 +4,6 @@ require 'shellwords'
 module AwesomerPrint
   module Formatters
     class DirFormatter < BaseFormatter
-
       attr_reader :dir, :inspector, :options
 
       def initialize(dir, inspector)

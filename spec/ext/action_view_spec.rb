@@ -1,14 +1,13 @@
 require 'spec_helper'
 
 RSpec.describe 'AwesomerPrint ActionView extensions', skip: -> { !ExtVerifier.has_rails? }.call do
-
   before do
     @view = ActionView::Base.new
   end
 
   it "uses HTML and adds 'debug_dump' class to plain <pre> tag" do
     markup = rand
-    expect(@view.ap(markup, plain: true)).to eq(%Q|<pre class="debug_dump">#{markup}</pre>|)
+    expect(@view.ap(markup, plain: true)).to eq(%(<pre class="debug_dump">#{markup}</pre>))
   end
 
   it "uses HTML and adds 'debug_dump' class to colorized <pre> tag" do

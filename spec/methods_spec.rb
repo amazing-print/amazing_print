@@ -129,7 +129,9 @@ RSpec.describe 'Object methods' do
     it 'index: should handle object.protected_methods' do
       class Hello
         protected
+
         def m1; end
+
         def m2; end
       end
       expect(Hello.new.protected_methods.ai(plain: true)).to eq("[\n    [0] m1() Hello\n    [1] m2() Hello\n]")
@@ -138,6 +140,7 @@ RSpec.describe 'Object methods' do
     it 'no index: should handle object.protected_methods' do
       class Hello
         protected
+
         def m3(a, b); end
       end
       if RUBY_VERSION < '1.9.2'
@@ -152,7 +155,9 @@ RSpec.describe 'Object methods' do
     it 'index: should handle object.private_methods' do
       class Hello
         private
+
         def m1; end
+
         def m2; end
       end
 
@@ -164,6 +169,7 @@ RSpec.describe 'Object methods' do
     it 'no index: should handle object.private_methods' do
       class Hello
         private
+
         def m3(a, b); end
       end
       out = Hello.new.private_methods.ai(plain: true).split("\n").grep(/m\d/)
@@ -180,6 +186,7 @@ RSpec.describe 'Object methods' do
       class Hello
         class << self
           def m1; end
+
           def m2; end
         end
       end
@@ -211,6 +218,7 @@ RSpec.describe 'Class methods' do
     it 'index: should handle unbound class.instance_methods' do
       class Hello
         def m1; end
+
         def m2; end
       end
       out = Hello.instance_methods.ai(plain: true).split("\n").grep(/m\d/)
@@ -235,6 +243,7 @@ RSpec.describe 'Class methods' do
     it 'index: should handle class.public_instance_methods' do
       class Hello
         def m1; end
+
         def m2; end
       end
       out = Hello.public_instance_methods.ai(plain: true).split("\n").grep(/m\d/)
@@ -259,7 +268,9 @@ RSpec.describe 'Class methods' do
     it 'index: should handle class.protected_instance_methods' do
       class Hello
         protected
+
         def m1; end
+
         def m2; end
       end
       out = Hello.protected_instance_methods.ai(plain: true).split("\n").grep(/m\d/)
@@ -270,6 +281,7 @@ RSpec.describe 'Class methods' do
     it 'no index: should handle class.protected_instance_methods' do
       class Hello
         protected
+
         def m3(a, b); end
       end
       out = Hello.protected_instance_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
@@ -285,7 +297,9 @@ RSpec.describe 'Class methods' do
     it 'index: should handle class.private_instance_methods' do
       class Hello
         private
+
         def m1; end
+
         def m2; end
       end
       out = Hello.private_instance_methods.ai(plain: true).split("\n").grep(/m\d/)
@@ -296,6 +310,7 @@ RSpec.describe 'Class methods' do
     it 'no index: should handle class.private_instance_methods' do
       class Hello
         private
+
         def m3(a, b); end
       end
       out = Hello.private_instance_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
@@ -379,6 +394,7 @@ RSpec.describe 'Methods arrays' do
     stub_dotfile!
     class Hello
       def self.m1; end
+
       def self.m2; end
     end
     class World
@@ -392,7 +408,9 @@ RSpec.describe 'Methods arrays' do
     stub_dotfile!
     class Hello
       def self.m1; end
+
       def self.m2; end
+
       def self.m3; end
     end
     out = Hello.methods.grep(/^m1$/).ai(plain: true)
@@ -404,23 +422,27 @@ RSpec.describe 'Methods arrays' do
   it 'obj1.methods.grep(pattern, &block) should pass the matching string within the block' do
     class Hello
       def self.m_one; end
+
       def self.m_two; end
     end
 
-    out = Hello.methods.sort.grep(/^m_(.+)$/) { $1.to_sym }
-    expect(out).to eq([:one, :two])
+    out = Hello.methods.sort.grep(/^m_(.+)$/) { Regexp.last_match(1).to_sym }
+    expect(out).to eq(%i[one two])
   end
 
   it 'obj1.methods.grep(pattern, &block) should be awesome printed' do
     stub_dotfile!
     class Hello
       def self.m0; end
+
       def self.none; end
+
       def self.m1; end
+
       def self.one; end
     end
 
-    out = Hello.methods.grep(/^m(\d)$/) { %w(none one)[$1.to_i] }.ai(plain: true)
+    out = Hello.methods.grep(/^m(\d)$/) { %w[none one][Regexp.last_match(1).to_i] }.ai(plain: true)
     expect(out).to eq("[\n    [0] none() Hello\n    [1]  one() Hello\n]")
   end
 
@@ -428,6 +450,7 @@ RSpec.describe 'Methods arrays' do
   it 'grepping methods and converting them to_sym should work as expected' do
     class Hello
       private
+
       def him; end
 
       def his
@@ -440,7 +463,7 @@ RSpec.describe 'Methods arrays' do
     end
 
     hello = Hello.new
-    expect((hello.send(:his) - hello.send(:her)).sort_by { |x| x.to_s }).to eq([:him, :his])
+    expect((hello.send(:his) - hello.send(:her)).sort_by { |x| x.to_s }).to eq(%i[him his])
   end
 
   it 'appending garbage to methods array should not raise error' do

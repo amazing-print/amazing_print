@@ -11,7 +11,7 @@ module AwesomerPrint
 
     attr_reader :inspector, :options
 
-    CORE_FORMATTERS = [:array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod]
+    CORE_FORMATTERS = %i[array bigdecimal class dir file hash method rational set struct unboundmethod].freeze
 
     def initialize(inspector)
       @inspector   = inspector
@@ -23,9 +23,9 @@ module AwesomerPrint
     def format(object, type = nil)
       core_class = cast(object, type)
       awesome = if core_class != :self
-        send(:"awesome_#{core_class}", object) # Core formatters.
-      else
-        awesome_self(object, type) # Catch all that falls back to object.inspect.
+                  send(:"awesome_#{core_class}", object) # Core formatters.
+                else
+                  awesome_self(object, type) # Catch all that falls back to object.inspect.
       end
       awesome
     end
@@ -33,7 +33,7 @@ module AwesomerPrint
     # Hook this when adding custom formatters. Check out lib/awesomer_print/ext
     # directory for custom formatters that ship with awesomer_print.
     #------------------------------------------------------------------------------
-    def cast(object, type)
+    def cast(_object, type)
       CORE_FORMATTERS.include?(type) ? type : :self
     end
 
@@ -90,7 +90,7 @@ module AwesomerPrint
     def awesome_method(m)
       Formatters::MethodFormatter.new(m, @inspector).format
     end
-    alias :awesome_unboundmethod :awesome_method
+    alias awesome_unboundmethod awesome_method
 
     def awesome_class(c)
       Formatters::ClassFormatter.new(c, @inspector).format
@@ -107,20 +107,14 @@ module AwesomerPrint
     # Utility methods.
     #------------------------------------------------------------------------------
     def convert_to_hash(object)
-      if !object.respond_to?(:to_hash)
-        return nil
-      end
+      return nil unless object.respond_to?(:to_hash)
 
-      if object.method(:to_hash).arity != 0
-        return nil
-      end
+      return nil if object.method(:to_hash).arity != 0
 
       hash = object.to_hash
-      if !hash.respond_to?(:keys) || !hash.respond_to?(:[])
-        return nil
-      end
+      return nil if !hash.respond_to?(:keys) || !hash.respond_to?(:[])
 
-      return hash
+      hash
     end
   end
 end

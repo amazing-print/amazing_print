@@ -12,11 +12,11 @@ RSpec.describe 'AwesomerPrint Ostruct extension' do
 
   it 'plain multiline' do
     struct = OpenStruct.new name: 'Foo', address: 'Bar'
-    expect(@ap.send(:awesome, struct)).to eq <<-EOS.strip
-OpenStruct {
-    :address => "Bar",
-       :name => "Foo"
-}
+    expect(@ap.send(:awesome, struct)).to eq <<~EOS.strip
+      OpenStruct {
+          :address => "Bar",
+             :name => "Foo"
+      }
     EOS
   end
 end

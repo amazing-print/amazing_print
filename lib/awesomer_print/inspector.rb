@@ -13,39 +13,39 @@ module AwesomerPrint
 
     def initialize(options = {})
       @options = {
-        indent:        4,      # Number of spaces for indenting.
-        index:         true,   # Display array indices.
-        html:          false,  # Use ANSI color codes rather than HTML.
-        multiline:     true,   # Display in multiple lines.
-        plain:         false,  # Use colors.
-        raw:           false,  # Do not recursively format instance variables.
-        sort_keys:     false,  # Do not sort hash keys.
-        sort_vars:     true,   # Sort instance variables.
-        limit:         false,  # Limit arrays & hashes. Accepts bool or int.
-        ruby19_syntax: false,  # Use Ruby 1.9 hash syntax in output.
-        class_name:    :class, # Method used to get Instance class name.
-        object_id:     true,   # Show object_id.
+        indent: 4, # Number of spaces for indenting.
+        index: true, # Display array indices.
+        html: false, # Use ANSI color codes rather than HTML.
+        multiline: true, # Display in multiple lines.
+        plain: false, # Use colors.
+        raw: false, # Do not recursively format instance variables.
+        sort_keys: false,  # Do not sort hash keys.
+        sort_vars: true,   # Sort instance variables.
+        limit: false, # Limit arrays & hashes. Accepts bool or int.
+        ruby19_syntax: false, # Use Ruby 1.9 hash syntax in output.
+        class_name: :class, # Method used to get Instance class name.
+        object_id: true, # Show object_id.
         color: {
-          args:       :pale,
-          array:      :white,
+          args: :pale,
+          array: :white,
           bigdecimal: :blue,
-          class:      :yellow,
-          date:       :greenish,
+          class: :yellow,
+          date: :greenish,
           falseclass: :red,
-          fixnum:     :blue,
-          integer:    :blue,
-          float:      :blue,
-          hash:       :pale,
-          keyword:    :cyan,
-          method:     :purpleish,
-          nilclass:   :red,
-          rational:   :blue,
-          string:     :yellowish,
-          struct:     :pale,
-          symbol:     :cyanish,
-          time:       :greenish,
-          trueclass:  :green,
-          variable:   :cyanish
+          fixnum: :blue,
+          integer: :blue,
+          float: :blue,
+          hash: :pale,
+          keyword: :cyan,
+          method: :purpleish,
+          nilclass: :red,
+          rational: :blue,
+          string: :yellowish,
+          struct: :pale,
+          symbol: :cyanish,
+          time: :greenish,
+          trueclass: :green,
+          variable: :cyanish
         }
       }
 
@@ -153,7 +153,7 @@ module AwesomerPrint
       load dotfile if dotfile_readable?(dotfile)
     end
 
-    def dotfile_readable? dotfile
+    def dotfile_readable?(dotfile)
       if @@dotfile_readable.nil? || @@dotfile != dotfile
         @@dotfile_readable = File.readable?(@@dotfile = dotfile)
       end
@@ -165,9 +165,11 @@ module AwesomerPrint
     #---------------------------------------------------------------------------
     def merge_custom_defaults!
       load_dotfile
-      merge_options!(AwesomerPrint.defaults) if AwesomerPrint.defaults.is_a?(Hash)
-    rescue => e
-      $stderr.puts "Could not load '.aprc' from ENV['HOME']: #{e}"
+      if AwesomerPrint.defaults.is_a?(Hash)
+        merge_options!(AwesomerPrint.defaults)
+      end
+    rescue StandardError => e
+      warn "Could not load '.aprc' from ENV['HOME']: #{e}"
     end
   end
 end

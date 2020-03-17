@@ -5,7 +5,6 @@
 #------------------------------------------------------------------------------
 module AwesomerPrint
   module Ripple
-
     def self.included(base)
       base.send :alias_method, :cast_without_ripple, :cast
       base.send :alias_method, :cast, :cast_with_ripple
@@ -15,7 +14,7 @@ module AwesomerPrint
     #------------------------------------------------------------------------------
     def cast_with_ripple(object, type)
       cast = cast_without_ripple(object, type)
-      return cast if !defined?(::Ripple)
+      return cast unless defined?(::Ripple)
 
       if object.is_a?(::Ripple::AttributeMethods) # Module used to access attributes across documents and embedded documents
         cast = :ripple_document_instance
@@ -36,19 +35,18 @@ module AwesomerPrint
     #
     #------------------------------------------------------------------------------
     def awesome_ripple_document_instance(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
+      return object.inspect unless defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
-      exclude_assoc = @options[:exclude_assoc] or @options[:exclude_associations]
 
-      data = object.attributes.inject(::ActiveSupport::OrderedHash.new) do |hash, (name, value)|
+      (exclude_assoc = @options[:exclude_assoc]) || @options[:exclude_associations]
+
+      data = object.attributes.each_with_object(::ActiveSupport::OrderedHash.new) do |(name, _value), hash|
         hash[name.to_sym] = object.send(name)
-        hash
       end
 
       unless exclude_assoc
-        data = object.class.embedded_associations.inject(data) do |hash, assoc|
+        data = object.class.embedded_associations.each_with_object(data) do |assoc, hash|
           hash[assoc.name] = object.get_proxy(assoc) # Should always be array or Ripple::EmbeddedDocument for embedded associations
-          hash
         end
       end
 
@@ -58,7 +56,9 @@ module AwesomerPrint
     # Format Ripple class object.
     #------------------------------------------------------------------------------
     def awesome_ripple_document_class(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:properties)
+      if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:properties)
+        return object.inspect
+      end
 
       name = "class #{awesome_simple(object.to_s, :class)}"
       base = "< #{awesome_simple(object.superclass.to_s, :class)}"
@@ -68,4 +68,4 @@ module AwesomerPrint
   end
 end
 
-AwesomerPrint::Formatter.send(:include, AwesomerPrint::Ripple)
+AwesomerPrint::Formatter.include AwesomerPrint::Ripple

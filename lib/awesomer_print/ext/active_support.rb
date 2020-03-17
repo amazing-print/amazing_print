@@ -5,7 +5,6 @@
 #------------------------------------------------------------------------------
 module AwesomerPrint
   module ActiveSupport
-
     def self.included(base)
       base.send :alias_method, :cast_without_active_support, :cast
       base.send :alias_method, :cast, :cast_with_active_support
@@ -37,11 +36,10 @@ module AwesomerPrint
   end
 end
 
-AwesomerPrint::Formatter.send(:include, AwesomerPrint::ActiveSupport)
+AwesomerPrint::Formatter.include AwesomerPrint::ActiveSupport
 #
 # Colorize Rails logs.
 #
 if defined?(ActiveSupport::LogSubscriber)
   AwesomerPrint.force_colors! ActiveSupport::LogSubscriber.colorize_logging
 end
-

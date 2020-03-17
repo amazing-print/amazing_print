@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe 'AwesomerPrint' do
-
   describe 'Misc' do
     it 'handle weird objects that return nil on inspect' do
       weird = Class.new do
@@ -23,8 +22,8 @@ RSpec.describe 'AwesomerPrint' do
 
     # See https://github.com/awesome-print/awesome_print/issues/35
     it 'handle array grep when pattern contains / chapacter' do
-      hash = { '1/x' => 1,  '2//x' => :"2" }
-      grepped = hash.keys.sort.grep(/^(\d+)\//) { $1 }
+      hash = { '1/x' => 1, '2//x' => :"2" }
+      grepped = hash.keys.sort.grep(%r{^(\d+)/}) { Regexp.last_match(1) }
       expect(grepped.ai(plain: true, multiline: false)).to eq('[ "1", "2" ]')
     end
 
@@ -40,7 +39,7 @@ RSpec.describe 'AwesomerPrint' do
     it 'returns value passed as a parameter' do
       object = rand
       allow(self).to receive(:puts)
-      expect(ap object).to eq(object)
+      expect(ap(object)).to eq(object)
     end
 
     # Require different file name this time (lib/ap.rb vs. lib/awesomer_print).
@@ -66,9 +65,9 @@ RSpec.describe 'AwesomerPrint' do
       weird = Class.new do
         # Raises NoMethodError: undefined method `id' when "other" is nil or ENV.
         def ==(other)
-          self.id == other.id
+          id == other.id
         end
-        alias :eql? :==
+        alias_method :eql?, :==
       end
       expect { weird.new.ai }.not_to raise_error
     end
@@ -83,28 +82,28 @@ RSpec.describe 'AwesomerPrint' do
 
     it 'wraps ap output with <pre> tag with colorized <kbd>' do
       markup = rand
-      expect(markup.ai(html: true)).to eq(%Q|<pre><kbd style="color:blue">#{markup}</kbd></pre>|)
+      expect(markup.ai(html: true)).to eq(%(<pre><kbd style="color:blue">#{markup}</kbd></pre>))
     end
 
     it 'wraps multiline ap output with <pre> tag with colorized <kbd>' do
       markup = [1, :two, 'three']
-      expect(markup.ai(html: true)).to eq <<-EOS.strip
-<pre>[
-    <kbd style="color:white">[0] </kbd><kbd style="color:blue">1</kbd>,
-    <kbd style="color:white">[1] </kbd><kbd style="color:darkcyan">:two</kbd>,
-    <kbd style="color:white">[2] </kbd><kbd style="color:brown">&quot;three&quot;</kbd>
-]</pre>
+      expect(markup.ai(html: true)).to eq <<~EOS.strip
+        <pre>[
+            <kbd style="color:white">[0] </kbd><kbd style="color:blue">1</kbd>,
+            <kbd style="color:white">[1] </kbd><kbd style="color:darkcyan">:two</kbd>,
+            <kbd style="color:white">[2] </kbd><kbd style="color:brown">&quot;three&quot;</kbd>
+        ]</pre>
       EOS
     end
 
     it 'wraps hash ap output with only an outer <pre> tag' do
       markup = [{ 'hello' => 'world' }]
-      expect(markup.ai(html: true)).to eq <<-EOS.strip
-<pre>[
-    <kbd style="color:white">[0] </kbd>{
-        &quot;hello&quot;<kbd style="color:slategray"> =&gt; </kbd><kbd style="color:brown">&quot;world&quot;</kbd>
-    }
-]</pre>
+      expect(markup.ai(html: true)).to eq <<~EOS.strip
+        <pre>[
+            <kbd style="color:white">[0] </kbd>{
+                &quot;hello&quot;<kbd style="color:slategray"> =&gt; </kbd><kbd style="color:brown">&quot;world&quot;</kbd>
+            }
+        ]</pre>
       EOS
     end
 
@@ -130,12 +129,12 @@ RSpec.describe 'AwesomerPrint' do
       AwesomerPrint.defaults = { indent: -2, sort_keys: true }
       hash = { [0, 0, 255] => :yellow, :red => 'rgb(255, 0, 0)', 'magenta' => 'rgb(255, 0, 255)' }
       out = hash.ai(plain: true)
-      expect(out).to eq <<-EOS.strip
-{
-  [ 0, 0, 255 ] => :yellow,
-  "magenta"     => "rgb(255, 0, 255)",
-  :red          => "rgb(255, 0, 0)"
-}
+      expect(out).to eq <<~EOS.strip
+        {
+          [ 0, 0, 255 ] => :yellow,
+          "magenta"     => "rgb(255, 0, 255)",
+          :red          => "rgb(255, 0, 0)"
+        }
       EOS
     end
   end
@@ -146,7 +145,7 @@ RSpec.describe 'AwesomerPrint' do
       @awesome_method = ''.method(:red)
 
       String.instance_eval do
-        define_method :red do   # Method arity is now 0 in Ruby 1.9+.
+        define_method :red do # Method arity is now 0 in Ruby 1.9+.
           "[red]#{self}[/red]"
         end
       end
@@ -162,25 +161,25 @@ RSpec.describe 'AwesomerPrint' do
     it 'shoud not raise ArgumentError when formatting HTML' do
       out = 'hello'.ai(color: { string: :red }, html: true)
       if RUBY_VERSION >= '1.9'
-        expect(out).to eq(%Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|)
+        expect(out).to eq(%(<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>))
       else
-        expect(out).to eq(%Q|<pre>[red]&quot;hello&quot;[/red]</pre>|)
+        expect(out).to eq(%(<pre>[red]&quot;hello&quot;[/red]</pre>))
       end
     end
 
     it 'shoud not raise ArgumentError when formatting HTML (shade color)' do
       out = 'hello'.ai(color: { string: :redish }, html: true)
-      expect(out).to eq(%Q|<pre><kbd style="color:darkred">&quot;hello&quot;</kbd></pre>|)
+      expect(out).to eq(%(<pre><kbd style="color:darkred">&quot;hello&quot;</kbd></pre>))
     end
 
     it 'shoud not raise ArgumentError when formatting non-HTML' do
       out = 'hello'.ai(color: { string: :red }, html: false)
-      expect(out).to eq(%Q|[red]"hello"[/red]|)
+      expect(out).to eq(%([red]"hello"[/red]))
     end
 
     it 'shoud not raise ArgumentError when formatting non-HTML (shade color)' do
       out = 'hello'.ai(color: { string: :redish }, html: false)
-      expect(out).to eq(%Q|\e[0;31m"hello"\e[0m|)
+      expect(out).to eq(%(\e[0;31m"hello"\e[0m))
     end
   end
 

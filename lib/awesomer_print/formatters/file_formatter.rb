@@ -4,7 +4,6 @@ require 'shellwords'
 module AwesomerPrint
   module Formatters
     class FileFormatter < BaseFormatter
-
       attr_reader :file, :inspector, :options
 
       def initialize(file, inspector)

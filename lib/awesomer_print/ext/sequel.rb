@@ -5,7 +5,6 @@
 #------------------------------------------------------------------------------
 module AwesomerPrint
   module Sequel
-
     def self.included(base)
       base.send :alias_method, :cast_without_sequel, :cast
       base.send :alias_method, :cast, :cast_with_sequel
@@ -28,11 +27,10 @@ module AwesomerPrint
     # Format Sequel Document object.
     #------------------------------------------------------------------------------
     def awesome_sequel_document(object)
-      data = object.values.sort_by { |key| key.to_s }.inject({}) do |hash, c|
+      data = object.values.sort_by { |key| key.to_s }.each_with_object({}) do |c, hash|
         hash[c[0].to_sym] = c[1]
-        hash
       end
-      data = { errors: object.errors, values: data } if !object.errors.empty?
+      data = { errors: object.errors, values: data } unless object.errors.empty?
       "#{object} #{awesome_hash(data)}"
     end
 
@@ -52,7 +50,6 @@ module AwesomerPrint
       [name, base, awesome_hash(data)].join(' ')
     end
   end
-
 end
 
-AwesomerPrint::Formatter.send(:include, AwesomerPrint::Sequel)
+AwesomerPrint::Formatter.include AwesomerPrint::Sequel

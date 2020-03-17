@@ -5,7 +5,6 @@
 #------------------------------------------------------------------------------
 module AwesomerPrint
   module NoBrainer
-
     def self.included(base)
       base.send :alias_method, :cast_without_nobrainer, :cast
       base.send :alias_method, :cast, :cast_with_nobrainer
@@ -43,10 +42,12 @@ module AwesomerPrint
     #------------------------------------------------------------------------------
     def awesome_nobrainer_document(object)
       data = object.inspectable_attributes.symbolize_keys
-      data = { errors: object.errors, attributes: data } if object.errors.present?
+      if object.errors.present?
+        data = { errors: object.errors, attributes: data }
+      end
       "#{object} #{awesome_hash(data)}"
     end
   end
 end
 
-AwesomerPrint::Formatter.send(:include, AwesomerPrint::NoBrainer)
+AwesomerPrint::Formatter.include AwesomerPrint::NoBrainer

@@ -5,7 +5,6 @@
 #------------------------------------------------------------------------------
 module AwesomerPrint
   module Mongoid
-
     def self.included(base)
       base.send :alias_method, :cast_without_mongoid, :cast
       base.send :alias_method, :cast, :cast_with_mongoid
@@ -30,11 +29,12 @@ module AwesomerPrint
     # Format Mongoid class object.
     #------------------------------------------------------------------------------
     def awesome_mongoid_class(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
+      if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
+        return object.inspect
+      end
 
-      data = object.fields.sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
+      data = object.fields.sort.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
         hash[c[1].name.to_sym] = (c[1].type || 'undefined').to_s.underscore.intern
-        hash
       end
 
       name = "class #{awesome_simple(object.to_s, :class)}"
@@ -46,13 +46,14 @@ module AwesomerPrint
     # Format Mongoid Document object.
     #------------------------------------------------------------------------------
     def awesome_mongoid_document(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
+      return object.inspect unless defined?(::ActiveSupport::OrderedHash)
 
-      data = (object.attributes || {}).sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
+      data = (object.attributes || {}).sort.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
         hash[c[0].to_sym] = c[1]
-        hash
       end
-      data = { errors: object.errors, attributes: data } if !object.errors.empty?
+      unless object.errors.empty?
+        data = { errors: object.errors, attributes: data }
+      end
       "#{object} #{awesome_hash(data)}"
     end
 
@@ -64,4 +65,4 @@ module AwesomerPrint
   end
 end
 
-AwesomerPrint::Formatter.send(:include, AwesomerPrint::Mongoid)
+AwesomerPrint::Formatter.include AwesomerPrint::Mongoid
