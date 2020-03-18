@@ -91,7 +91,7 @@ module AwesomerPrint
         # #<UnboundMethod: Hello#world>
         # #<UnboundMethod: Hello#world() /home/hs/code/awesomer_print/spec/methods_spec.rb:68>
         #
-        if method.to_s =~ /(Unbound)*Method: ([^\/]*)[#\.]/
+        if method.to_s =~ /(Unbound)*Method: ((#<)?[^\/#]*)[#\.]/
           unbound = Regexp.last_match(1) && '(unbound)'
           klass = Regexp.last_match(2)
           if klass && klass =~ /(\(\w+:\s.*?\))/ # Is this ActiveRecord-style class?
