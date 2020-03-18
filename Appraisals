@@ -27,12 +27,14 @@ appraise 'rails-6.0' do
 end
 
 appraise 'mongoid-4.0' do
-  gem 'bigdecimal', '~> 1.4' # https://github.com/rails/rails/issues/34822#issuecomment-570670516
+  # https://github.com/rails/rails/issues/34822#issuecomment-570670516
+  gem 'bigdecimal', '~> 1.4', platforms: :mri
   gem 'mongoid', '~> 4.0.0'
 end
 
 appraise 'mongoid-5.0' do
-  gem 'bigdecimal', '~> 1.4' # https://github.com/rails/rails/issues/34822#issuecomment-570670516
+  # https://github.com/rails/rails/issues/34822#issuecomment-570670516
+  gem 'bigdecimal', '~> 1.4', platforms: :mri
   gem 'mongoid', '~> 5.0.0'
 end
 
