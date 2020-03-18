@@ -87,10 +87,11 @@ module AwesomerPrint
         # #<Method: User(#<Module:0x00000103207c00>)#_username>
         # #<Method: User(id: integer, username: string).table_name>
         # #<Method: User(id: integer, username: string)(ActiveRecord::Base).current>
+        # #<Method: #<Class:0x100c567f>(ActiveRecord::Querying)#first>
         # #<UnboundMethod: Hello#world>
         # #<UnboundMethod: Hello#world() /home/hs/code/awesomer_print/spec/methods_spec.rb:68>
         #
-        if method.to_s =~ /(Unbound)*Method: ([^#\.]*)[#\.]/
+        if method.to_s =~ /(Unbound)*Method: ([^\/]*)[#\.]/
           unbound = Regexp.last_match(1) && '(unbound)'
           klass = Regexp.last_match(2)
           if klass && klass =~ /(\(\w+:\s.*?\))/ # Is this ActiveRecord-style class?
