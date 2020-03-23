@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomerPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? }.call do
+RSpec.describe 'AmazingPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? }.call do
   if ExtVerifier.has_nobrainer?
     before :all do
       NoBrainer.configure do |config|
@@ -25,7 +25,7 @@ RSpec.describe 'AwesomerPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer?
   end
 
   before do
-    @ap = AwesomerPrint::Inspector.new plain: true
+    @ap = AmazingPrint::Inspector.new plain: true
   end
 
   it 'should print class instance' do

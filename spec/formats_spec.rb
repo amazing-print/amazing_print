@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'bigdecimal'
 require 'set'
 
-RSpec.describe 'AwesomerPrint' do
+RSpec.describe 'AmazingPrint' do
   describe 'Array' do
     before do
       @arr = [1, :two, 'three', [nil, [true, false]]]
@@ -529,7 +529,7 @@ RSpec.describe 'AwesomerPrint' do
   #------------------------------------------------------------------------------
   describe 'Utility methods' do
     it 'should merge options' do
-      ap = AwesomerPrint::Inspector.new
+      ap = AmazingPrint::Inspector.new
       ap.send(:merge_options!, { color: { array: :black }, indent: 0 })
       options = ap.instance_variable_get('@options')
       expect(options[:color][:array]).to eq(:black)

@@ -1,1 +1,1 @@
-require File.join(File.dirname(__FILE__), 'lib', 'awesomer_print')
+require File.join(File.dirname(__FILE__), 'lib', 'amazing_print')

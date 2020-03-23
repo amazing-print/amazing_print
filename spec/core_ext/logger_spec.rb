@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 require 'logger'
-require 'awesomer_print/core_ext/logger'
+require 'amazing_print/core_ext/logger'
 
-RSpec.describe 'AwesomerPrint logging extensions' do
+RSpec.describe 'AmazingPrint logging extensions' do
   before(:all) do
     @logger = begin
                 Logger.new('/dev/null')
@@ -21,7 +21,7 @@ RSpec.describe 'AwesomerPrint logging extensions' do
 
     describe 'the log level' do
       before do
-        AwesomerPrint.defaults = {}
+        AmazingPrint.defaults = {}
       end
 
       it 'should fallback to the default :debug log level' do
@@ -30,7 +30,7 @@ RSpec.describe 'AwesomerPrint logging extensions' do
       end
 
       it 'should use the global user default if no level passed' do
-        AwesomerPrint.defaults = { log_level: :info }
+        AmazingPrint.defaults = { log_level: :info }
         expect(@logger).to receive(:info)
         @logger.ap(nil)
       end

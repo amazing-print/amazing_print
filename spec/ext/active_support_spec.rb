@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomerPrint::ActiveSupport', skip: -> { !ExtVerifier.has_rails? }.call do
+RSpec.describe 'AmazingPrint::ActiveSupport', skip: -> { !ExtVerifier.has_rails? }.call do
   before do
-    @ap = AwesomerPrint::Inspector.new
+    @ap = AmazingPrint::Inspector.new
   end
 
   it 'should format ActiveSupport::TimeWithZone as regular Time' do

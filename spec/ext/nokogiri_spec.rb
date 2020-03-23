@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomerPrint/Nokogiri' do
+RSpec.describe 'AmazingPrint/Nokogiri' do
   it 'should colorize tags' do
     xml = Nokogiri::XML('<html><body><h1></h1></body></html>')
     # FIXME: Due to something strange with Nokogiri and JRuby, we need to remove extra blank lines.
