@@ -1,6 +1,6 @@
-# Copyright (c) 2010-2016 Michael Dvorkin and contributors
+# Copyright (c) 2020 AmazingPrint and contributors
 #
-# Awesome Print is freely distributable under the terms of MIT license.
+# AmazingPrint is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 
@@ -28,6 +28,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'nokogiri', '>= 1.6.5'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rspec', '>= 3.0.0'
-  # s.add_development_dependency 'simplecov'
-  # s.add_development_dependency 'codeclimate-test-reporter'
 end
