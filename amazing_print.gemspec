@@ -1,4 +1,5 @@
 # Copyright (c) 2020 AmazingPrint and contributors
+# Copyright (c) 2010-2016 Michael Dvorkin and contributors
 #
 # AmazingPrint is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
@@ -10,7 +11,7 @@ require 'amazing_print/version'
 Gem::Specification.new do |s|
   s.name        = 'amazing_print'
   s.version     = AmazingPrint.version
-  s.authors     = ['Michael Dvorkin', 'Kevin McCormack']
+  s.authors     = ['Michael Dvorkin', 'Kevin McCormack' 'Patrik Wenger']
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.email       = 'harlemsquirrel@gmail.com'
   s.homepage    = 'https://github.com/amazing-print/amazing_print'
