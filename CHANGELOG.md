@@ -57,7 +57,7 @@
   - Improved formatting of MongoMapper objects (George .)
   - ActiveRecord::Relation now renders as array (Dan Lynn)
   - Formatting BigDecimal no longer looses precision (Evan Senter)
-  - Added AwesomerPrint.irb! and AwesomerPrint.pry! convenience methods
+  - Added AmazingPrint.irb! and AmazingPrint.pry! convenience methods
   - Fixed conflict with the colorize gem
   - Misc tweaks and bug fixes
 
@@ -82,10 +82,10 @@
 ## 0.4.0
   - 'ap object' now returns the object (Stephan Hagemann)
   - Added :html => true option to enable HTML colors rather that ANSI (ex. Sinatra templates)
-  - Added AwesomerPrint.force_colors! to allow color output on demand (Andrew O'Brien)
+  - Added AmazingPrint.force_colors! to allow color output on demand (Andrew O'Brien)
   - Added MongoMapper formatter mixin (Elpizo Choi)
   - Fixed formatting of methods array when object#method is overridden
-  - Fixed potential stack errors by checking whether AwesomerPrint is already loaded
+  - Fixed potential stack errors by checking whether AmazingPrint is already loaded
   - Improved Ruby 1.8.6 and 1.8.7 compatibility
   - Improved Windows compatibility (Viktar Basharymau)
 

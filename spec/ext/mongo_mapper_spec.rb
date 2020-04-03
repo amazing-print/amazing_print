@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomerPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_mapper? }.call do
+RSpec.describe 'AmazingPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_mapper? }.call do
   if ExtVerifier.has_mongo_mapper?
     before :all do
       class MongoUser
@@ -18,18 +18,18 @@ RSpec.describe 'AwesomerPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_ma
   end
 
   before do
-    @ap = AwesomerPrint::Inspector.new(plain: true, sort_keys: true)
+    @ap = AmazingPrint::Inspector.new(plain: true, sort_keys: true)
   end
 
   describe 'with the raw option set to true' do
     # before { @ap.options[:raw] = true }
-    before { @ap = AwesomerPrint::Inspector.new(plain: true, sort_keys: true, raw: true) }
+    before { @ap = AmazingPrint::Inspector.new(plain: true, sort_keys: true, raw: true) }
 
     it 'should print class instance' do
       user = MongoUser.new(first_name: 'Al', last_name: 'Capone')
 
       out = @ap.send(:awesome, user)
-      out.gsub!(/#\<Proc:.+?\>/, 'awesomer_print_PROC_STUB')
+      out.gsub!(/#\<Proc:.+?\>/, 'amazing_print_PROC_STUB')
       out.gsub!(/BSON::ObjectId\('[\da-f]+?'\)/, "BSON::ObjectId('123456789')")
 
       str = if MongoMapper::Version >= '0.13'
@@ -43,11 +43,11 @@ RSpec.describe 'AwesomerPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_ma
                             @is_id = true,
                             @typecast = nil,
                             attr_accessor :accessors = [],
-                            attr_accessor :default = awesomer_print_PROC_STUB,
+                            attr_accessor :default = amazing_print_PROC_STUB,
                             attr_accessor :ivar = :@_id,
                             attr_accessor :name = "_id",
                             attr_accessor :options = {
-                                :default => awesomer_print_PROC_STUB
+                                :default => amazing_print_PROC_STUB
                             },
                             attr_accessor :type = ObjectId < Object
                         >
@@ -60,11 +60,11 @@ RSpec.describe 'AwesomerPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_ma
                             @is_id = true,
                             @typecast = nil,
                             attr_accessor :accessors = [],
-                            attr_accessor :default = awesomer_print_PROC_STUB,
+                            attr_accessor :default = amazing_print_PROC_STUB,
                             attr_accessor :ivar = :@_id,
                             attr_accessor :name = "_id",
                             attr_accessor :options = {
-                                :default => awesomer_print_PROC_STUB
+                                :default => amazing_print_PROC_STUB
                             },
                             attr_accessor :type = ObjectId < Object
                         >,
@@ -200,7 +200,7 @@ RSpec.describe 'AwesomerPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_ma
 
     describe 'with show associations turned on and inline embedded turned off' do
       before :each do
-        @ap = AwesomerPrint::Inspector.new(plain: true, mongo_mapper: { show_associations: true })
+        @ap = AmazingPrint::Inspector.new(plain: true, mongo_mapper: { show_associations: true })
       end
 
       it 'should render the class with associations shown' do
@@ -231,7 +231,7 @@ RSpec.describe 'AwesomerPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_ma
 
     describe 'with show associations turned on and inline embedded turned on' do
       before :each do
-        @ap = AwesomerPrint::Inspector.new plain: true,
+        @ap = AmazingPrint::Inspector.new plain: true,
                                            mongo_mapper: {
                                              show_associations: true,
                                              inline_embedded: true

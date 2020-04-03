@@ -38,7 +38,7 @@ ExtVerifier.require_dependencies!(
   ]
 )
 require 'nokogiri'
-require 'awesomer_print'
+require 'amazing_print'
 
 RSpec.configure do |config|
   config.disable_monkey_patching!
@@ -92,7 +92,7 @@ def normalize_object_id_strings(str, options)
 end
 
 def stub_dotfile!
-  allow_any_instance_of(AwesomerPrint::Inspector)
+  allow_any_instance_of(AmazingPrint::Inspector)
     .to receive(:load_dotfile)
     .and_return(true)
 end
