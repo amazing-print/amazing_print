@@ -111,10 +111,15 @@ module AmazingPrint
 
       return nil if object.method(:to_hash).arity != 0
 
-      hash = object.to_hash
-      return nil if !hash.respond_to?(:keys) || !hash.respond_to?(:[])
+      begin
+        hash = object.to_hash
+        return nil if !hash.respond_to?(:keys) || !hash.respond_to?(:[])
 
-      hash
+        return hash
+
+      rescue
+        return { class: object.class.name, contents: object.inspect }
+      end
     end
   end
 end
