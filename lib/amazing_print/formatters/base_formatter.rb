@@ -123,7 +123,6 @@ module AmazingPrint
       end
 
       def outdent
-        ' ' * (indentation - options[:indent].abs)
         i = indentation - options[:indent].abs
 
         INDENT_CACHE[i] || ' ' * i
