@@ -19,7 +19,7 @@ module AmazingPrint
                        struct.respond_to?(property) ? :accessor : :writer
                      else
                        struct.respond_to?(property) ? :reader : nil
-          end
+                     end
           if accessor
             ["attr_#{accessor} :#{property}", var]
           else
