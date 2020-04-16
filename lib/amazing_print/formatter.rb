@@ -26,7 +26,7 @@ module AmazingPrint
                   send(:"awesome_#{core_class}", object) # Core formatters.
                 else
                   awesome_self(object, type) # Catch all that falls back to object.inspect.
-      end
+                end
       awesome
     end
 
