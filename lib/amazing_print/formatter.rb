@@ -3,7 +3,7 @@
 # AmazingPrint is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-require 'amazing_print/formatters'
+require_relative 'formatters'
 
 module AmazingPrint
   class Formatter

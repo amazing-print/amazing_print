@@ -1,5 +1,6 @@
-require_relative 'base_formatter'
 require 'shellwords'
+
+require_relative 'base_formatter'
 
 module AmazingPrint
   module Formatters

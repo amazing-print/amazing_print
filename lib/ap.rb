@@ -7,4 +7,4 @@
 # Keeping this for backwards compatibility to allow
 # require "ap"
 #
-require File.dirname(__FILE__) + '/amazing_print'
+require_relative 'amazing_print'
