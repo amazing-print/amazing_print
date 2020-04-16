@@ -33,6 +33,38 @@ RSpec.describe 'Single method' do
     expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35minclude?\e[0m\e[0;37m(arg1)\e[0m")
   end
 
+  it 'plain: should handle a method with one required keyword argument' do
+    class A
+      def one(foo:); end
+    end
+    method = A.new.method(:one)
+    expect(method.ai(plain: true)).to eq('A#one(foo:)')
+  end
+
+  it 'color: should handle a method with one required keyword argument' do
+    class A
+      def one(foo:); end
+    end
+    method = A.new.method(:one)
+    expect(method.ai).to eq("\e[1;33mA\e[0m#\e[0;35mone\e[0m\e[0;37m(foo:)\e[0m")
+  end
+
+  it 'plain: should handle a method with one required and one optional keyword arguments' do
+    class A
+      def one(foo:, bar: 'baz'); end
+    end
+    method = A.new.method(:one)
+    expect(method.ai(plain: true)).to eq('A#one(foo:, *bar:)')
+  end
+
+  it 'color: should handle a method with one required and one optional keyword arguments' do
+    class A
+      def one(foo:, bar: 'baz'); end
+    end
+    method = A.new.method(:one)
+    expect(method.ai).to eq("\e[1;33mA\e[0m#\e[0;35mone\e[0m\e[0;37m(foo:, *bar:)\e[0m")
+  end
+
   it 'plain: should handle a method with two arguments' do
     method = ''.method(:tr)
     expect(method.ai(plain: true)).to eq('String#tr(arg1, arg2)')

@@ -68,8 +68,11 @@ module AmazingPrint
           # (mirror: http://archive.is/XguCA#selection-3381.1-3381.11)
           args = method.parameters.inject([]) do |arr, (type, name)|
             name ||= (type == :block ? 'block' : "arg#{arr.size + 1}")
+            # require 'pry'; binding.pry
             arr << case type
                    when :req        then name.to_s
+                   when :keyreq     then "#{name}:"
+                   when :key        then "*#{name}:"
                    when :opt, :rest then "*#{name}"
                    when :block      then "&#{name}"
                    else '?'
