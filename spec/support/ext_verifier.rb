@@ -33,6 +33,11 @@ module ExtVerifier
     defined?(NoBrainer)
   end
   module_function :has_nobrainer?
+
+  def has_sequel?
+    defined?(::Sequel::Model)
+  end
+  module_function :has_sequel?
 end
 
 RSpec.configure do |config|

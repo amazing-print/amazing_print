@@ -42,6 +42,10 @@ appraise 'mongoid-6.0' do
   gem 'mongoid', '~> 6.0.0'
 end
 
+appraise 'sequel-5.0' do
+  gem 'sequel', '~> 5.0'
+end
+
 # appraise 'mongo_mapper' do
 #   gem 'mongo_mapper'
 # end
