@@ -21,6 +21,7 @@ gemfile:
   - gemfiles/mongoid_4.0.gemfile
   - gemfiles/mongoid_5.0.gemfile
   - gemfiles/mongoid_6.0.gemfile
+  - gemfiles/sequel_5.0.gemfile
 
 matrix:
   exclude:
