@@ -9,38 +9,38 @@
 #
 unless defined?(AmazingPrint::Inspector)
   %w[awesome_method_array string method object class kernel].each do |file|
-    require "amazing_print/core_ext/#{file}"
+    require_relative "amazing_print/core_ext/#{file}"
   end
 
-  require 'amazing_print/custom_defaults'
-  require 'amazing_print/inspector'
-  require 'amazing_print/formatter'
-  require 'amazing_print/version'
-  require 'amazing_print/core_ext/logger' if defined?(Logger)
+  require_relative 'amazing_print/custom_defaults'
+  require_relative 'amazing_print/inspector'
+  require_relative 'amazing_print/formatter'
+  require_relative 'amazing_print/version'
+  require_relative 'amazing_print/core_ext/logger' if defined?(Logger)
   #
   # Load the following under normal circumstances as well as in Rails
   # console when required from ~/.irbrc or ~/.pryrc.
   #
   if defined?(ActiveRecord) || AmazingPrint.rails_console?
-    require 'amazing_print/ext/active_record'
+    require_relative 'amazing_print/ext/active_record'
   end
   if defined?(ActiveSupport) || AmazingPrint.rails_console?
-    require 'amazing_print/ext/active_support'
+    require_relative 'amazing_print/ext/active_support'
   end
   #
   # Load remaining extensions.
   #
   if defined?(ActiveSupport.on_load)
     ActiveSupport.on_load(:action_view) do
-      require 'amazing_print/ext/action_view'
+      require_relative 'amazing_print/ext/action_view'
     end
   end
-  require 'amazing_print/ext/mongo_mapper'   if defined?(MongoMapper)
-  require 'amazing_print/ext/mongoid'        if defined?(Mongoid)
-  require 'amazing_print/ext/nokogiri'       if defined?(Nokogiri)
-  require 'amazing_print/ext/nobrainer'      if defined?(NoBrainer)
-  require 'amazing_print/ext/ripple'         if defined?(Ripple)
-  require 'amazing_print/ext/sequel'         if defined?(Sequel)
-  require 'amazing_print/ext/ostruct'        if defined?(OpenStruct)
+  require_relative 'amazing_print/ext/mongo_mapper'   if defined?(MongoMapper)
+  require_relative 'amazing_print/ext/mongoid'        if defined?(Mongoid)
+  require_relative 'amazing_print/ext/nokogiri'       if defined?(Nokogiri)
+  require_relative 'amazing_print/ext/nobrainer'      if defined?(NoBrainer)
+  require_relative 'amazing_print/ext/ripple'         if defined?(Ripple)
+  require_relative 'amazing_print/ext/sequel'         if defined?(Sequel)
+  require_relative 'amazing_print/ext/ostruct'        if defined?(OpenStruct)
 end
 # test
