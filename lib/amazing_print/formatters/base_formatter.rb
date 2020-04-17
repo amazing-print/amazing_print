@@ -70,6 +70,8 @@ module AmazingPrint
             name ||= (type == :block ? 'block' : "arg#{arr.size + 1}")
             arr << case type
                    when :req        then name.to_s
+                   when :keyreq     then "#{name}:"
+                   when :key        then "*#{name}:"
                    when :opt, :rest then "*#{name}"
                    when :block      then "&#{name}"
                    else '?'
