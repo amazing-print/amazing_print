@@ -1,10 +1,12 @@
 ## Amazing Print ##
 
 [![RubyGems][gem_version_badge]][ruby_gems]
-[![Travis CI][travis_ci_badge]][travis_ci]
-[![Code Climate][code_climate_badge]][code_climate]
-[![Code Climate Coverage][code_climate_coverage_badge]][code_climate]
 [![RubyGems][gem_downloads_badge]][ruby_gems]
+|
+[![Travis CI][travis_ci_badge]][travis_ci]
+![Specs](https://github.com/amazing-print/amazing_print/workflows/Specs/badge.svg)
+![Lint](https://github.com/amazing-print/amazing_print/workflows/Lint/badge.svg)
+|
 [![Gitter](https://badges.gitter.im/amazing-print/community.svg)](https://gitter.im/amazing-print/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 AmazingPrint is a fork of [AwesomePrint](https://github.com/awesome-print/awesome_print) which became stale and should be used in it's place to avoid conflicts. It is a Ruby library that pretty prints Ruby objects in full color exposing their internal structure with proper indentation. Rails ActiveRecord objects and usage within Rails templates are supported via included mixins.
@@ -353,6 +355,3 @@ Released under the MIT license. See LICENSE file for details.
 [ruby_gems]: http://rubygems.org/gems/amazing_print
 [travis_ci]: http://travis-ci.org/amazing-print/amazing_print
 [travis_ci_badge]: https://img.shields.io/travis/amazing-print/amazing_print/master.svg?style=flat
-[code_climate]: https://codeclimate.com/github/amazing-print/amazing_print
-[code_climate_badge]: http://img.shields.io/codeclimate/github/amazing-print/amazing_print.svg?style=flat
-[code_climate_coverage_badge]: https://codeclimate.com/github/amazing-print/amazing_print/badges/coverage.svg
