@@ -44,6 +44,7 @@ end
 
 appraise 'sequel-5.0' do
   gem 'sequel', '~> 5.0'
+  gem 'sqlite3', platform: :mri
 end
 
 # appraise 'mongo_mapper' do
