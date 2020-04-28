@@ -35,6 +35,7 @@ ExtVerifier.require_dependencies!(
     mongo_mapper
     ripple nobrainer
     ostruct
+    sequel
   ]
 )
 require 'nokogiri'
