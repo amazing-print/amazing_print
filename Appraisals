@@ -43,6 +43,7 @@ appraise 'mongoid-6.0' do
 end
 
 appraise 'sequel-5.0' do
+  gem 'jdbc-sqlite3', platform: :jruby
   gem 'sequel', '~> 5.0'
   gem 'sqlite3', platform: :mri
 end

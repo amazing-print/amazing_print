@@ -1,6 +1,6 @@
 if ExtVerifier.has_sequel?
   # Establish connection to in-memory SQLite DB
-  DB = Sequel.sqlite
+  DB = RUBY_PLATFORM == 'java' ? Sequel.connect('jdbc:sqlite::memory:') : Sequel.sqlite
 
   # Create the users table
   DB.create_table :sequel_users do
