@@ -111,6 +111,11 @@ module AmazingPrint
 
       return nil if object.method(:to_hash).arity != 0
 
+      # ActionController::Parameters will raise if they are not yet permitted and
+      # we try to convert to hash.
+      # https://api.rubyonrails.org/classes/ActionController/Parameters.html
+      return nil if object.respond_to?(:permitted?) && !object.permitted?
+
       hash = object.to_hash
       return nil if !hash.respond_to?(:keys) || !hash.respond_to?(:[])
 
