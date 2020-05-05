@@ -39,4 +39,9 @@ class String
 
   alias black grayish
   alias pale  whiteish
+
+  # Remove ANSI color codes.
+  def uncolor
+    self.gsub(/\e\[[0-9;]*m/, '')
+  end
 end

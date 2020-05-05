@@ -110,5 +110,13 @@ RSpec.describe 'AmazingPrint' do
         end
       end
     end
+
+    describe 'uncolor' do
+      it 'removes any ANSI color codes' do
+        expect("red".red + "blue".blue).to eq "\e[1;31mred\e[0m\e[1;34mblue\e[0m"
+        expect(("red".red + "blue".blue).uncolor).to eq "redblue"
+      end
+    end
+
   end
 end
