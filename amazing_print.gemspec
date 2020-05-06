@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2020 AmazingPrint and contributors
 # Copyright (c) 2010-2016 Michael Dvorkin and contributors
 #
@@ -5,7 +7,7 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 
-$:.push File.expand_path('lib', __dir__)
+$LOAD_PATH.push File.expand_path('lib', __dir__)
 require 'amazing_print/version'
 
 Gem::Specification.new do |s|

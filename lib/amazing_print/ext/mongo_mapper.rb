@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2010-2016 Michael Dvorkin and contributors
 #
 # AmazingPrint is freely distributable under the terms of MIT license.
@@ -17,7 +19,7 @@ module AmazingPrint
       cast = cast_without_mongo_mapper(object, type)
 
       if defined?(::MongoMapper::Document)
-        if object.is_a?(Class) && (object.ancestors & [::MongoMapper::Document, ::MongoMapper::EmbeddedDocument]).size > 0
+        if object.is_a?(Class) && !(object.ancestors & [::MongoMapper::Document, ::MongoMapper::EmbeddedDocument]).empty?
           cast = :mongo_mapper_class
         elsif object.is_a?(::MongoMapper::Document) || object.is_a?(::MongoMapper::EmbeddedDocument)
           cast = :mongo_mapper_instance

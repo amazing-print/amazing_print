@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'bigdecimal'
 require 'set'
@@ -566,19 +568,19 @@ RSpec.describe 'AmazingPrint' do
       end
     else # Prior to Ruby 1.9 the order of set values is unpredicatble.
       it 'plain multiline' do
-        expect(@set.sort_by { |x| x.to_s }.ai(plain: true)).to eq(@arr.sort_by { |x| x.to_s }.ai(plain: true))
+        expect(@set.sort_by(&:to_s).ai(plain: true)).to eq(@arr.sort_by(&:to_s).ai(plain: true))
       end
 
       it 'plain multiline indented' do
-        expect(@set.sort_by { |x| x.to_s }.ai(plain: true, indent: 1)).to eq(@arr.sort_by { |x| x.to_s }.ai(plain: true, indent: 1))
+        expect(@set.sort_by(&:to_s).ai(plain: true, indent: 1)).to eq(@arr.sort_by(&:to_s).ai(plain: true, indent: 1))
       end
 
       it 'plain single line' do
-        expect(@set.sort_by { |x| x.to_s }.ai(plain: true, multiline: false)).to eq(@arr.sort_by { |x| x.to_s }.ai(plain: true, multiline: false))
+        expect(@set.sort_by(&:to_s).ai(plain: true, multiline: false)).to eq(@arr.sort_by(&:to_s).ai(plain: true, multiline: false))
       end
 
       it 'colored multiline (default)' do
-        expect(@set.sort_by { |x| x.to_s }.ai).to eq(@arr.sort_by { |x| x.to_s }.ai)
+        expect(@set.sort_by(&:to_s).ai).to eq(@arr.sort_by(&:to_s).ai)
       end
     end
   end

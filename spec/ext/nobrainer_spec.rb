@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? }.call do

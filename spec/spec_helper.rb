@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2010-2016 Michael Dvorkin and contributors
 #
 # AmazingPrint is freely distributable under the terms of MIT license.
@@ -21,7 +23,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each do |file|
+Dir[File.dirname(__FILE__) + '/support/**/*.rb'].sort.each do |file|
   require file
 end
 
