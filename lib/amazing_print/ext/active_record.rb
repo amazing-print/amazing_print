@@ -55,7 +55,7 @@ module AmazingPrint
                  end
                end
              end
-      "#{object} " << awesome_hash(data)
+      "#{object} " + awesome_hash(data)
     end
 
     # Format ActiveRecord class object.
