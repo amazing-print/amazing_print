@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ExtVerifier
   def require_dependencies!(dependencies)
     dependencies.each do |dependency|

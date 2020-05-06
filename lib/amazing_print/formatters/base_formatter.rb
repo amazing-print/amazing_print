@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../colorize'
 
 module AmazingPrint
@@ -93,7 +95,7 @@ module AmazingPrint
         # #<UnboundMethod: Hello#world>
         # #<UnboundMethod: Hello#world() /home/hs/code/amazing_print/spec/methods_spec.rb:68>
         #
-        if method.to_s =~ /(Unbound)*Method: ((#<)?[^\/#]*)[#\.]/
+        if method.to_s =~ %r{(Unbound)*Method: ((#<)?[^/#]*)[#\.]}
           unbound = Regexp.last_match(1) && '(unbound)'
           klass = Regexp.last_match(2)
           if klass && klass =~ /(\(\w+:\s.*?\))/ # Is this ActiveRecord-style class?

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AmazingPrint
   class Indentator
     attr_reader :shift_width, :indentation

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'base_formatter'
 
 module AmazingPrint
@@ -31,7 +33,7 @@ module AmazingPrint
         if options[:multiline]
           multiline_array
         else
-          '[ ' << array.map { |item| inspector.awesome(item) }.join(', ') << ' ]'
+          '[ ' + array.map { |item| inspector.awesome(item) }.join(', ') + ' ]'
         end
       end
 

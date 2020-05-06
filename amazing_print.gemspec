@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2020 AmazingPrint and contributors
 # Copyright (c) 2010-2016 Michael Dvorkin and contributors
 #
@@ -5,12 +7,13 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 
-$:.push File.expand_path('lib', __dir__)
+$LOAD_PATH.push File.expand_path('lib', __dir__)
 require 'amazing_print/version'
 
 Gem::Specification.new do |s|
   s.name        = 'amazing_print'
   s.version     = AmazingPrint.version
+  s.required_ruby_version = '>= 2.3.0'
   s.authors     = ['Michael Dvorkin', 'Kevin McCormack' 'Patrik Wenger']
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.email       = 'harlemsquirrel@gmail.com'
@@ -29,4 +32,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'nokogiri', '>= 1.6.5'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rspec', '>= 3.0.0'
+  s.add_development_dependency 'rubocop', '~> 0.81.0'
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2010-2016 Michael Dvorkin and contributors
 #
 # AmazingPrint is freely distributable under the terms of MIT license.
@@ -16,7 +18,7 @@ module AmazingPrint
       cast = cast_without_sequel(object, type)
       if defined?(::Sequel::Model) && object.is_a?(::Sequel::Model)
         cast = :sequel_document
-      elsif defined?(::Sequel::Model) && object.is_a?(Class) && object.ancestors.include?(::Sequel::Model) && object&.name != "Sequel::Model"
+      elsif defined?(::Sequel::Model) && object.is_a?(Class) && object.ancestors.include?(::Sequel::Model) && object&.name != 'Sequel::Model'
         cast = :sequel_model_class
       elsif defined?(::Sequel::Mysql2::Dataset) && object.class.ancestors.include?(::Sequel::Mysql2::Dataset)
         cast = :sequel_dataset
@@ -27,7 +29,7 @@ module AmazingPrint
     # Format Sequel Document object.
     #------------------------------------------------------------------------------
     def awesome_sequel_document(object)
-      data = object.values.sort_by { |key| key.to_s }.each_with_object({}) do |c, hash|
+      data = object.values.sort_by(&:to_s).each_with_object({}) do |c, hash|
         hash[c[0].to_sym] = c[1]
       end
       data = { errors: object.errors, values: data } unless object.errors.empty?

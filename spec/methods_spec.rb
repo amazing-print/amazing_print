@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe 'Single method' do
@@ -486,16 +488,16 @@ RSpec.describe 'Methods arrays' do
       def him; end
 
       def his
-        private_methods.grep(/^h..$/) { |n| n.to_sym }
+        private_methods.grep(/^h..$/, &:to_sym)
       end
 
       def her
-        private_methods.grep(/^.e.$/) { |n| n.to_sym }
+        private_methods.grep(/^.e.$/, &:to_sym)
       end
     end
 
     hello = Hello.new
-    expect((hello.send(:his) - hello.send(:her)).sort_by { |x| x.to_s }).to eq(%i[him his])
+    expect((hello.send(:his) - hello.send(:her)).sort_by(&:to_s)).to eq(%i[him his])
   end
 
   it 'appending garbage to methods array should not raise error' do
