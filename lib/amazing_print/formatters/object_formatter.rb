@@ -35,15 +35,15 @@ module AmazingPrint
           end
 
           unless options[:plain]
-            if key =~ /(@\w+)/
-              key.sub!(Regexp.last_match(1), colorize(Regexp.last_match(1), :variable))
-            else
-              key.sub!(/(attr_\w+)\s(\:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
-            end
+            key = if key =~ /(@\w+)/
+                    key.sub(Regexp.last_match(1), colorize(Regexp.last_match(1), :variable))
+                  else
+                    key.sub(/(attr_\w+)\s(\:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
+                  end
           end
 
           indented do
-            key << colorize(' = ', :hash) + inspector.awesome(object.instance_variable_get(var))
+            key + colorize(' = ', :hash) + inspector.awesome(object.instance_variable_get(var))
           end
         end
 
@@ -62,14 +62,13 @@ module AmazingPrint
 
       def awesome_instance
         str = object.send(options[:class_name]).to_s
-        # We need to ensure that the original Kernel#format is used here instead of the one defined
-        # above.
+        return str unless options[:object_id]
+
+        # We need to ensure that the original Kernel#format is used here instead of the one
+        # defined above.
         # rubocop:disable Style/ColonMethodCall
-        if options[:object_id]
-          str << Kernel::format(':0x%08x', (object.__id__ * 2))
-        end
+        str + Kernel::format(':0x%08x', (object.__id__ * 2))
         # rubocop:enable Style/ColonMethodCall
-        str
       end
 
       def left_aligned
