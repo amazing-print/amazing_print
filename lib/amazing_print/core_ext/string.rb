@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Copyright (c) 2010-2016 Michael Dvorkin and contributors
 #
 # AmazingPrint is freely distributable under the terms of MIT license.

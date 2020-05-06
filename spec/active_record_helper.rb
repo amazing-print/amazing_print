@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if ExtVerifier.has_rails?
   # Required to use the column support
   module Rails

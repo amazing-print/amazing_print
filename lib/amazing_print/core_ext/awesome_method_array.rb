@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2010-2016 Michael Dvorkin and contributors
 #
 # AmazingPrint is freely distributable under the terms of MIT license.
@@ -76,7 +78,7 @@ module AwesomeMethodArray #:nodoc:
             super(pattern)
           end
     arr.instance_variable_set(:@__awesome_methods__, instance_variable_get(:@__awesome_methods__))
-    arr.reject! { |item| !(item.is_a?(Symbol) || item.is_a?(String)) } # grep block might return crap.
+    arr.select! { |item| (item.is_a?(Symbol) || item.is_a?(String)) } # grep block might return crap.
     arr
   end
 end

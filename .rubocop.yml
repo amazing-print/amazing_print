@@ -1,3 +1,21 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
   DisabledByDefault: false
   TargetRubyVersion: 2.3
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+

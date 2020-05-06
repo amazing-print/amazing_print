@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AmazingPrint
   module Formatters
     require_relative 'formatters/object_formatter'

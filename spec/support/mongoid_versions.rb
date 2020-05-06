@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MongoidVersions
   def mongoid_version
     Gem::Version.new(Mongoid::VERSION)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint ActionView extensions', skip: -> { !ExtVerifier.has_rails? }.call do
