@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint::ActionController', skip: -> { !ExtVerifier.has_rails? }.call do
@@ -14,7 +16,7 @@ RSpec.describe 'AmazingPrint::ActionController', skip: -> { !ExtVerifier.has_rai
       )
     end
   end
-  
+
   context 'with permitted ActionController::Parameters' do
     let(:expected_output) do
       <<~OUTPUT
