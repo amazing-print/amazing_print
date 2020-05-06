@@ -86,10 +86,10 @@ module AmazingPrint
     def colorize?
       AmazingPrint.force_colors ||= false
       AmazingPrint.force_colors || (
-        if defined? @colorize_STDOUT
-          @colorize_STDOUT
+        if defined? @colorize_stdout
+          @colorize_stdout
         else
-          @colorize_STDOUT = STDOUT.tty? && (
+          @colorize_stdout = STDOUT.tty? && (
             (
               ENV['TERM'] &&
               ENV['TERM'] != 'dumb'
@@ -165,9 +165,7 @@ module AmazingPrint
     #---------------------------------------------------------------------------
     def merge_custom_defaults!
       load_dotfile
-      if AmazingPrint.defaults.is_a?(Hash)
-        merge_options!(AmazingPrint.defaults)
-      end
+      merge_options!(AmazingPrint.defaults) if AmazingPrint.defaults.is_a?(Hash)
     rescue StandardError => e
       warn "Could not load '.aprc' from ENV['HOME']: #{e}"
     end

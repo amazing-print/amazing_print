@@ -16,7 +16,7 @@ module AmazingPrint
       cast = cast_without_sequel(object, type)
       if defined?(::Sequel::Model) && object.is_a?(::Sequel::Model)
         cast = :sequel_document
-      elsif defined?(::Sequel::Model) && object.is_a?(Class) && object.ancestors.include?(::Sequel::Model) && object&.name != "Sequel::Model"
+      elsif defined?(::Sequel::Model) && object.is_a?(Class) && object.ancestors.include?(::Sequel::Model) && object&.name != 'Sequel::Model'
         cast = :sequel_model_class
       elsif defined?(::Sequel::Mysql2::Dataset) && object.class.ancestors.include?(::Sequel::Mysql2::Dataset)
         cast = :sequel_dataset

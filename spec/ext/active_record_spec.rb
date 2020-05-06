@@ -294,11 +294,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       else
         if RUBY_PLATFORM == 'java'
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:\w+> \(ActiveModel::Validations::ClassMethods\)/)
-       elsif RUBY_VERSION >= '2.7.0'
+        elsif RUBY_VERSION >= '2.7.0'
           expect(out).to match(
             /\svalidate\(\*args.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveModel::Validations::ClassMethods\)/
           )
-       elsif RUBY_VERSION >= '2.4.4'
+        elsif RUBY_VERSION >= '2.4.4'
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
         else
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/)
