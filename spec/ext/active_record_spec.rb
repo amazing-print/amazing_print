@@ -259,7 +259,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           )
         elsif RUBY_VERSION >= '2.7.0'
           expect(out).to match(
-            /\s*first\(\*args,\s+&block\)\s+#<Class:ActiveRecord::Base> \(ActiveRecord::Querying\)/
+            /\s*first\(\*(\*|args),\s+&(&|block)\)\s+#<Class:ActiveRecord::Base> \(ActiveRecord::Querying\)/
           )
         elsif RUBY_VERSION =~ /^2\.4\.([4-9]|[1-9][0-9])|^2\.[56]\./
           expect(out).to match(/\sfirst\(\*arg.*?\)\s+User/)
