@@ -31,6 +31,7 @@ ExtVerifier.require_dependencies!(
   %w[
     rails
     active_record
+    action_controller
     action_view
     active_support/all
     mongoid
