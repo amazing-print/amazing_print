@@ -1,3 +1,7 @@
+## unreleased
+  - Add `uncolor` method to remove ANSI color sequences. 
+
+
 ## v1.1.0
   - Print out method keyword arguments
   - Fix NoMethodError with Sequel
