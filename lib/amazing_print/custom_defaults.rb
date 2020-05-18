@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AmazingPrint
   class << self
     attr_accessor :defaults, :force_colors

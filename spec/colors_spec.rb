@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint' do
@@ -18,8 +20,8 @@ RSpec.describe 'AmazingPrint' do
   end
 
   describe 'colorization' do
-    PLAIN = '[ 1, :two, "three", [ nil, [ true, false ] ] ]'.freeze
-    COLORIZED = "[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]".freeze
+    PLAIN = '[ 1, :two, "three", [ nil, [ true, false ] ] ]'
+    COLORIZED = "[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]"
 
     before do
       ENV['TERM'] = 'xterm-colors'

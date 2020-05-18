@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2010-2016 Michael Dvorkin and contributors
 #
 # AmazingPrint is freely distributable under the terms of MIT license.
@@ -53,7 +55,7 @@ module AmazingPrint
                  end
                end
              end
-      "#{object} " << awesome_hash(data)
+      "#{object} " + awesome_hash(data)
     end
 
     # Format ActiveRecord class object.

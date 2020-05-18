@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'bigdecimal'
 require 'set'
@@ -489,7 +491,7 @@ RSpec.describe 'AmazingPrint' do
   describe 'File' do
     it 'should display a file (plain)' do
       File.open(__FILE__, 'r') do |f|
-        expect(f.ai(plain: true)).to eq("#{f.inspect}\n" << `ls -alF #{f.path}`.chop)
+        expect(f.ai(plain: true)).to eq("#{f.inspect}\n" + `ls -alF #{f.path}`.chop)
       end
     end
   end
@@ -498,7 +500,7 @@ RSpec.describe 'AmazingPrint' do
   describe 'Dir' do
     it 'should display a direcory (plain)' do
       Dir.open(File.dirname(__FILE__)) do |d|
-        expect(d.ai(plain: true)).to eq("#{d.inspect}\n" << `ls -alF #{d.path}`.chop)
+        expect(d.ai(plain: true)).to eq("#{d.inspect}\n" + `ls -alF #{d.path}`.chop)
       end
     end
   end
@@ -566,19 +568,19 @@ RSpec.describe 'AmazingPrint' do
       end
     else # Prior to Ruby 1.9 the order of set values is unpredicatble.
       it 'plain multiline' do
-        expect(@set.sort_by { |x| x.to_s }.ai(plain: true)).to eq(@arr.sort_by { |x| x.to_s }.ai(plain: true))
+        expect(@set.sort_by(&:to_s).ai(plain: true)).to eq(@arr.sort_by(&:to_s).ai(plain: true))
       end
 
       it 'plain multiline indented' do
-        expect(@set.sort_by { |x| x.to_s }.ai(plain: true, indent: 1)).to eq(@arr.sort_by { |x| x.to_s }.ai(plain: true, indent: 1))
+        expect(@set.sort_by(&:to_s).ai(plain: true, indent: 1)).to eq(@arr.sort_by(&:to_s).ai(plain: true, indent: 1))
       end
 
       it 'plain single line' do
-        expect(@set.sort_by { |x| x.to_s }.ai(plain: true, multiline: false)).to eq(@arr.sort_by { |x| x.to_s }.ai(plain: true, multiline: false))
+        expect(@set.sort_by(&:to_s).ai(plain: true, multiline: false)).to eq(@arr.sort_by(&:to_s).ai(plain: true, multiline: false))
       end
 
       it 'colored multiline (default)' do
-        expect(@set.sort_by { |x| x.to_s }.ai).to eq(@arr.sort_by { |x| x.to_s }.ai)
+        expect(@set.sort_by(&:to_s).ai).to eq(@arr.sort_by(&:to_s).ai)
       end
     end
   end
@@ -695,7 +697,7 @@ RSpec.describe 'AmazingPrint' do
            rescue StandardError
              File.new('nul')
            end
-      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" << `ls -alF #{my.path}`.chop)
+      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
     it 'inherited from Dir should be displayed as Dir' do
@@ -703,7 +705,7 @@ RSpec.describe 'AmazingPrint' do
 
       require 'tmpdir'
       my = My.new(Dir.tmpdir)
-      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" << `ls -alF #{my.path}`.chop)
+      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
     it 'should handle a class that defines its own #send method' do

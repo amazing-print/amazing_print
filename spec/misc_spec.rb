@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint' do
@@ -14,7 +16,7 @@ RSpec.describe 'AmazingPrint' do
     it 'handle frozen object.inspect' do
       weird = Class.new do
         def inspect
-          'ice'.freeze
+          'ice'
         end
       end
       expect(weird.new.ai(plain: false)).to eq('ice')

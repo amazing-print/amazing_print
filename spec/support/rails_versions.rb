@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsVersions
   def rails_version
     Gem::Version.new(Rails::VERSION::STRING)

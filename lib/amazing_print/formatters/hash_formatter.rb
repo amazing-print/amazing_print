@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'base_formatter'
 
 module AmazingPrint
@@ -88,7 +90,7 @@ module AmazingPrint
       end
 
       def pre_ruby19_syntax(key, value, width)
-        align(key, width) << colorize(' => ', :hash) << inspector.awesome(value)
+        align(key, width) + colorize(' => ', :hash) + inspector.awesome(value)
       end
 
       def plain_single_line
