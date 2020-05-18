@@ -43,6 +43,6 @@ class String
 
   # Remove ANSI color codes.
   def uncolor
-    self.gsub(/\e\[[0-9;]*m/, '')
+    gsub(/\e\[[0-9;]*m/, '')
   end
 end
