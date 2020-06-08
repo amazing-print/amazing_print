@@ -12,11 +12,4 @@ RSpec.describe 'String extensions' do
       expect(color.to_s.send(:"#{color}ish")).to eq("\e[0;#{30 + i}m#{color}\e[0m")
     end
   end
-
-  it 'should have black and pale colors' do
-    expect('black'.send(:black)).to eq('black'.send(:grayish))
-    expect('pale'.send(:pale)).to eq('pale'.send(:whiteish))
-    expect('pale'.send(:pale)).to eq("\e[0;37mpale\e[0m")
-    expect('whiteish'.send(:whiteish)).to eq("\e[0;37mwhiteish\e[0m")
-  end
 end
