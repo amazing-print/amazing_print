@@ -28,7 +28,7 @@ module AmazingPrint
         class_name: :class, # Method used to get Instance class name.
         object_id: true, # Show object_id.
         color: {
-          args: :pale,
+          args: :whiteish,
           array: :white,
           bigdecimal: :blue,
           class: :yellow,
@@ -37,13 +37,13 @@ module AmazingPrint
           fixnum: :blue,
           integer: :blue,
           float: :blue,
-          hash: :pale,
+          hash: :whiteish,
           keyword: :cyan,
           method: :purpleish,
           nilclass: :red,
           rational: :blue,
           string: :yellowish,
-          struct: :pale,
+          struct: :whiteish,
           symbol: :cyanish,
           time: :greenish,
           trueclass: :green,
