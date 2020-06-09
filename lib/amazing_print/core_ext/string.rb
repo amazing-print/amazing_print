@@ -38,9 +38,6 @@ class String
     end
   end
 
-  alias black grayish
-  alias pale  whiteish
-
   # Remove ANSI color codes.
   def uncolor
     gsub(/\e\[[0-9;]*m/, '')
