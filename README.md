@@ -48,7 +48,7 @@ ruby19_syntax: false,  # Use Ruby 1.9 hash syntax in output.
 class_name:    :class, # Method called to report the instance class name. (e.g. :to_s)
 object_id:     true,   # Show object id.
 color: {
-  args:       :pale,
+  args:       :whiteish,
   array:      :white,
   bigdecimal: :blue,
   class:      :yellow,
@@ -56,13 +56,13 @@ color: {
   falseclass: :red,
   integer:    :blue,
   float:      :blue,
-  hash:       :pale,
+  hash:       :whiteish,
   keyword:    :cyan,
   method:     :purpleish,
   nilclass:   :red,
   rational:   :blue,
   string:     :yellowish,
-  struct:     :pale,
+  struct:     :whiteish,
   symbol:     :cyanish,
   time:       :greenish,
   trueclass:  :green,
@@ -74,7 +74,7 @@ Supported color names:
 
 ```ruby
 :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white
-:black, :redish, :greenish, :yellowish, :blueish, :purpleish, :cyanish, :pale
+:grayish, :redish, :greenish, :yellowish, :blueish, :purpleish, :cyanish, :whiteish
 ```
 
 Use `Object#ai` to return an ASCII encoded string:
@@ -328,7 +328,7 @@ For example:
 AmazingPrint.defaults = {
   :indent => -2,
   :color => {
-    :hash  => :pale,
+    :hash  => :whiteish,
     :class => :white
   }
 }
