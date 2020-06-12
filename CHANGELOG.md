@@ -1,3 +1,6 @@
+## unreleased
+  - Correctly print active_model_errors for models that don't have tables
+
 ## v1.2.0
 
   - Fix frozen string literal issue with ActiveRecord

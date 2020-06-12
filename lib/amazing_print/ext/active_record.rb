@@ -85,7 +85,7 @@ module AmazingPrint
       return awesome_object(object) if @options[:raw]
 
       object_dump = object.marshal_dump.first
-      data = if object_dump.class.column_names != object_dump.attributes.keys
+      data = if object_dump.class.try(:column_names) != object_dump.attributes.keys
                object_dump.attributes
              else
                object_dump.class.column_names.each_with_object(::ActiveSupport::OrderedHash.new) do |name, hash|
@@ -97,7 +97,7 @@ module AmazingPrint
              end
 
       data.merge!({ details: object.details, messages: object.messages })
-      "#{object} " << awesome_hash(data)
+      "#{object} " + awesome_hash(data)
     end
   end
 end

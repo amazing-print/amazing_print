@@ -29,4 +29,12 @@ if ExtVerifier.has_rails?
   class User < ActiveRecord::Base; has_many :emails; end
   class SubUser < User; end
   class Email < ActiveRecord::Base; belongs_to :user; end
+  class TableFreeModel
+    include ::ActiveModel::Validations
+    attr_reader(:name)
+
+    def attributes
+      {"name" => name}
+    end
+  end
 end
