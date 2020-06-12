@@ -34,7 +34,7 @@ if ExtVerifier.has_rails?
     attr_reader(:name)
 
     def attributes
-      {"name" => name}
+      { 'name' => name }
     end
   end
 end
