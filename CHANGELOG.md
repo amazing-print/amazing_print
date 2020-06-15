@@ -1,5 +1,6 @@
-## unreleased
-  - Correctly print active_model_errors for models that don't have tables
+## v1.2.1
+  - Correctly print active_model_errors for models that don't have tables - #42 by sahglie
+  - Update AmazingPrint::MongoMapper for frozen strings - #44
 
 ## v1.2.0
 
