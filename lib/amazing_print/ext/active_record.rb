@@ -55,7 +55,7 @@ module AmazingPrint
                  end
                end
              end
-      "#{object} " + awesome_hash(data)
+      [object.to_s, awesome_hash(data)].join(' ')
     end
 
     # Format ActiveRecord class object.
@@ -97,7 +97,7 @@ module AmazingPrint
              end
 
       data.merge!({ details: object.details, messages: object.messages })
-      "#{object} " + awesome_hash(data)
+      [object.to_s, awesome_hash(data)].join(' ')
     end
   end
 end
