@@ -31,8 +31,8 @@ RSpec.describe 'AmazingPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_map
       user = MongoUser.new(first_name: 'Al', last_name: 'Capone')
 
       out = @ap.send(:awesome, user)
-      out.gsub!(/#\<Proc:.+?\>/, 'amazing_print_PROC_STUB')
-      out.gsub!(/BSON::ObjectId\('[\da-f]+?'\)/, "BSON::ObjectId('123456789')")
+               .gsub(/#\<Proc:.+?\>/, 'amazing_print_PROC_STUB')
+               .gsub(/BSON::ObjectId\('[\da-f]+?'\)/, "BSON::ObjectId('123456789')")
 
       str = if MongoMapper::Version >= '0.13'
               <<~EOS.strip

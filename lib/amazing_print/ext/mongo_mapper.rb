@@ -90,7 +90,7 @@ module AmazingPrint
         label = "#{colorize('embedded', :assoc)} #{label}"
       end
 
-      "#{label} " << awesome_hash(data)
+      [label, awesome_hash(data)].join(' ')
     end
 
     # Format MongoMapper association object.

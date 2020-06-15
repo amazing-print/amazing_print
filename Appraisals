@@ -48,10 +48,13 @@ appraise 'sequel-5.0' do
   gem 'sqlite3', platform: :mri
 end
 
-# appraise 'mongo_mapper' do
-#   gem 'mongo_mapper'
-# end
-#
+appraise 'mongo_mapper' do
+  gem 'activemodel', '~> 4.2.0'
+  gem 'activesupport', '~> 4.2.0'
+  gem 'bigdecimal', '~> 1.4'
+  gem 'mongo_mapper', '~> 0.14'
+end
+
 # appraise 'ripple' do
 #   gem 'tzinfo'
 #   gem 'ripple'
