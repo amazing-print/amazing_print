@@ -10,6 +10,10 @@ Lint/RaiseException:
 Lint/StructNewOverride:
   Enabled: true
 
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - gemfiles/*
+
 Style/HashEachMethods:
   Enabled: true
 
@@ -19,3 +23,6 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
+Style/StringLiterals:
+  Exclude:
+    - gemfiles/*
