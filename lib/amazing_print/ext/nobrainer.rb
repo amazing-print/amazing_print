@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/HashTransformValues
+
 # Copyright (c) 2010-2016 Michael Dvorkin and contributors
 #
 # AmazingPrint is freely distributable under the terms of MIT license.
@@ -53,3 +55,5 @@ module AmazingPrint
 end
 
 AmazingPrint::Formatter.include AmazingPrint::NoBrainer
+
+# rubocop:enable Style/HashTransformValues

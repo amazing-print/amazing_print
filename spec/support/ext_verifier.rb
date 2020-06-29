@@ -3,10 +3,8 @@
 module ExtVerifier
   def require_dependencies!(dependencies)
     dependencies.each do |dependency|
-      begin
-        require dependency
-      rescue LoadError
-      end
+      require dependency
+    rescue LoadError
     end
   end
   module_function :require_dependencies!
