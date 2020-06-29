@@ -27,10 +27,10 @@ Gem::Specification.new do |s|
   s.executables   = []
   s.require_paths = ['lib']
 
-  s.add_development_dependency 'appraisal'
-  s.add_development_dependency 'fakefs', '>= 0.2.1'
-  s.add_development_dependency 'nokogiri', '>= 1.6.5'
+  s.add_development_dependency 'appraisal', '~> 2.3'
+  s.add_development_dependency 'fakefs', '~> 1.2'
+  s.add_development_dependency 'nokogiri', '~> 1.10'
   s.add_development_dependency 'pry'
-  s.add_development_dependency 'rspec', '>= 3.0.0'
+  s.add_development_dependency 'rspec', '~> 3.9'
   s.add_development_dependency 'rubocop', '~> 0.81.0'
 end
