@@ -168,7 +168,8 @@ RSpec.describe 'Object methods' do
 
         def m2; end
       end
-      expect(Hello.new.protected_methods.ai(plain: true)).to eq("[\n    [0] m1() Hello\n    [1] m2() Hello\n]")
+      expect(Hello.new.protected_methods.ai(plain: true))
+        .to eq("[\n  [0] m1() Hello\n  [1] m2() Hello\n]")
     end
 
     it 'no index: should handle object.protected_methods' do
@@ -178,9 +179,11 @@ RSpec.describe 'Object methods' do
         def m3(a, b); end
       end
       if RUBY_VERSION < '1.9.2'
-        expect(Hello.new.protected_methods.ai(plain: true, index: false)).to eq("[\n     m3(arg1, arg2) Hello\n]")
+        expect(Hello.new.protected_methods.ai(plain: true, index: false))
+          .to eq("[\n   m3(arg1, arg2) Hello\n]")
       else
-        expect(Hello.new.protected_methods.ai(plain: true, index: false)).to eq("[\n     m3(a, b) Hello\n]")
+        expect(Hello.new.protected_methods.ai(plain: true, index: false))
+          .to eq("[\n   m3(a, b) Hello\n]")
       end
     end
   end
@@ -421,7 +424,7 @@ RSpec.describe 'Methods arrays' do
       def self.m1; end
     end
     out = (Hello.methods - Class.methods).ai(plain: true)
-    expect(out).to eq("[\n    [0] m1() Hello\n]")
+    expect(out).to eq("[\n  [0] m1() Hello\n]")
   end
 
   it 'obj1.methods & obj2.methods should be awesome printed' do
@@ -435,7 +438,7 @@ RSpec.describe 'Methods arrays' do
       def self.m1; end
     end
     out = (Hello.methods & World.methods - Class.methods).ai(plain: true)
-    expect(out).to eq("[\n    [0] m1() Hello\n]")
+    expect(out).to eq("[\n  [0] m1() Hello\n]")
   end
 
   it 'obj1.methods.grep(pattern) should be awesome printed' do
@@ -448,9 +451,9 @@ RSpec.describe 'Methods arrays' do
       def self.m3; end
     end
     out = Hello.methods.grep(/^m1$/).ai(plain: true)
-    expect(out).to eq("[\n    [0] m1() Hello\n]")
+    expect(out).to eq("[\n  [0] m1() Hello\n]")
     out = Hello.methods.grep(/^m\d$/).ai(plain: true)
-    expect(out).to eq("[\n    [0] m1() Hello\n    [1] m2() Hello\n    [2] m3() Hello\n]")
+    expect(out).to eq("[\n  [0] m1() Hello\n  [1] m2() Hello\n  [2] m3() Hello\n]")
   end
 
   it 'obj1.methods.grep(pattern, &block) should pass the matching string within the block' do
@@ -477,7 +480,7 @@ RSpec.describe 'Methods arrays' do
     end
 
     out = Hello.methods.grep(/^m(\d)$/) { %w[none one][Regexp.last_match(1).to_i] }.ai(plain: true)
-    expect(out).to eq("[\n    [0] none() Hello\n    [1]  one() Hello\n]")
+    expect(out).to eq("[\n  [0] none() Hello\n  [1]  one() Hello\n]")
   end
 
   # See https://github.com/awesome-print/awesome_print/issues/30 for details.

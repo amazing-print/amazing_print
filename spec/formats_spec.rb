@@ -15,7 +15,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline' do
-      expect(@arr.ai(plain: true)).to eq <<~EOS.strip
+      expect(@arr.ai(plain: true, indent: 4)).to eq <<~EOS.strip
         [
             [0] 1,
             [1] :two,
@@ -32,7 +32,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline without index' do
-      expect(@arr.ai(plain: true, index: false)).to eq <<~EOS.strip
+      expect(@arr.ai(plain: true, indent: 4, index: false)).to eq <<~EOS.strip
         [
             1,
             :two,
@@ -89,16 +89,16 @@ RSpec.describe 'AmazingPrint' do
     it 'colored multiline (default)' do
       expect(@arr.ai).to eq <<~EOS.strip
         [
-            \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
-            \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
-            \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
-            \e[1;37m[3] \e[0m[
-                \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
-                \e[1;37m[1] \e[0m[
-                    \e[1;37m[0] \e[0m\e[1;32mtrue\e[0m,
-                    \e[1;37m[1] \e[0m\e[1;31mfalse\e[0m
-                ]
+          \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
+          \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
+          \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+          \e[1;37m[3] \e[0m[
+            \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
+            \e[1;37m[1] \e[0m[
+              \e[1;37m[0] \e[0m\e[1;32mtrue\e[0m,
+              \e[1;37m[1] \e[0m\e[1;31mfalse\e[0m
             ]
+          ]
         ]
       EOS
     end
@@ -135,9 +135,9 @@ RSpec.describe 'AmazingPrint' do
     it 'plain multiline' do
       expect(@arr.ai(plain: true)).to eq <<~EOS.strip
         [
-            [0] 1,
-            [1] 2,
-            [2] [...]
+          [0] 1,
+          [1] 2,
+          [2] [...]
         ]
       EOS
     end
@@ -145,9 +145,9 @@ RSpec.describe 'AmazingPrint' do
     it 'plain multiline without index' do
       expect(@arr.ai(plain: true, index: false)).to eq <<~EOS.strip
         [
-            1,
-            2,
-            [...]
+          1,
+          2,
+          [...]
         ]
       EOS
     end
@@ -166,13 +166,13 @@ RSpec.describe 'AmazingPrint' do
     it 'plain limited output large' do
       expect(@arr.ai(plain: true, limit: true)).to eq <<~EOS.strip
         [
-            [  0] 1,
-            [  1] 2,
-            [  2] 3,
-            [  3] .. [996],
-            [997] 998,
-            [998] 999,
-            [999] 1000
+          [  0] 1,
+          [  1] 2,
+          [  2] 3,
+          [  3] .. [996],
+          [997] 998,
+          [998] 999,
+          [999] 1000
         ]
       EOS
     end
@@ -181,10 +181,10 @@ RSpec.describe 'AmazingPrint' do
       @arr = @arr[0..3]
       expect(@arr.ai(plain: true, limit: true)).to eq <<~EOS.strip
         [
-            [0] 1,
-            [1] 2,
-            [2] 3,
-            [3] 4
+          [0] 1,
+          [1] 2,
+          [2] 3,
+          [3] 4
         ]
       EOS
     end
@@ -192,16 +192,16 @@ RSpec.describe 'AmazingPrint' do
     it 'plain limited output with 10 lines' do
       expect(@arr.ai(plain: true, limit: 10)).to eq <<~EOS.strip
         [
-            [  0] 1,
-            [  1] 2,
-            [  2] 3,
-            [  3] 4,
-            [  4] 5,
-            [  5] .. [995],
-            [996] 997,
-            [997] 998,
-            [998] 999,
-            [999] 1000
+          [  0] 1,
+          [  1] 2,
+          [  2] 3,
+          [  3] 4,
+          [  4] 5,
+          [  5] .. [995],
+          [996] 997,
+          [997] 998,
+          [998] 999,
+          [999] 1000
         ]
       EOS
     end
@@ -209,17 +209,17 @@ RSpec.describe 'AmazingPrint' do
     it 'plain limited output with 11 lines' do
       expect(@arr.ai(plain: true, limit: 11)).to eq <<~EOS.strip
         [
-            [  0] 1,
-            [  1] 2,
-            [  2] 3,
-            [  3] 4,
-            [  4] 5,
-            [  5] .. [994],
-            [995] 996,
-            [996] 997,
-            [997] 998,
-            [998] 999,
-            [999] 1000
+          [  0] 1,
+          [  1] 2,
+          [  2] 3,
+          [  3] 4,
+          [  4] 5,
+          [  5] .. [994],
+          [995] 996,
+          [996] 997,
+          [997] 998,
+          [998] 999,
+          [999] 1000
         ]
       EOS
     end
@@ -234,13 +234,13 @@ RSpec.describe 'AmazingPrint' do
     it 'plain limited output' do
       expect(@hash.ai(sort_keys: true, plain: true, limit: true)).to eq <<~EOS.strip
         {
-            "a" => :a,
-            "b" => :b,
-            "c" => :c,
-            "d" => :d .. "w" => :w,
-            "x" => :x,
-            "y" => :y,
-            "z" => :z
+          "a" => :a,
+          "b" => :b,
+          "c" => :c,
+          "d" => :d .. "w" => :w,
+          "x" => :x,
+          "y" => :y,
+          "z" => :z
         }
       EOS
     end
@@ -259,15 +259,15 @@ RSpec.describe 'AmazingPrint' do
     it 'plain multiline' do
       expect(@hash.ai(plain: true)).to eq <<~EOS.strip
         {
-            1 => {
-                :sym => {
-                    "str" => {
-                        [ 1, 2, 3 ] => {
-                            { :k => :v } => Hash < Object
-                        }
-                    }
+          1 => {
+            :sym => {
+              "str" => {
+                [ 1, 2, 3 ] => {
+                  { :k => :v } => Hash < Object
                 }
+              }
             }
+          }
         }
       EOS
     end
@@ -275,15 +275,15 @@ RSpec.describe 'AmazingPrint' do
     it 'new hash syntax' do
       expect(@hash.ai(plain: true, ruby19_syntax: true)).to eq <<~EOS.strip
         {
-            1 => {
-                sym: {
-                    "str" => {
-                        [ 1, 2, 3 ] => {
-                            { k: :v } => Hash < Object
-                        }
-                    }
+          1 => {
+            sym: {
+              "str" => {
+                [ 1, 2, 3 ] => {
+                  { k: :v } => Hash < Object
                 }
+              }
             }
+          }
         }
       EOS
     end
@@ -309,7 +309,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'colored multiline (default)' do
-      expect(@hash.ai).to eq <<~EOS.strip
+      expect(@hash.ai(indent: 4)).to eq <<~EOS.strip
         {
             1\e[0;37m => \e[0m{
                 :sym\e[0;37m => \e[0m{
@@ -327,15 +327,15 @@ RSpec.describe 'AmazingPrint' do
     it 'colored with new hash syntax' do
       expect(@hash.ai(ruby19_syntax: true)).to eq <<~EOS.strip
         {
-            1\e[0;37m => \e[0m{
-                sym\e[0;37m: \e[0m{
-                    \"str\"\e[0;37m => \e[0m{
-                        [ 1, 2, 3 ]\e[0;37m => \e[0m{
-                            { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
-                        }
-                    }
+          1\e[0;37m => \e[0m{
+            sym\e[0;37m: \e[0m{
+              \"str\"\e[0;37m => \e[0m{
+                [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                  { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                 }
+              }
             }
+          }
         }
       EOS
     end
@@ -371,7 +371,7 @@ RSpec.describe 'AmazingPrint' do
     it 'plain multiline' do
       expect(@hash.ai(plain: true)).to eq <<~EOS.strip
         {
-            :a => {...}
+          :a => {...}
         }
       EOS
     end
@@ -391,17 +391,17 @@ RSpec.describe 'AmazingPrint' do
       out = @hash.ai(plain: true)
       if RUBY_VERSION.to_f < 1.9 # Order of @hash keys is not guaranteed.
         expect(out).to match(/^\{[^\}]+\}/m)
-        expect(out).to match(/        "b" => "b",?/)
-        expect(out).to match(/         :a => "a",?/)
-        expect(out).to match(/         :z => "z",?/)
-        expect(out).to match(/    "alpha" => "alpha",?$/)
+        expect(out).to match(/      "b" => "b",?/)
+        expect(out).to match(/       :a => "a",?/)
+        expect(out).to match(/       :z => "z",?/)
+        expect(out).to match(/  "alpha" => "alpha",?$/)
       else
         expect(out).to eq <<~EOS.strip
           {
-                  "b" => "b",
-                   :a => "a",
-                   :z => "z",
-              "alpha" => "alpha"
+                "b" => "b",
+                 :a => "a",
+                 :z => "z",
+            "alpha" => "alpha"
           }
         EOS
       end
@@ -410,10 +410,10 @@ RSpec.describe 'AmazingPrint' do
     it 'plain multiline with sorted keys' do
       expect(@hash.ai(plain: true, sort_keys: true)).to eq <<~EOS.strip
         {
-                 :a => "a",
-            "alpha" => "alpha",
-                "b" => "b",
-                 :z => "z"
+               :a => "a",
+          "alpha" => "alpha",
+              "b" => "b",
+               :z => "z"
         }
       EOS
     end
@@ -603,12 +603,12 @@ RSpec.describe 'AmazingPrint' do
 
     it 'plain multiline' do
       s1 = <<-EOS.strip
-    address = \"1313 Mockingbird Lane\",
-    name = \"Herman Munster\"
+  address = \"1313 Mockingbird Lane\",
+  name = \"Herman Munster\"
       EOS
       s2 = <<-EOS.strip
-    name = \"Herman Munster\",
-    address = \"1313 Mockingbird Lane\"
+  name = \"Herman Munster\",
+  address = \"1313 Mockingbird Lane\"
       EOS
       expect(@struct.ai(plain: true)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
@@ -633,12 +633,12 @@ RSpec.describe 'AmazingPrint' do
 
     it 'colored multiline (default)' do
       s1 = <<-EOS.strip
-    address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m,
-    name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m
+  address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m,
+  name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m
       EOS
       s2 = <<-EOS.strip
-    name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m,
-    address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m
+  name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m,
+  address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m
       EOS
       expect(@struct.ai).to satisfy { |out| out.include?(s1) || out.include?(s2) }
     end
@@ -656,16 +656,16 @@ RSpec.describe 'AmazingPrint' do
       my = My.new([1, :two, 'three', [nil, [true, false]]])
       expect(my.ai(plain: true)).to eq <<~EOS.strip
         [
-            [0] 1,
-            [1] :two,
-            [2] "three",
-            [3] [
-                [0] nil,
-                [1] [
-                    [0] true,
-                    [1] false
-                ]
+          [0] 1,
+          [1] :two,
+          [2] "three",
+          [3] [
+            [0] nil,
+            [1] [
+              [0] true,
+              [1] false
             ]
+          ]
         ]
       EOS
     end
@@ -676,15 +676,15 @@ RSpec.describe 'AmazingPrint' do
       my = My[{ 1 => { sym: { 'str' => { [1, 2, 3] => { { k: :v } => Hash } } } } }]
       expect(my.ai(plain: true)).to eq <<~EOS.strip
         {
-            1 => {
-                :sym => {
-                    "str" => {
-                        [ 1, 2, 3 ] => {
-                            { :k => :v } => Hash < Object
-                        }
-                    }
+          1 => {
+            :sym => {
+              "str" => {
+                [ 1, 2, 3 ] => {
+                  { :k => :v } => Hash < Object
                 }
+              }
             }
+          }
         }
       EOS
     end

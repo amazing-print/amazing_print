@@ -16,8 +16,8 @@ RSpec.describe 'AmazingPrint Ostruct extension' do
     struct = OpenStruct.new name: 'Foo', address: 'Bar'
     expect(@ap.send(:awesome, struct)).to eq <<~EOS.strip
       OpenStruct {
-          :address => "Bar",
-             :name => "Foo"
+        :address => "Bar",
+           :name => "Foo"
       }
     EOS
   end
