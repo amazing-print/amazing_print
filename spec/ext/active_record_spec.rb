@@ -16,11 +16,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(@diana)
       str = <<~EOS.strip
         #<User:placeholder_id> {
-                 :admin => false,
-            :created_at => ?,
-                    :id => nil,
-                  :name => "Diana",
-                  :rank => 1
+               :admin => false,
+          :created_at => ?,
+                  :id => nil,
+                :name => "Diana",
+                :rank => 1
         }
       EOS
       if RUBY_VERSION < '1.9'
@@ -35,20 +35,20 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome([@diana, @laura])
       str = <<~EOS.strip
         [
-            [0] #<User:placeholder_id> {
-                     :admin => false,
-                :created_at => ??,
-                        :id => nil,
-                      :name => "Diana",
-                      :rank => 1
-            },
-            [1] #<User:placeholder_id> {
-                     :admin => true,
-                :created_at => ?!,
-                        :id => nil,
-                      :name => "Laura",
-                      :rank => 2
-            }
+          [0] #<User:placeholder_id> {
+                 :admin => false,
+            :created_at => ??,
+                    :id => nil,
+                  :name => "Diana",
+                  :rank => 1
+          },
+          [1] #<User:placeholder_id> {
+                 :admin => true,
+            :created_at => ?!,
+                    :id => nil,
+                  :name => "Laura",
+                  :rank => 2
+          }
         ]
       EOS
       if RUBY_VERSION < '1.9'
@@ -67,20 +67,20 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(User.all)
       str = <<~EOS.strip
         [
-            [0] #<User:placeholder_id> {
-                     :admin => false,
-                :created_at => ??,
-                        :id => 1,
-                      :name => "Diana",
-                      :rank => 1
-            },
-            [1] #<User:placeholder_id> {
-                     :admin => true,
-                :created_at => ?!,
-                        :id => 2,
-                      :name => "Laura",
-                      :rank => 2
-            }
+          [0] #<User:placeholder_id> {
+                 :admin => false,
+            :created_at => ??,
+                    :id => 1,
+                  :name => "Diana",
+                  :rank => 1
+          },
+          [1] #<User:placeholder_id> {
+                 :admin => true,
+            :created_at => ?!,
+                    :id => 2,
+                  :name => "Laura",
+                  :rank => 2
+          }
         ]
       EOS
       if RUBY_VERSION < '1.9'
@@ -107,8 +107,8 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(email_record)
       raw_object_string = <<~EOS.strip
         #<User:placeholder_id> {
-                       "id" => #{u.id},
-            "email_address" => "#{e.email_address}"
+                     "id" => #{u.id},
+          "email_address" => "#{e.email_address}"
         }
       EOS
       expect(out).to be_similar_to(raw_object_string)

@@ -16,19 +16,19 @@ RSpec.describe 'ActiveModel::Errors formatting', skip: -> { !ExtVerifier.has_rai
 
     str = <<~ERRORS.strip
       #<ActiveModel::Errors:placeholder_id> {
-             "name" => nil,
-           :details => {
-              :name => [
-                  [0] {
-                      :error => "can't be blank"
-                  }
-              ]
-          },
-          :messages => {
-              :name => [
-                  [0] "can't be blank"
-              ]
-          }
+           "name" => nil,
+         :details => {
+          :name => [
+            [0] {
+              :error => "can't be blank"
+            }
+          ]
+        },
+        :messages => {
+          :name => [
+            [0] "can't be blank"
+          ]
+        }
       }
     ERRORS
 
