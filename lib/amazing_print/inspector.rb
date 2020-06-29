@@ -15,7 +15,7 @@ module AmazingPrint
 
     def initialize(options = {})
       @options = {
-        indent: 2, # Number of spaces for indenting.
+        indent: 4, # Number of spaces for indenting.
         index: true, # Display array indices.
         html: false, # Use ANSI color codes rather than HTML.
         multiline: true, # Display in multiple lines.
