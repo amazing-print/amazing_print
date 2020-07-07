@@ -13,7 +13,7 @@ require 'amazing_print/version'
 Gem::Specification.new do |s|
   s.name        = 'amazing_print'
   s.version     = AmazingPrint.version
-  s.required_ruby_version = '>= 2.3.0'
+  s.required_ruby_version = '>= 2.5.0'
   s.authors     = ['Michael Dvorkin', 'Kevin McCormack' 'Patrik Wenger']
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.email       = 'harlemsquirrel@gmail.com'

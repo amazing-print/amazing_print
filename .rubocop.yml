@@ -2,7 +2,7 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   DisabledByDefault: false
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
 
 Lint/RaiseException:
   Enabled: true
