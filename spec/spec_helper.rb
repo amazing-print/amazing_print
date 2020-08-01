@@ -41,7 +41,7 @@ ExtVerifier.require_dependencies!(
     sequel
   ]
 )
-require 'nokogiri'
+require 'nokogiri' unless RUBY_PLATFORM.include?('mswin')
 require 'amazing_print'
 
 RSpec.configure do |config|
@@ -65,6 +65,12 @@ RSpec.configure do |config|
   # killed after each example ends.
   config.before(:each) do |_example|
     stub_dotfile!
+  end
+
+  if RUBY_PLATFORM.include?('mswin')
+    config.filter_run_excluding unix: true
+  else
+    config.filter_run_excluding mswin: true
   end
 end
 

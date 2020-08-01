@@ -3,6 +3,7 @@
 require 'shellwords'
 
 require_relative 'base_formatter'
+require_relative 'mswin_helper' if RUBY_PLATFORM.include?('mswin')
 
 module AmazingPrint
   module Formatters
@@ -16,8 +17,16 @@ module AmazingPrint
       end
 
       def format
-        ls = `ls -alF #{dir.path.shellescape}`
+        ls = info
         colorize(ls.empty? ? dir.inspect : "#{dir.inspect}\n#{ls.chop}", :dir)
+      end
+
+      def info
+        if RUBY_PLATFORM.include?('mswin')
+          GetChildItem.new(@dir.path).to_s + "\n"
+        else
+          `ls -alF #{dir.path.shellescape}`
+        end
       end
     end
   end
