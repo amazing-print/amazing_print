@@ -1,5 +1,6 @@
 ## unreleased
   - Drop support for Ruby 2.3 and 2.4 as well as JRuby 9.1
+  - Add passing of `options` to `Logger#ap`
 
 ## v1.2.1
   - Correctly print active_model_errors for models that don't have tables - #42 by sahglie

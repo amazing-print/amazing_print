@@ -297,6 +297,12 @@ By default, this logs at the :debug level. You can override that globally with:
 in the custom defaults (see below). You can also override on a per call basis with:
 
     logger.ap object, :warn
+    # or
+    logger.ap object, level: :warn
+
+You can also pass additional options (providing `nil` or leaving off `level` will log at the default level):
+
+    logger.ap object, { level: :info, sort_keys: true }
 
 ### ActionView Convenience Method ###
 amazing_print adds the 'ap' method to the ActionView::Base class making it available

@@ -21,6 +21,13 @@ RSpec.describe 'AmazingPrint logging extensions' do
       @logger.ap object
     end
 
+    it 'passes options to `ai`' do
+      options = { sort_keys: true }
+      object = double
+      expect(object).to receive(:ai).with(options)
+      @logger.ap object, options
+    end
+
     describe 'the log level' do
       before do
         AmazingPrint.defaults = {}
@@ -40,6 +47,28 @@ RSpec.describe 'AmazingPrint logging extensions' do
       it 'should use the passed in level' do
         expect(@logger).to receive(:warn)
         @logger.ap(nil, :warn)
+      end
+
+      it 'makes no difference if passed as a hash or a part of options' do
+        expect(@logger).to receive(:warn)
+        @logger.ap(nil, { level: :warn })
+      end
+
+      context 'when given options' do
+        let(:object) { double }
+        let(:options) { { sort_keys: true } }
+
+        it 'uses the default log level with the options' do
+          expect(@logger).to receive(:debug)
+          expect(object).to receive(:ai).with(options)
+          @logger.ap(object, options)
+        end
+
+        it 'still uses the passed in level with options' do
+          expect(@logger).to receive(:warn)
+          expect(object).to receive(:ai).with(options)
+          @logger.ap(object, options.merge({ level: :warn }))
+        end
       end
     end
   end
