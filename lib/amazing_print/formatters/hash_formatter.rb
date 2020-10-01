@@ -86,11 +86,11 @@ module AmazingPrint
 
       def ruby19_syntax(key, value, width)
         key[0] = ''
-        align(key, width - 1) + colorize(': ', :hash) + inspector.awesome(value)
+        "#{align(key, width - 1)}#{colorize(': ', :hash)}#{inspector.awesome(value)}"
       end
 
       def pre_ruby19_syntax(key, value, width)
-        align(key, width) + colorize(' => ', :hash) + inspector.awesome(value)
+        "#{align(key, width)}#{colorize(' => ', :hash)}#{inspector.awesome(value)}"
       end
 
       def plain_single_line
