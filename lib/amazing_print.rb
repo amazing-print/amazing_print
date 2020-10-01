@@ -14,6 +14,7 @@ unless defined?(AmazingPrint::Inspector)
     require_relative "amazing_print/core_ext/#{file}"
   end
 
+  require_relative 'amazing_print/compatibility_defaults'
   require_relative 'amazing_print/custom_defaults'
   require_relative 'amazing_print/inspector'
   require_relative 'amazing_print/formatter'
