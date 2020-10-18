@@ -1,6 +1,6 @@
 name: Specs
 
-on: 
+on:
   pull_request:
   push:
     branches:
@@ -16,6 +16,7 @@ jobs:
           - "2.5"
           - "2.6"
           - "2.7"
+          - "3.0.0-preview1"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby ${{ matrix.ruby }}
