@@ -16,11 +16,11 @@ jobs:
           - "2.5"
           - "2.6"
           - "2.7"
-          - "3.0.0-preview1"
+          - "head"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby ${{ matrix.ruby }}
-      uses: actions/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
     - name: Install Dependencies
