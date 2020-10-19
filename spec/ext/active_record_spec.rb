@@ -282,15 +282,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         expect(out).to match(
           /\sprimary_key\(.*?\)\s+#<Class:\w+>\s\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
         )
-      # elsif RUBY_VERSION >= '2.7.2'
-      #   expect(out).to match(
-      #     /\sprimary_key\(.*?\)\s+.+User/
-      #   )
-    elsif RUBY_VERSION =~ /^2\.7\.(0|1)/
+      elsif RUBY_VERSION =~ /^2\.7\.(0|1)/
         expect(out).to match(
           /\sprimary_key\(.*?\)\s+.+Class.+\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
         )
-      elsif RUBY_VERSION =~ /^2\.4\.([4-9]|[1-9][0-9])|^2\.[56]\.|^2\.7\.2/
+      elsif RUBY_VERSION =~ /^2\.4\.([4-9]|[1-9][0-9])|^2\.[56]\./ || RUBY_VERSION >= '2.7.2'
         expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
       else
         expect(out).to match(/\sprimary_key\(.*?\)\s+Class \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
@@ -308,7 +304,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           expect(out).to match(
             /\svalidate\(\*args.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveModel::Validations::ClassMethods\)/
           )
-        elsif RUBY_VERSION =~ /^2\.4\.([4-9]|[1-9][0-9])|^2\.[56]\.|^2\.7\.2/
+        elsif RUBY_VERSION =~ /^2\.4\.([4-9]|[1-9][0-9])|^2\.[56]\./ || RUBY_VERSION >= '2.7.2'
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
         else
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/)
