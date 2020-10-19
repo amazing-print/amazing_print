@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  build:
+  test:
     strategy:
       fail-fast: false
       matrix:
