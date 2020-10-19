@@ -8,15 +8,19 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-18.04
     strategy:
+      fail-fast: false
       matrix:
+        os:
+          - ubuntu
         ruby:
           - "2.5"
           - "2.6"
           - "2.7"
           - "head"
+          - "jruby"
+    runs-on: ${{ matrix.os }}-latest
+    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby ${{ matrix.ruby }}
