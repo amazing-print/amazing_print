@@ -31,8 +31,11 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get -y install libsqlite3-dev
-    - name: Build and test with Rake
-      run: |
         gem install bundler
         bundle install --retry 3
-        bundle exec rake
+    - name: Test with all appraisals
+      if : ${{ matrix.ruby != 'head' }}
+      run: bundle exec rake
+    - name: Test without appraisals
+      if : ${{ matrix.ruby == 'head' }}
+      run: bundle exec rspec
