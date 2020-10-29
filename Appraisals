@@ -42,17 +42,17 @@ appraise 'mongoid-6.0' do
   gem 'mongoid', '~> 6.0.0'
 end
 
+appraise 'mongo_mapper' do
+  gem 'activemodel', '~> 4.2.0'
+  gem 'activesupport', '~> 4.2.0'
+  gem 'bigdecimal', '~> 1.4', platforms: :mri
+  gem 'mongo_mapper', '~> 0.14'
+end
+
 appraise 'sequel-5.0' do
   gem 'jdbc-sqlite3', platform: :jruby
   gem 'sequel', '~> 5.0'
   gem 'sqlite3', platform: :mri
-end
-
-appraise 'mongo_mapper' do
-  gem 'activemodel', '~> 4.2.0'
-  gem 'activesupport', '~> 4.2.0'
-  gem 'bigdecimal', '~> 1.4'
-  gem 'mongo_mapper', '~> 0.14'
 end
 
 # appraise 'ripple' do
