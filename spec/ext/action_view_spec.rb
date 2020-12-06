@@ -16,4 +16,8 @@ RSpec.describe 'AmazingPrint ActionView extensions', skip: -> { !ExtVerifier.has
     markup = ' &<hello>'
     expect(@view.ap(markup)).to eq('<pre class="debug_dump"><kbd style="color:brown">&quot; &amp;&lt;hello&gt;&quot;</kbd></pre>')
   end
+
+  it 'users HTML and does not set output to HTML safe' do
+    expect(@view.ap('<p>Hello World</p>')).not_to be_html_safe
+  end
 end
