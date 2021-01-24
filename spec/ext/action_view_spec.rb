@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'AmazingPrint ActionView extensions', 
+RSpec.describe 'AmazingPrint ActionView extensions',
                skip: -> { !ExtVerifier.has_rails? || ActiveRecord::VERSION::STRING >= '6.1' }.call do
   before do
     @view = ActionView::Base.new
