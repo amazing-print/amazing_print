@@ -84,20 +84,27 @@ module AmazingPrint
       return object.inspect unless defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
-      object_dump = object.marshal_dump.first
-      data = if object_dump.class.try(:column_names) != object_dump.attributes.keys
-               object_dump.attributes
-             else
-               object_dump.class.column_names.each_with_object(::ActiveSupport::OrderedHash.new) do |name, hash|
-                 if object_dump.has_attribute?(name) || object_dump.new_record?
-                   value = object_dump.respond_to?(name) ? object_dump.send(name) : object_dump.read_attribute(name)
-                   hash[name.to_sym] = value
+      data = if object.respond_to?(:marshal_dump)
+               object_dump = object.marshal_dump.first
+               if object_dump.class.try(:column_names) != object_dump.attributes.keys
+                 object_dump.attributes
+               else
+                 object_dump.class.column_names.each_with_object(::ActiveSupport::OrderedHash.new) do |name,  hash|
+                   if object_dump.has_attribute?(name) || object_dump.new_record?
+                     value = object_dump.respond_to?(name) ? object_dump.send(name) :  bject_dump.read_attribute(name)
+                     hash[name.to_sym] = value
+                   end
                  end
                end
+             else
+               # ActiveRecord 6.1
+               object.instance_variable_get('@base').attributes.dup
              end
 
-      data.merge!({ details: object.details, messages: object.messages })
-      [object.to_s, awesome_hash(data)].join(' ')
+      details = object.details.to_h
+      messages = object.messages.to_h.transform_values(&:to_a)
+      [object.to_s, awesome_hash(data.merge({ details: details, messages: messages }))]
+        .join(' ')
     end
   end
 end
