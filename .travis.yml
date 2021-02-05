@@ -20,6 +20,7 @@ gemfile:
   - gemfiles/mongoid_5.0.gemfile
   - gemfiles/mongoid_6.0.gemfile
   - gemfiles/sequel_5.0.gemfile
+  - gemfiles/mongo_mapper.gemfile
 
 matrix:
   include:

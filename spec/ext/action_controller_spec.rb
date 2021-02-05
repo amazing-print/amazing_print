@@ -11,8 +11,8 @@ RSpec.describe 'AmazingPrint::ActionController', skip: -> { !ExtVerifier.has_rai
     end
 
     it 'should format as an object' do
-      expect(inspector.send(:awesome, parameters)).to eq(
-        '<ActionController::Parameters {"post"=>{"id"=>1, "content"=>"Some"}} permitted: false>'
+      expect(inspector.send(:awesome, parameters)).to match(
+        /\A#?<ActionController::Parameters {"post"=>{"id"=>1, "content"=>"Some"}} permitted: false>\z/
       )
     end
   end
