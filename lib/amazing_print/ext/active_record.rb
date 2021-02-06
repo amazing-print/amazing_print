@@ -55,7 +55,7 @@ module AmazingPrint
                  end
                end
              end
-      [object.to_s, awesome_hash(data)].join(' ')
+      [awesome_simple(object.to_s, :active_record_instance), awesome_hash(data)].join(' ')
     end
 
     # Format ActiveRecord class object.
@@ -72,10 +72,7 @@ module AmazingPrint
         hash[c.name.to_sym] = c.type
       end
 
-      name = "class #{awesome_simple(object.to_s, :class)}"
-      base = "< #{awesome_simple(object.superclass.to_s, :class)}"
-
-      [name, base, awesome_hash(data)].join(' ')
+      [awesome_simple("class #{object} < #{object.superclass}", :class), awesome_hash(data)].join(' ')
     end
 
     # Format ActiveModel error object.
@@ -89,7 +86,7 @@ module AmazingPrint
                    .merge(details: object.details.to_h,
                           messages: object.messages.to_h.transform_values(&:to_a))
 
-      [object.to_s, awesome_hash(data)].join(' ')
+      [awesome_simple(object.to_s, :active_model_error), awesome_hash(data)].join(' ')
     end
   end
 end

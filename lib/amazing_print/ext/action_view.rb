@@ -14,7 +14,7 @@ module AmazingPrint
       ).sub(
         /^<pre([\s>])/,
         '<pre class="debug_dump"\\1'
-      )
+      ).html_safe
     end
 
     alias ap ap_debug
