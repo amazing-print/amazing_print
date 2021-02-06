@@ -244,6 +244,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
     it 'should print ActiveRecord::Base objects (ex. ancestors)' do
       expect { @ap.awesome(User.ancestors) }.not_to raise_error
     end
+
+    it 'should print valid HTML for subclasses' do
+      @ap = AmazingPrint::Inspector.new(html: true)
+      expect(@ap.awesome(SubUser)).to match('SubUser &lt; User')
+    end
   end
 
   #------------------------------------------------------------------------------
