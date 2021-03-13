@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
@@ -18,10 +19,12 @@ jobs:
           - "2.6"
           - "2.7"
           - "3.0"
-          - "head"
           - "jruby"
+        include:
+          - os: ubuntu
+            ruby: head
+            experimental: true
     runs-on: ${{ matrix.os }}-latest
-    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby ${{ matrix.ruby }}
@@ -35,8 +38,4 @@ jobs:
         gem install bundler
         bundle install --retry 3
     - name: Test with all appraisals
-      if : ${{ matrix.ruby != 'head' }}
       run: bundle exec rake
-    - name: Test without appraisals
-      if : ${{ matrix.ruby == 'head' }}
-      run: bundle exec rspec
