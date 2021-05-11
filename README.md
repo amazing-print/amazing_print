@@ -15,8 +15,8 @@ AmazingPrint is a fork of [AwesomePrint](https://github.com/awesome-print/awesom
 
 ### Supported Versions ###
 
-- Ruby >= 2.3
-- Rails >= 5.1
+- Ruby >= 2.5
+- Rails >= 5.2
 
 ### Installation ###
     # Installing as Ruby gem
