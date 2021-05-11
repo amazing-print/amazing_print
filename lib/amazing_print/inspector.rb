@@ -151,6 +151,8 @@ module AmazingPrint
     # predictable values
     #---------------------------------------------------------------------------
     def load_dotfile
+      return if @@dotfile # Load the dotfile only once.
+
       dotfile = File.join(ENV['HOME'], '.aprc')
       load dotfile if dotfile_readable?(dotfile)
     end
