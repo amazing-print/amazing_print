@@ -5,6 +5,9 @@
 # AmazingPrint is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
+
+# rubocop:disable Metrics/ClassLength
+
 require_relative 'indentator'
 
 module AmazingPrint
@@ -12,6 +15,15 @@ module AmazingPrint
     attr_accessor :options, :indentator
 
     AP = :__amazing_print__
+
+    ##
+    # Unload the cached dotfile and load it again.
+    #
+    def self.reload_dotfile
+      @@dotfile = nil
+      new.send :load_dotfile
+      true
+    end
 
     def initialize(options = {})
       @options = {
@@ -91,7 +103,7 @@ module AmazingPrint
         if defined? @colorize_stdout
           @colorize_stdout
         else
-          @colorize_stdout = STDOUT.tty? && (
+          @colorize_stdout = $stdout.tty? && (
             (
               ENV['TERM'] &&
               ENV['TERM'] != 'dumb'
@@ -175,3 +187,5 @@ module AmazingPrint
     end
   end
 end
+
+# rubocop:enable Metrics/ClassLength
