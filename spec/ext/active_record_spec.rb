@@ -274,7 +274,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           expect(out).to match(
             /\s*first\(\*(\*|args),\s+&(&|block)\)\s+User/
           )
-        elsif RUBY_VERSION >= '2.7.0'
+        elsif RUBY_VERSION >= '2.6.7'
           expect(out).to match(
             /\s*first\(\*(\*|args),\s+&(&|block)\)\s+#<Class:ActiveRecord::Base> \(ActiveRecord::Querying\)/
           )
@@ -297,12 +297,14 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         )
       elsif RUBY_VERSION >= '3.0.0'
         expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:User> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
-      elsif RUBY_VERSION =~ /^2\.7\.(0|1)/
+      elsif RUBY_VERSION == '2.6.7'
+        expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
+      elsif RUBY_VERSION =~ /^2\.4\.([4-9]|[1-9][0-9])|^2\.[56]\./ || RUBY_VERSION >= '2.7.2'
+        expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
+      elsif RUBY_VERSION >= '2.7.0'
         expect(out).to match(
           /\sprimary_key\(.*?\)\s+.+Class.+\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
         )
-      elsif RUBY_VERSION =~ /^2\.4\.([4-9]|[1-9][0-9])|^2\.[56]\./ || RUBY_VERSION >= '2.7.2'
-        expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
       else
         expect(out).to match(/\sprimary_key\(.*?\)\s+Class \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
       end
@@ -317,7 +319,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:\w+> \(ActiveModel::Validations::ClassMethods\)/)
         elsif RUBY_VERSION >= '3.0.0'
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:User> \(ActiveModel::Validations::ClassMethods\)/)
-        elsif RUBY_VERSION =~ /2\.7\.(0|1)/
+        elsif RUBY_VERSION =~ /2\.7\.(0|1)/ || RUBY_VERSION == '2.6.7'
           expect(out).to match(
             /\svalidate\(\*args.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveModel::Validations::ClassMethods\)/
           )
