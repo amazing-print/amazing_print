@@ -47,6 +47,13 @@ module AmazingPrint
       Pry.print = proc { |output, value| output.puts value.ai } if defined?(Pry)
     end
 
+    ##
+    # Reload the cached custom configurations.
+    #
+    def reload!
+      AmazingPrint::Inspector.reload_dotfile
+    end
+
     private
 
     # Takes a value and returns true unless it is false or nil
