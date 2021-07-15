@@ -325,12 +325,13 @@ red text # (it's red)
 ```
 
 ### Setting Custom Defaults ###
-You can set your own default options by creating ``.aprc`` file in your home
-directory. Within that file assign your  defaults to ``AmazingPrint.defaults``.
+You can set your own default options by creating ``aprc`` file in your `$XDG_CONFIG_HOME`
+directory (defaults to `~/.config` if undefined). Within that file assign your defaults
+to ``AmazingPrint.defaults``.
 For example:
 
 ```ruby
-# ~/.aprc file.
+# ~/.config/aprc file.
 AmazingPrint.defaults = {
   :indent => -2,
   :color => {
@@ -339,6 +340,8 @@ AmazingPrint.defaults = {
   }
 }
 ```
+
+The previous `~/.aprc` location is still supported as fallback.
 
 ## Versioning
 
