@@ -68,9 +68,7 @@ module AwesomeMethodArray # :nodoc:
               # [ 0, 1, 2, 3, 4 ].grep(1..2, &:succ)
               #
               begin
-                # rubocop:disable Style/DocumentDynamicEvalDefinition
                 eval("%Q/#{match.to_s.gsub('/', '\/')}/ =~ #{pattern.inspect}", blk.binding, __FILE__, __LINE__)
-                # rubocop:enable Style/DocumentDynamicEvalDefinition
               rescue StandardError
                 ArgumentError
               end
