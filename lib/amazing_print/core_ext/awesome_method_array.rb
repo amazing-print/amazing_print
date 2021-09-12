@@ -14,7 +14,7 @@
 #
 # If you could think of a better way please let me know :-)
 #
-module AwesomeMethodArray #:nodoc:
+module AwesomeMethodArray # :nodoc:
   def -(_other_ary)
     super.tap do |arr|
       arr.instance_variable_set(:@__awesome_methods__, instance_variable_get(:@__awesome_methods__))

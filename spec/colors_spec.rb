@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint' do
-  def stub_tty!(output = true, stream = STDOUT)
+  def stub_tty!(output = true, stream = $stdout)
     if output
       stream.instance_eval do
         def tty?

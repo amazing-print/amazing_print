@@ -45,15 +45,15 @@ module AmazingPrint
       return object.inspect unless defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
-      data = if object.class.column_names != object.attributes.keys
-               object.attributes
-             else
+      data = if object.class.column_names == object.attributes.keys
                object.class.column_names.each_with_object(::ActiveSupport::OrderedHash.new) do |name, hash|
                  if object.has_attribute?(name) || object.new_record?
                    value = object.respond_to?(name) ? object.send(name) : object.read_attribute(name)
                    hash[name.to_sym] = value
                  end
                end
+             else
+               object.attributes
              end
       [awesome_simple(object.to_s, :active_record_instance), awesome_hash(data)].join(' ')
     end

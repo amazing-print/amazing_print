@@ -32,9 +32,9 @@ module AmazingPrint
     #------------------------------------------------------------------------------
     def awesome_nobrainer_class(object)
       name = "#{awesome_simple(object, :class)} < #{awesome_simple(object.superclass, :class)}"
-      data = Hash[object.fields.map do |field, options|
+      data = object.fields.map do |field, options|
         [field, (options[:type] || Object).to_s.underscore.to_sym]
-      end]
+      end.to_h
 
       name = "class #{awesome_simple(object.to_s, :class)}"
       base = "< #{awesome_simple(object.superclass.to_s, :class)}"

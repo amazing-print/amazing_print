@@ -24,7 +24,7 @@ RSpec.describe 'AmazingPrint' do
 
     # See https://github.com/awesome-print/awesome_print/issues/35
     it 'handle array grep when pattern contains / chapacter' do
-      hash = { '1/x' => 1, '2//x' => :"2" }
+      hash = { '1/x' => 1, '2//x' => :'2' }
       grepped = hash.keys.sort.grep(%r{^(\d+)/}) { Regexp.last_match(1) }
       expect(grepped.ai(plain: true, multiline: false)).to eq('[ "1", "2" ]')
     end
@@ -46,7 +46,7 @@ RSpec.describe 'AmazingPrint' do
 
     # Require different file name this time (lib/ap.rb vs. lib/amazing_print).
     it "several require 'amazing_print' should do no harm" do
-      require File.expand_path(File.dirname(__FILE__) + '/../lib/ap')
+      require File.expand_path("#{File.dirname(__FILE__)}/../lib/ap")
       expect { rand.ai }.not_to raise_error
     end
 
@@ -205,6 +205,7 @@ RSpec.describe 'AmazingPrint' do
 
     it 'should detect Rails::Console' do
       class IRB; end
+
       module Rails; class Console; end; end
       expect(AmazingPrint.console?).to eq(true)
       expect(AmazingPrint.rails_console?).to eq(true)

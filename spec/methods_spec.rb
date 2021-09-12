@@ -431,6 +431,7 @@ RSpec.describe 'Methods arrays' do
 
       def self.m2; end
     end
+
     class World
       def self.m1; end
     end

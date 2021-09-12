@@ -38,7 +38,7 @@ module AmazingPrint
             key = if key =~ /(@\w+)/
                     key.sub(Regexp.last_match(1), colorize(Regexp.last_match(1), :variable))
                   else
-                    key.sub(/(attr_\w+)\s(\:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
+                    key.sub(/(attr_\w+)\s(:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
                   end
           end
 

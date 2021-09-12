@@ -390,7 +390,7 @@ RSpec.describe 'AmazingPrint' do
     it 'plain multiline' do
       out = @hash.ai(plain: true)
       if RUBY_VERSION.to_f < 1.9 # Order of @hash keys is not guaranteed.
-        expect(out).to match(/^\{[^\}]+\}/m)
+        expect(out).to match(/^\{[^}]+\}/m)
         expect(out).to match(/        "b" => "b",?/)
         expect(out).to match(/         :a => "a",?/)
         expect(out).to match(/         :z => "z",?/)
@@ -693,10 +693,10 @@ RSpec.describe 'AmazingPrint' do
       class My < File; end
 
       my = begin
-             File.new('/dev/null')
-           rescue StandardError
-             File.new('nul')
-           end
+        File.new('/dev/null')
+      rescue StandardError
+        File.new('nul')
+      end
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 

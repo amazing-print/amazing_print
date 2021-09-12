@@ -114,14 +114,14 @@ module AmazingPrint
 
         meth = begin
           object.method(name)
-               rescue NameError, ArgumentError
-                 nil
+        rescue NameError, ArgumentError
+          nil
         end
 
         meth || begin
           object.instance_method(name)
-                rescue NameError
-                  nil
+        rescue NameError
+          nil
         end
       end
 
