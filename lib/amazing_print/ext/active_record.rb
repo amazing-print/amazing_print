@@ -61,12 +61,8 @@ module AmazingPrint
     # Format ActiveRecord class object.
     #------------------------------------------------------------------------------
     def awesome_active_record_class(object)
-      if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == 'ActiveRecord::Base'
-        return object.inspect
-      end
-      if object.respond_to?(:abstract_class?) && object.abstract_class?
-        return awesome_class(object)
-      end
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == 'ActiveRecord::Base'
+      return awesome_class(object) if object.respond_to?(:abstract_class?) && object.abstract_class?
 
       data = object.columns.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
         hash[c.name.to_sym] = c.type

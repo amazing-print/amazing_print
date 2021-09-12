@@ -8,6 +8,7 @@ module AmazingPrint
       attr_reader :struct, :variables, :inspector, :options
 
       def initialize(struct, inspector)
+        super()
         @struct = struct
         @variables = struct.members
         @inspector = inspector

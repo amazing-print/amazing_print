@@ -8,6 +8,4 @@
 #
 # Load amazing_print when installed as Rails 2.3.x plugin.
 #
-unless defined?(AmazingPrint)
-  require File.join(File.dirname(__FILE__), '..', 'init')
-end
+require File.join(File.dirname(__FILE__), '..', 'init') unless defined?(AmazingPrint)

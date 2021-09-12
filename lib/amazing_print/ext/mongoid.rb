@@ -31,9 +31,7 @@ module AmazingPrint
     # Format Mongoid class object.
     #------------------------------------------------------------------------------
     def awesome_mongoid_class(object)
-      if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
-        return object.inspect
-      end
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
 
       data = object.fields.sort.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
         hash[c[1].name.to_sym] = (c[1].type || 'undefined').to_s.underscore.intern
@@ -53,9 +51,7 @@ module AmazingPrint
       data = (object.attributes || {}).sort.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
         hash[c[0].to_sym] = c[1]
       end
-      unless object.errors.empty?
-        data = { errors: object.errors, attributes: data }
-      end
+      data = { errors: object.errors, attributes: data } unless object.errors.empty?
       "#{object} #{awesome_hash(data)}"
     end
 

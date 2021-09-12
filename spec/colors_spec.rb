@@ -33,7 +33,7 @@ RSpec.describe 'AmazingPrint' do
 
     describe 'default settings (no forced colors)' do
       before do
-        AmazingPrint.force_colors! false
+        AmazingPrint.force_colors! colors: false
       end
 
       it 'colorizes tty processes by default' do

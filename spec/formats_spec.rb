@@ -307,7 +307,8 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain single line' do
-      expect(@hash.ai(plain: true, multiline: false)).to eq('{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }')
+      expect(@hash.ai(plain: true,
+                      multiline: false)).to eq('{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }')
     end
 
     it 'colored multiline (default)' do
@@ -578,7 +579,8 @@ RSpec.describe 'AmazingPrint' do
       end
 
       it 'plain single line' do
-        expect(@set.sort_by(&:to_s).ai(plain: true, multiline: false)).to eq(@arr.sort_by(&:to_s).ai(plain: true, multiline: false))
+        expect(@set.sort_by(&:to_s).ai(plain: true,
+                                       multiline: false)).to eq(@arr.sort_by(&:to_s).ai(plain: true, multiline: false))
       end
 
       it 'colored multiline (default)' do

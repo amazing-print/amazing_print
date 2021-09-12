@@ -34,9 +34,7 @@ module AmazingPrint
       xml.gsub!(%r{(<)(/?[A-Za-z1-9]+)}) { |_tag| "#{Regexp.last_match(1)}#{colorize(Regexp.last_match(2), :keyword)}" }
       xml.gsub!(/(id|class)="[^"]+"/i) { |id| colorize(id, :class) }
       xml.gsub!(/>([^<]+)</) do |contents|
-        if contents && !contents.empty?
-          contents = colorize(Regexp.last_match(1), :trueclass)
-        end
+        contents = colorize(Regexp.last_match(1), :trueclass) if contents && !contents.empty?
         ">#{contents}<"
       end
       xml

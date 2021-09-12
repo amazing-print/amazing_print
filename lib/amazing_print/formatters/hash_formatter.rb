@@ -8,6 +8,7 @@ module AmazingPrint
       attr_reader :hash, :inspector, :options
 
       def initialize(hash, inspector)
+        super()
         @hash = hash
         @inspector = inspector
         @options = inspector.options
@@ -55,12 +56,12 @@ module AmazingPrint
           end
         end
 
-        should_be_limited? ? limited(data, width, hash: true) : data
+        should_be_limited? ? limited(data, width, is_hash: true) : data
       end
 
       def left_width(keys)
         result = max_key_width(keys)
-        result += indentation if options[:indent] > 0
+        result += indentation if options[:indent].positive?
         result
       end
 

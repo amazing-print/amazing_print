@@ -15,13 +15,13 @@
 # If you could think of a better way please let me know :-)
 #
 module AwesomeMethodArray # :nodoc:
-  def -(_other_ary)
+  def -(other)
     super.tap do |arr|
       arr.instance_variable_set(:@__awesome_methods__, instance_variable_get(:@__awesome_methods__))
     end
   end
 
-  def &(_other_ary)
+  def &(other)
     super.tap do |arr|
       arr.instance_variable_set(:@__awesome_methods__, instance_variable_get(:@__awesome_methods__))
     end
@@ -68,7 +68,9 @@ module AwesomeMethodArray # :nodoc:
               # [ 0, 1, 2, 3, 4 ].grep(1..2, &:succ)
               #
               begin
-                eval("%Q/#{match.to_s.gsub('/', '\/')}/ =~ #{pattern.inspect}", blk.binding)
+                # rubocop:disable Style/DocumentDynamicEvalDefinition
+                eval("%Q/#{match.to_s.gsub('/', '\/')}/ =~ #{pattern.inspect}", blk.binding, __FILE__, __LINE__)
+                # rubocop:enable Style/DocumentDynamicEvalDefinition
               rescue StandardError
                 ArgumentError
               end

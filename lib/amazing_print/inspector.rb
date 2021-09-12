@@ -180,9 +180,7 @@ module AmazingPrint
     end
 
     def dotfile_readable?(dotfile)
-      if @@dotfile_readable.nil? || @@dotfile != dotfile
-        @@dotfile_readable = File.readable?(@@dotfile = dotfile)
-      end
+      @@dotfile_readable = File.readable?(@@dotfile = dotfile) if @@dotfile_readable.nil? || @@dotfile != dotfile
       @@dotfile_readable
     end
     @@dotfile_readable = @@dotfile = nil

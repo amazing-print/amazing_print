@@ -59,9 +59,7 @@ module AmazingPrint
     # Format Ripple class object.
     #------------------------------------------------------------------------------
     def awesome_ripple_document_class(object)
-      if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:properties)
-        return object.inspect
-      end
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:properties)
 
       name = "class #{awesome_simple(object.to_s, :class)}"
       base = "< #{awesome_simple(object.superclass.to_s, :class)}"
