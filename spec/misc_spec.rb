@@ -129,7 +129,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     # See https://github.com/awesome-print/awesome_print/issues/98
-    it 'should properly merge the defaults' do
+    it 'properlies merge the defaults' do
       AmazingPrint.defaults = { indent: -2, sort_keys: true }
       hash = { [0, 0, 255] => :yellow, :red => 'rgb(255, 0, 0)', 'magenta' => 'rgb(255, 0, 255)' }
       out = hash.ai(plain: true)
@@ -189,7 +189,7 @@ RSpec.describe 'AmazingPrint' do
 
   #------------------------------------------------------------------------------
   describe 'Console' do
-    it 'should detect IRB' do
+    it 'detects IRB' do
       class IRB; end
       ENV.delete('RAILS_ENV')
       expect(AmazingPrint.console?).to eq(true)
@@ -197,7 +197,7 @@ RSpec.describe 'AmazingPrint' do
       Object.instance_eval { remove_const :IRB }
     end
 
-    it 'should detect Pry' do
+    it 'detects Pry' do
       class Pry; end
       ENV.delete('RAILS_ENV')
       expect(AmazingPrint.console?).to eq(true)
@@ -205,7 +205,7 @@ RSpec.describe 'AmazingPrint' do
       Object.instance_eval { remove_const :Pry }
     end
 
-    it 'should detect Rails::Console' do
+    it 'detects Rails::Console' do
       class IRB; end
 
       module Rails; class Console; end; end
@@ -215,7 +215,7 @@ RSpec.describe 'AmazingPrint' do
       Object.instance_eval { remove_const :Rails }
     end
 
-    it "should detect ENV['RAILS_ENV']" do
+    it "detects ENV['RAILS_ENV']" do
       class Pry; end
       ENV['RAILS_ENV'] = 'development'
       expect(AmazingPrint.console?).to eq(true)
@@ -223,12 +223,12 @@ RSpec.describe 'AmazingPrint' do
       Object.instance_eval { remove_const :Pry }
     end
 
-    it 'should return the actual object when *not* running under console' do
+    it 'returns the actual object when *not* running under console' do
       expect(capture! { ap([1, 2, 3]) }).to eq([1, 2, 3])
       expect(capture! { ap({ a: 1 }) }).to eq({ a: 1 })
     end
 
-    it 'should return nil when running under console' do
+    it 'returns nil when running under console' do
       class IRB; end
       expect(capture! { ap([1, 2, 3]) }).to eq(nil)
       expect(capture! { ap({ a: 1 }) }).to eq(nil)
@@ -243,7 +243,7 @@ RSpec.describe 'AmazingPrint' do
       irb.instance_eval { @context = irb_context }
       AmazingPrint.irb!
       expect(irb).to receive(:puts).with("(Object doesn't support #ai)")
-      expect { irb.output_value }.to_not raise_error
+      expect { irb.output_value }.not_to raise_error
       Object.instance_eval { remove_const :IRB }
     end
   end

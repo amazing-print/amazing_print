@@ -8,7 +8,7 @@ RSpec.describe 'ActiveModel::Errors formatting', skip: -> { !ExtVerifier.has_rai
     @ap = AmazingPrint::Inspector.new(plain: true)
   end
 
-  it 'should format active_model_errors properly' do
+  it 'formats active_model_errors properly' do
     model = TableFreeModel.new
     model.errors.add(:name, "can't be blank")
 

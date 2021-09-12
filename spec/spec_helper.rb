@@ -63,7 +63,7 @@ RSpec.configure do |config|
 
   # Run before all examples. Using suite or all will not work as stubs are
   # killed after each example ends.
-  config.before(:each) do |_example|
+  config.before do |_example|
     stub_dotfile!
   end
 end

@@ -25,7 +25,7 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
     @ap = AmazingPrint::Inspector.new plain: true, sort_keys: true
   end
 
-  it 'should print class instance' do
+  it 'prints class instance' do
     user = MongoUser.new first_name: 'Al', last_name: 'Capone'
     out = @ap.send :awesome, user
 
@@ -40,7 +40,7 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
     expect(out).to be_similar_to(str, { skip_bson: true })
   end
 
-  it 'should print the class' do
+  it 'prints the class' do
     class_spec = <<~EOS.strip
       class MongoUser < Object {
                  :_id => :"bson/object_id",
@@ -52,7 +52,7 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
     expect(@ap.send(:awesome, MongoUser)).to eq class_spec
   end
 
-  it 'should print the class when type is undefined' do
+  it 'prints the class when type is undefined' do
     class Chamelion
       include Mongoid::Document
       field :last_attribute

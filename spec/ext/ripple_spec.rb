@@ -26,7 +26,7 @@ RSpec.describe 'AmazingPrint/Ripple', skip: -> { !ExtVerifier.has_ripple? }.call
     @ap = AmazingPrint::Inspector.new plain: true, sort_keys: true
   end
 
-  it 'should print class instance' do
+  it 'prints class instance' do
     user = RippleUser.new _id: '12345', first_name: 'Al', last_name: 'Capone'
     out = @ap.send :awesome, user
 
@@ -39,7 +39,7 @@ RSpec.describe 'AmazingPrint/Ripple', skip: -> { !ExtVerifier.has_ripple? }.call
     EOS
   end
 
-  it 'should print the class' do
+  it 'prints the class' do
     expect(@ap.send(:awesome, RippleUser)).to eq <<~EOS.strip
       class RippleUser < Object {
                  :_id => :string,

@@ -99,7 +99,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       @ap = AmazingPrint::Inspector.new(plain: true)
     end
 
-    it 'should show the entire record' do
+    it 'shows the entire record' do
       e = Email.create(email_address: 'foo@bar.com')
       u = User.last
       u.emails << e
@@ -216,7 +216,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       @ap = AmazingPrint::Inspector.new(plain: true)
     end
 
-    it 'should print the class' do
+    it 'prints the class' do
       expect(@ap.awesome(User)).to eq <<~EOS.strip
         class User < ActiveRecord::Base {
                     :id => :integer,
@@ -228,7 +228,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       EOS
     end
 
-    it 'should print the class for non-direct subclasses of ActiveRecord::Base' do
+    it 'prints the class for non-direct subclasses of ActiveRecord::Base' do
       out = @ap.awesome(SubUser)
       expect(out).to eq <<~EOS.strip
         class SubUser < User {
@@ -241,11 +241,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       EOS
     end
 
-    it 'should print ActiveRecord::Base objects (ex. ancestors)' do
+    it 'prints ActiveRecord::Base objects (ex. ancestors)' do
       expect { @ap.awesome(User.ancestors) }.not_to raise_error
     end
 
-    it 'should print valid HTML for subclasses' do
+    it 'prints valid HTML for subclasses' do
       @ap = AmazingPrint::Inspector.new(html: true)
       expect(@ap.awesome(SubUser)).to match('SubUser &lt; User')
     end
@@ -257,7 +257,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       @ap = AmazingPrint::Inspector.new(plain: true)
     end
 
-    it 'should format class methods properly' do
+    it 'formats class methods properly' do
       # spec 1
       out = @ap.awesome(User.methods.grep(/first/))
 
