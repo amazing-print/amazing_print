@@ -1,6 +1,6 @@
 name: Lints
 
-on: 
+on:
   pull_request:
   push:
     branches:
@@ -9,14 +9,14 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Ruby 2.6
+    - name: Set up Ruby 3.0
       uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 3.0.x
     - name: Install Dependencies
       run: |
         gem install bundler
