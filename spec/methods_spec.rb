@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 
 RSpec.describe 'Single method' do
@@ -511,3 +513,5 @@ RSpec.describe 'Methods arrays' do
     end
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock

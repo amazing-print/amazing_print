@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock, Style/OptionalBooleanParameter
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint' do
@@ -109,3 +111,5 @@ RSpec.describe 'AmazingPrint' do
     end
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock, Style/OptionalBooleanParameter

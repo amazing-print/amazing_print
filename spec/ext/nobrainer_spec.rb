@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? }.call do
@@ -58,3 +60,5 @@ RSpec.describe 'AmazingPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? 
     expect(@ap.send(:awesome, SomeModel)).to eq class_spec
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock

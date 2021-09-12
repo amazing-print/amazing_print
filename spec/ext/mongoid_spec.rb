@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.call do
@@ -66,3 +68,5 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
     expect(@ap.send(:awesome, Chamelion)).to eq class_spec
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock

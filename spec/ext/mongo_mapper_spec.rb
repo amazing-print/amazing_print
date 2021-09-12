@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_mapper? }.call do
@@ -259,3 +261,5 @@ RSpec.describe 'AmazingPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_map
     end
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock

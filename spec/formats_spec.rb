@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 require 'bigdecimal'
 require 'set'
@@ -779,3 +781,5 @@ RSpec.describe 'AmazingPrint' do
     end
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock

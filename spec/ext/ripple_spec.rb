@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint/Ripple', skip: -> { !ExtVerifier.has_ripple? }.call do
@@ -47,3 +49,5 @@ RSpec.describe 'AmazingPrint/Ripple', skip: -> { !ExtVerifier.has_ripple? }.call
     EOS
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock
