@@ -1,3 +1,6 @@
+## Unreleased
+  - Support loading config from `$XDG_CONFIG_HOME/aprc` - #63
+
 ## v1.2.2
   - Support Ruby 3.0 / IRB 1.2.6 - #57
   - Fix FrozenError - #51
