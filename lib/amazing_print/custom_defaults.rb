@@ -7,8 +7,8 @@ module AmazingPrint
     # Class accessor to force colorized output (ex. forked subprocess where TERM
     # might be dumb).
     #---------------------------------------------------------------------------
-    def force_colors!(value = true)
-      @force_colors = value
+    def force_colors!(colors: true)
+      @force_colors = colors
     end
 
     def console?
@@ -29,7 +29,7 @@ module AmazingPrint
 
     def usual_rb
       IRB::Irb.class_eval do
-        def output_value(_omit = false)
+        def output_value
           ap @context.last_value
         rescue NoMethodError
           puts "(Object doesn't support #ai)"

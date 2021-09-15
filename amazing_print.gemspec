@@ -15,7 +15,6 @@ Gem::Specification.new do |s|
   s.version     = AmazingPrint.version
   s.required_ruby_version = '>= 2.5.0'
   s.authors     = ['Michael Dvorkin', 'Kevin McCormack' 'Patrik Wenger']
-  s.date        = Time.now.strftime('%Y-%m-%d')
   s.email       = 'harlemsquirrel@gmail.com'
   s.homepage    = 'https://github.com/amazing-print/amazing_print'
   s.summary     = 'Pretty print Ruby objects with proper indentation and colors'
@@ -32,5 +31,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'nokogiri', '~> 1.10'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rspec', '~> 3.9'
-  s.add_development_dependency 'rubocop', '~> 0.81.0'
+  s.add_development_dependency 'rubocop', '~> 1.20'
+  s.add_development_dependency 'rubocop-rspec', '~> 2.4'
 end

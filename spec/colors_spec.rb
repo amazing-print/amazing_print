@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock, Style/OptionalBooleanParameter
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint' do
-  def stub_tty!(output = true, stream = STDOUT)
+  def stub_tty!(output = true, stream = $stdout)
     if output
       stream.instance_eval do
         def tty?
@@ -31,7 +33,7 @@ RSpec.describe 'AmazingPrint' do
 
     describe 'default settings (no forced colors)' do
       before do
-        AmazingPrint.force_colors! false
+        AmazingPrint.force_colors! colors: false
       end
 
       it 'colorizes tty processes by default' do
@@ -109,3 +111,5 @@ RSpec.describe 'AmazingPrint' do
     end
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock, Style/OptionalBooleanParameter

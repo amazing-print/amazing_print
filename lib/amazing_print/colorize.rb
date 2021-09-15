@@ -17,9 +17,7 @@ module AmazingPrint
       elsif str.method(options[:color][type]).arity == -1 # Accepts html parameter.
         str.send(options[:color][type], options[:html])
       else
-        if options[:html]
-          str = %(<kbd style="color:#{options[:color][type]}">#{str}</kbd>)
-        end
+        str = %(<kbd style="color:#{options[:color][type]}">#{str}</kbd>) if options[:html]
         str.send(options[:color][type])
       end
     end

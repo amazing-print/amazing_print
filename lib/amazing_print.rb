@@ -23,12 +23,8 @@ unless defined?(AmazingPrint::Inspector)
   # Load the following under normal circumstances as well as in Rails
   # console when required from ~/.irbrc or ~/.pryrc.
   #
-  if defined?(ActiveRecord) || AmazingPrint.rails_console?
-    require_relative 'amazing_print/ext/active_record'
-  end
-  if defined?(ActiveSupport) || AmazingPrint.rails_console?
-    require_relative 'amazing_print/ext/active_support'
-  end
+  require_relative 'amazing_print/ext/active_record' if defined?(ActiveRecord) || AmazingPrint.rails_console?
+  require_relative 'amazing_print/ext/active_support' if defined?(ActiveSupport) || AmazingPrint.rails_console?
   #
   # Load remaining extensions.
   #

@@ -6,17 +6,17 @@ require 'logger'
 require 'amazing_print/core_ext/logger'
 
 RSpec.describe 'AmazingPrint logging extensions' do
-  let(:object) { double }
-  let(:options) { { sort_keys: true } }
-
   subject(:logger) do
     Logger.new('/dev/null')
   rescue Errno::ENOENT
     Logger.new('nul')
   end
 
+  let(:object) { double }
+  let(:options) { { sort_keys: true } }
+
   describe 'ap method' do
-    it 'should awesome_inspect the given object' do
+    it 'awesome_inspects the given object' do
       expect(object).to receive(:ai)
       logger.ap object
     end
@@ -31,18 +31,18 @@ RSpec.describe 'AmazingPrint logging extensions' do
         AmazingPrint.defaults = {}
       end
 
-      it 'should fallback to the default :debug log level' do
+      it 'fallbacks to the default :debug log level' do
         expect(logger).to receive(:debug)
         logger.ap nil
       end
 
-      it 'should use the global user default if no level passed' do
+      it 'uses the global user default if no level passed' do
         AmazingPrint.defaults = { log_level: :info }
         expect(logger).to receive(:info)
         logger.ap nil
       end
 
-      it 'should use the passed in level' do
+      it 'uses the passed in level' do
         expect(logger).to receive(:warn)
         logger.ap nil, :warn
       end

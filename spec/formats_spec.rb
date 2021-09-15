@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 require 'bigdecimal'
 require 'set'
@@ -159,7 +161,7 @@ RSpec.describe 'AmazingPrint' do
 
   #------------------------------------------------------------------------------
   describe 'Limited Output Array' do
-    before(:each) do
+    before do
       @arr = (1..1000).to_a
     end
 
@@ -227,7 +229,7 @@ RSpec.describe 'AmazingPrint' do
 
   #------------------------------------------------------------------------------
   describe 'Limited Output Hash' do
-    before(:each) do
+    before do
       @hash = ('a'..'z').inject({}) { |h, v| h.merge({ v => v.to_sym }) }
     end
 
@@ -305,7 +307,8 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain single line' do
-      expect(@hash.ai(plain: true, multiline: false)).to eq('{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }')
+      expect(@hash.ai(plain: true,
+                      multiline: false)).to eq('{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }')
     end
 
     it 'colored multiline (default)' do
@@ -390,7 +393,7 @@ RSpec.describe 'AmazingPrint' do
     it 'plain multiline' do
       out = @hash.ai(plain: true)
       if RUBY_VERSION.to_f < 1.9 # Order of @hash keys is not guaranteed.
-        expect(out).to match(/^\{[^\}]+\}/m)
+        expect(out).to match(/^\{[^}]+\}/m)
         expect(out).to match(/        "b" => "b",?/)
         expect(out).to match(/         :a => "a",?/)
         expect(out).to match(/         :z => "z",?/)
@@ -478,18 +481,18 @@ RSpec.describe 'AmazingPrint' do
 
   #------------------------------------------------------------------------------
   describe 'Class' do
-    it 'should show superclass (plain)' do
+    it 'shows superclass (plain)' do
       expect(self.class.ai(plain: true)).to eq("#{self.class} < #{self.class.superclass}")
     end
 
-    it 'should show superclass (color)' do
+    it 'shows superclass (color)' do
       expect(self.class.ai).to eq("#{self.class} < #{self.class.superclass}".yellow)
     end
   end
 
   #------------------------------------------------------------------------------
   describe 'File' do
-    it 'should display a file (plain)' do
+    it 'displays a file (plain)' do
       File.open(__FILE__, 'r') do |f|
         expect(f.ai(plain: true)).to eq("#{f.inspect}\n" + `ls -alF #{f.path}`.chop)
       end
@@ -498,7 +501,7 @@ RSpec.describe 'AmazingPrint' do
 
   #------------------------------------------------------------------------------
   describe 'Dir' do
-    it 'should display a direcory (plain)' do
+    it 'displays a direcory (plain)' do
       Dir.open(File.dirname(__FILE__)) do |d|
         expect(d.ai(plain: true)).to eq("#{d.inspect}\n" + `ls -alF #{d.path}`.chop)
       end
@@ -507,12 +510,12 @@ RSpec.describe 'AmazingPrint' do
 
   #------------------------------------------------------------------------------
   describe 'BigDecimal and Rational' do
-    it 'should present BigDecimal object with arbitrary precision' do
+    it 'presents BigDecimal object with arbitrary precision' do
       big = BigDecimal('201020102010201020102010201020102010.4')
       expect(big.ai(plain: true)).to eq('201020102010201020102010201020102010.4')
     end
 
-    it 'should present Rational object with arbitrary precision' do
+    it 'presents Rational object with arbitrary precision' do
       rat = Rational(201_020_102_010_201_020_102_010_201_020_102_010, 2)
       out = rat.ai(plain: true)
       #
@@ -530,7 +533,7 @@ RSpec.describe 'AmazingPrint' do
 
   #------------------------------------------------------------------------------
   describe 'Utility methods' do
-    it 'should merge options' do
+    it 'merges options' do
       ap = AmazingPrint::Inspector.new
       ap.send(:merge_options!, { color: { array: :black }, indent: 0 })
       options = ap.instance_variable_get('@options')
@@ -576,7 +579,8 @@ RSpec.describe 'AmazingPrint' do
       end
 
       it 'plain single line' do
-        expect(@set.sort_by(&:to_s).ai(plain: true, multiline: false)).to eq(@arr.sort_by(&:to_s).ai(plain: true, multiline: false))
+        expect(@set.sort_by(&:to_s).ai(plain: true,
+                                       multiline: false)).to eq(@arr.sort_by(&:to_s).ai(plain: true, multiline: false))
       end
 
       it 'colored multiline (default)' do
@@ -693,10 +697,10 @@ RSpec.describe 'AmazingPrint' do
       class My < File; end
 
       my = begin
-             File.new('/dev/null')
-           rescue StandardError
-             File.new('nul')
-           end
+        File.new('/dev/null')
+      rescue StandardError
+        File.new('nul')
+      end
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
@@ -708,7 +712,7 @@ RSpec.describe 'AmazingPrint' do
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
-    it 'should handle a class that defines its own #send method' do
+    it 'handles a class that defines its own #send method' do
       class My
         def send(arg1, arg2, arg3); end
       end
@@ -717,7 +721,7 @@ RSpec.describe 'AmazingPrint' do
       expect { my.methods.ai(plain: true) }.not_to raise_error
     end
 
-    it 'should handle a class defines its own #method method (ex. request.method)' do
+    it 'handles a class defines its own #method method (ex. request.method)' do
       class My
         def method
           'POST'
@@ -779,3 +783,5 @@ RSpec.describe 'AmazingPrint' do
     end
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock

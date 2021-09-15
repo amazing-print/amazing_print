@@ -10,6 +10,7 @@ module AmazingPrint
       attr_reader :dir, :inspector, :options
 
       def initialize(dir, inspector)
+        super()
         @dir = dir
         @inspector = inspector
         @options = inspector.options

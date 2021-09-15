@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 
 RSpec.describe 'Objects' do
@@ -219,3 +221,5 @@ RSpec.describe 'Objects' do
     end
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock

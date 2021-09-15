@@ -25,6 +25,4 @@ module AmazingPrint
 end
 
 Logger.include AmazingPrint::Logger
-if defined?(ActiveSupport::BufferedLogger)
-  ActiveSupport::BufferedLogger.include AmazingPrint::Logger
-end
+ActiveSupport::BufferedLogger.include AmazingPrint::Logger if defined?(ActiveSupport::BufferedLogger)

@@ -30,7 +30,7 @@ module AmazingPrint
       # ]
       #------------------------------------------------------------------------------
       def should_be_limited?
-        options[:limit] || (options[:limit].is_a?(Integer) && (options[:limit] > 0))
+        options[:limit] || (options[:limit].is_a?(Integer) && options[:limit].positive?)
       end
 
       def get_limit_size
@@ -42,7 +42,7 @@ module AmazingPrint
         end
       end
 
-      def limited(data, width, is_hash = false)
+      def limited(data, width, is_hash: false)
         limit = get_limit_size
         if data.length <= limit
           data
@@ -65,23 +65,18 @@ module AmazingPrint
       end
 
       def method_tuple(method)
-        if method.respond_to?(:parameters) # Ruby 1.9.2+
-          # See http://readruby.chengguangnan.com/methods#method-objects-parameters
-          # (mirror: http://archive.is/XguCA#selection-3381.1-3381.11)
-          args = method.parameters.inject([]) do |arr, (type, name)|
-            name ||= (type == :block ? 'block' : "arg#{arr.size + 1}")
-            arr << case type
-                   when :req        then name.to_s
-                   when :keyreq     then "#{name}:"
-                   when :key        then "*#{name}:"
-                   when :opt, :rest then "*#{name}"
-                   when :block      then "&#{name}"
-                   else '?'
-            end
-          end
-        else # See http://ruby-doc.org/core/classes/Method.html#M001902
-          args = (1..method.arity.abs).map { |i| "arg#{i}" }
-          args[-1] = "*#{args[-1]}" if method.arity < 0
+        # See http://readruby.chengguangnan.com/methods#method-objects-parameters
+        # (mirror: http://archive.is/XguCA#selection-3381.1-3381.11)
+        args = method.parameters.inject([]) do |arr, (type, name)|
+          name ||= (type == :block ? 'block' : "arg#{arr.size + 1}")
+          arr << case type
+                 when :req        then name.to_s
+                 when :keyreq     then "#{name}:"
+                 when :key        then "*#{name}:"
+                 when :opt, :rest then "*#{name}"
+                 when :block      then "&#{name}"
+                 else '?'
+                 end
         end
 
         # method.to_s formats to handle:
@@ -95,7 +90,7 @@ module AmazingPrint
         # #<UnboundMethod: Hello#world>
         # #<UnboundMethod: Hello#world() /home/hs/code/amazing_print/spec/methods_spec.rb:68>
         #
-        if method.to_s =~ %r{(Unbound)*Method: ((#<)?[^/#]*)[#\.]}
+        if method.to_s =~ %r{(Unbound)*Method: ((#<)?[^/#]*)[#.]}
           unbound = Regexp.last_match(1) && '(unbound)'
           klass = Regexp.last_match(2)
           if klass && klass =~ /(\(\w+:\s.*?\))/ # Is this ActiveRecord-style class?
@@ -135,9 +130,9 @@ module AmazingPrint
       def align(value, width)
         if options[:multiline]
           indent_option = options[:indent]
-          if indent_option > 0
+          if indent_option.positive?
             value.rjust(width)
-          elsif indent_option == 0
+          elsif indent_option.zero?
             "#{indent}#{value.ljust(width)}"
           else
             "#{indent(indentation + indent_option)}#{value.ljust(width)}"

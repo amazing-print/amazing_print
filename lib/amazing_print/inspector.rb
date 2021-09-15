@@ -161,10 +161,10 @@ module AmazingPrint
 
     def find_dotfile
       xdg_config_home = File.expand_path(ENV.fetch('XDG_CONFIG_HOME', '~/.config'))
-      xdg_config_path = File.join(xdg_config_home, 'aprc')  # ${XDG_CONFIG_HOME}/aprc
-      
+      xdg_config_path = File.join(xdg_config_home, 'aprc') # ${XDG_CONFIG_HOME}/aprc
+
       return xdg_config_path if File.exist?(xdg_config_path)
-      
+
       # default to ~/.aprc
       File.join(ENV['HOME'], '.aprc')
     end
@@ -180,9 +180,7 @@ module AmazingPrint
     end
 
     def dotfile_readable?(dotfile)
-      if @@dotfile_readable.nil? || @@dotfile != dotfile
-        @@dotfile_readable = File.readable?(@@dotfile = dotfile)
-      end
+      @@dotfile_readable = File.readable?(@@dotfile = dotfile) if @@dotfile_readable.nil? || @@dotfile != dotfile
       @@dotfile_readable
     end
     @@dotfile_readable = @@dotfile = nil

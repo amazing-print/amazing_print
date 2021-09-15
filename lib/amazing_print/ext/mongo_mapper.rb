@@ -19,7 +19,8 @@ module AmazingPrint
       cast = cast_without_mongo_mapper(object, type)
 
       if defined?(::MongoMapper::Document)
-        if object.is_a?(Class) && !(object.ancestors & [::MongoMapper::Document, ::MongoMapper::EmbeddedDocument]).empty?
+        if object.is_a?(Class) && !(object.ancestors & [::MongoMapper::Document,
+                                                        ::MongoMapper::EmbeddedDocument]).empty?
           cast = :mongo_mapper_class
         elsif object.is_a?(::MongoMapper::Document) || object.is_a?(::MongoMapper::EmbeddedDocument)
           cast = :mongo_mapper_instance
@@ -36,9 +37,7 @@ module AmazingPrint
     # Format MongoMapper class object.
     #------------------------------------------------------------------------------
     def awesome_mongo_mapper_class(object)
-      if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
-        return object.inspect
-      end
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
 
       data = object.keys.sort.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
         hash[c.first] = (c.last.type || 'undefined').to_s.underscore.intern
@@ -86,9 +85,7 @@ module AmazingPrint
       end
 
       label = object.to_s
-      if object.is_a?(::MongoMapper::EmbeddedDocument)
-        label = "#{colorize('embedded', :assoc)} #{label}"
-      end
+      label = "#{colorize('embedded', :assoc)} #{label}" if object.is_a?(::MongoMapper::EmbeddedDocument)
 
       [label, awesome_hash(data)].join(' ')
     end

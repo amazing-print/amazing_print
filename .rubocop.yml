@@ -1,7 +1,10 @@
+require:
+  - rubocop-rspec
+
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  DisabledByDefault: false
+  NewCops: enable
   TargetRubyVersion: 2.5
 
 Lint/RaiseException:

@@ -23,7 +23,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-Dir[File.dirname(__FILE__) + '/support/**/*.rb'].sort.each do |file|
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].sort.each do |file|
   require file
 end
 
@@ -63,7 +63,7 @@ RSpec.configure do |config|
 
   # Run before all examples. Using suite or all will not work as stubs are
   # killed after each example ends.
-  config.before(:each) do |_example|
+  config.before do |_example|
     stub_dotfile!
   end
 end
@@ -86,12 +86,8 @@ end
 # that an ID is present and not that it matches a certain value. This is
 # necessary as the Object IDs are not deterministic.
 def normalize_object_id_strings(str, options)
-  unless options[:skip_standard]
-    str = str.gsub(/#<(.*?):0x[a-f\d]+/, '#<\1:placeholder_id')
-  end
-  unless options[:skip_bson]
-    str = str.gsub(/BSON::ObjectId\('[a-f\d]{24}'\)/, 'placeholder_bson_id')
-  end
+  str = str.gsub(/#<(.*?):0x[a-f\d]+/, '#<\1:placeholder_id') unless options[:skip_standard]
+  str = str.gsub(/BSON::ObjectId\('[a-f\d]{24}'\)/, 'placeholder_bson_id') unless options[:skip_bson]
   str
 end
 

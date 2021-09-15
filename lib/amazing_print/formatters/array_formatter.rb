@@ -8,6 +8,7 @@ module AmazingPrint
       attr_reader :array, :inspector, :options
 
       def initialize(array, inspector)
+        super()
         @array = array
         @inspector = inspector
         @options = inspector.options
@@ -33,7 +34,7 @@ module AmazingPrint
         if options[:multiline]
           multiline_array
         else
-          '[ ' + array.map { |item| inspector.awesome(item) }.join(', ') + ' ]'
+          "[ #{array.map { |item| inspector.awesome(item) }.join(', ')} ]"
         end
       end
 
@@ -114,14 +115,14 @@ module AmazingPrint
 
         meth = begin
           object.method(name)
-               rescue NameError, ArgumentError
-                 nil
+        rescue NameError, ArgumentError
+          nil
         end
 
         meth || begin
           object.instance_method(name)
-                rescue NameError
-                  nil
+        rescue NameError
+          nil
         end
       end
 
