@@ -49,7 +49,7 @@ module AmazingPrint
         else
           # Calculate how many elements to be displayed above and below the separator.
           head = limit / 2
-          tail = head - (limit - 1) % 2
+          tail = head - ((limit - 1) % 2)
 
           # Add the proper elements to the temp array and format the separator.
           temp = data[0, head] + [nil] + data[-tail, tail]
@@ -118,13 +118,13 @@ module AmazingPrint
       INDENT_CACHE = (0..100).map { |i| ' ' * i }.map(&:freeze).freeze
 
       def indent(n = indentation)
-        INDENT_CACHE[n] || ' ' * n
+        INDENT_CACHE[n] || (' ' * n)
       end
 
       def outdent
         i = indentation - options[:indent].abs
 
-        INDENT_CACHE[i] || ' ' * i
+        INDENT_CACHE[i] || (' ' * i)
       end
 
       def align(value, width)
