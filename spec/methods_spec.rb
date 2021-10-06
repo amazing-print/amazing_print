@@ -440,7 +440,7 @@ RSpec.describe 'Methods arrays' do
     class World
       def self.m1; end
     end
-    out = (Hello.methods & World.methods - Class.methods).ai(plain: true)
+    out = (Hello.methods & (World.methods - Class.methods)).ai(plain: true)
     expect(out).to eq("[\n    [0] m1() Hello\n]")
   end
 
