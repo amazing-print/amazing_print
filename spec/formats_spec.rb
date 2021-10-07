@@ -274,8 +274,8 @@ RSpec.describe 'AmazingPrint' do
       EOS
     end
 
-    it 'new hash syntax' do
-      expect(@hash.ai(plain: true, ruby19_syntax: true)).to eq <<~EOS.strip
+    it 'symbol hash format' do
+      expect(@hash.ai(plain: true, hash_format: :symbol)).to eq <<~EOS.strip
         {
             1 => {
                 sym: {
@@ -327,8 +327,8 @@ RSpec.describe 'AmazingPrint' do
       EOS
     end
 
-    it 'colored with new hash syntax' do
-      expect(@hash.ai(ruby19_syntax: true)).to eq <<~EOS.strip
+    it 'colored with symbol hash syntax' do
+      expect(@hash.ai(hash_format: :symbol)).to eq <<~EOS.strip
         {
             1\e[0;37m => \e[0m{
                 sym\e[0;37m: \e[0m{
