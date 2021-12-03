@@ -249,6 +249,75 @@ RSpec.describe 'AmazingPrint' do
   end
 
   #------------------------------------------------------------------------------
+  describe 'Limited Depth Array' do
+    before do
+      @arr = Array.new(3).map{ |e| [[1, 2], [3, 4]] }
+      @arr = [@arr, @arr]
+    end
+
+    it 'limited to 1 array deep' do
+      expect(@arr.ai(plain: true, depth: 1)).to eq <<~EOS.strip
+        [
+            [0] [ [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ] ],
+            [1] [ [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ] ]
+        ]
+      EOS
+    end
+
+    it 'limited to 2 arrays deep' do
+      expect(@arr.ai(plain: true, depth: 2)).to eq <<~EOS.strip
+        [
+            [0] [
+                [0] [ [ 1, 2 ], [ 3, 4 ] ],
+                [1] [ [ 1, 2 ], [ 3, 4 ] ],
+                [2] [ [ 1, 2 ], [ 3, 4 ] ]
+            ],
+            [1] [
+                [0] [ [ 1, 2 ], [ 3, 4 ] ],
+                [1] [ [ 1, 2 ], [ 3, 4 ] ],
+                [2] [ [ 1, 2 ], [ 3, 4 ] ]
+            ]
+        ]
+      EOS
+    end
+
+    it 'limited to 3 arrays deep' do
+      expect(@arr.ai(plain: true, depth: 3)).to eq <<~EOS.strip
+        [
+            [0] [
+                [0] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ],
+                [1] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ],
+                [2] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ]
+            ],
+            [1] [
+                [0] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ],
+                [1] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ],
+                [2] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ]
+            ]
+        ]
+      EOS
+    end
+  end
+
+  #------------------------------------------------------------------------------
   describe 'Hash' do
     before do
       @hash = { 1 => { sym: { 'str' => { [1, 2, 3] => { { k: :v } => Hash } } } } }
