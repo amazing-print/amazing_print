@@ -32,10 +32,27 @@ module AmazingPrint
 
       def simple_array
         if options[:multiline]
-          multiline_array
+          if should_limit_depth?
+            simple_array_inside_depth
+          else
+            multiline_array
+          end
         else
           "[ #{array.map { |item| inspector.awesome(item) }.join(', ')} ]"
         end
+      end
+
+      def simple_array_inside_depth
+        s = if reached_maximum_depth
+              increase_depth_level
+              "[ #{array.map { |item| inspector.awesome(item) }.join(', ')} ]"
+            else
+              increase_depth_level
+              multiline_array
+            end
+
+        decrease_depth_level
+        return s
       end
 
       def multiline_array

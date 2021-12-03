@@ -141,6 +141,23 @@ module AmazingPrint
           value
         end
       end
+
+      def should_limit_depth?
+        options[:depth] || options[:depth].is_a?(Integer)
+      end
+
+      def reached_maximum_depth
+        options[:depth] <= 0
+      end
+
+      def increase_depth_level
+        options[:depth] -= 1
+      end
+
+      def decrease_depth_level
+        options[:depth] += 1
+      end
+
     end
   end
 end
