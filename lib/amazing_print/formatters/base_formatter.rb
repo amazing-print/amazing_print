@@ -142,22 +142,24 @@ module AmazingPrint
         end
       end
 
-      def should_limit_depth?
-        options[:depth] || options[:depth].is_a?(Integer)
+      #
+      # Depth related methods
+      #-----------------------------------------
+      def depth
+        inspector.current_depth
       end
 
-      def reached_maximum_depth
-        options[:depth] <= 0
+      def depth_limit
+        inspector.max_depth
       end
 
-      def increase_depth_level
-        options[:depth] -= 1
+      def track_depth(&blk)
+        inspector.increase_depth(&blk)
       end
 
-      def decrease_depth_level
-        options[:depth] += 1
+      def not_reached_depth_limit
+        not !depth_limit.nil? && depth >= depth_limit
       end
-
     end
   end
 end
