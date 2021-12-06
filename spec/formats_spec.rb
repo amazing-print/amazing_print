@@ -255,6 +255,12 @@ RSpec.describe 'AmazingPrint' do
       @arr = [@arr, @arr]
     end
 
+    it 'limited to 0 array deep' do
+      expect(@arr.ai(plain: true, depth: 0)).to eq <<~EOS.strip
+        [ [ [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ] ], [ [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ] ] ]
+      EOS
+    end
+
     it 'limited to 1 array deep' do
       expect(@arr.ai(plain: true, depth: 1)).to eq <<~EOS.strip
         [
