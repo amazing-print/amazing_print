@@ -37,7 +37,7 @@ module AmazingPrint
         sort_keys: false,  # Do not sort hash keys.
         sort_vars: true,   # Sort instance variables.
         limit: false, # Limit arrays & hashes. Accepts bool or int.
-        depth: nil, # Limit number of nested arrays the multiline can go deep. 
+        depth: nil, # Limit number of nested objects the multiline can go deep. 
         ruby19_syntax: false, # Use Ruby 1.9 hash syntax in output.
         class_name: :class, # Method used to get Instance class name.
         object_id: true, # Show object_id.
