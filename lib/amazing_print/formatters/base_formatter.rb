@@ -160,6 +160,14 @@ module AmazingPrint
       def not_reached_depth_limit
         not !depth_limit.nil? && depth >= depth_limit
       end
+
+      def single_line_if_reached_depth(&blk)
+        multiline = options[:multiline]
+        options[:multiline] = false if !not_reached_depth_limit
+        track_depth { yield }
+      ensure
+        options[:multiline] = multiline
+      end
     end
   end
 end

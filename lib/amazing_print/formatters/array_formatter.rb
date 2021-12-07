@@ -31,11 +31,13 @@ module AmazingPrint
       end
 
       def simple_array
-        if options[:multiline] && not_reached_depth_limit
-          track_depth { multiline_array }
-        else
-          "[ #{array.map { |item| inspector.awesome(item) }.join(', ')} ]"
-        end
+        single_line_if_reached_depth do
+          if options[:multiline]
+            multiline_array
+          else
+            "[ #{array.map { |item| inspector.awesome(item) }.join(', ')} ]"
+          end
+        end 
       end
 
       def multiline_array
