@@ -789,6 +789,37 @@ RSpec.describe 'AmazingPrint' do
   end
 
   #------------------------------------------------------------------------------
+  describe 'Limited Depth Struct' do
+    before do
+      @struct = Struct.new('SimpleStruct', :full_name, :address).new
+      name_struct = Struct.new('SimpleStruct', :first_name, :last_name).new
+      address_struct = Struct.new('SimpleStruct', :street, :neighborhood).new
+      name_struct.first_name = "Bob"
+      name_struct.last_name = "Smith"
+      address_struct.street = "S Blue Island Ave"
+      address_struct.neighborhood = "Lower West Side"
+      @struct.full_name = name_struct
+      @struct.address = address_struct
+    end
+
+
+    it 'limited to 0 structs deep' do
+      regex = /\S+ address = \S+ neighborhood = \"[\w\s]+\", street = \"[\w\s]+\">, full_name = \S+ first_name = \"[\w\s]+\", last_name = \"[\w\s]+\">>/
+      expect(@struct.ai(plain: true, depth: 0)).to match(regex)
+    end
+
+    it 'limited to 1 struct deep' do
+      regex = /\S+\n\s+address = \S+ neighborhood = \"[\w\s]+\", street = \"[\w\s]+\">,\n\s+full_name = \S+ first_name = \"[\w\s]+\", last_name = \"[\w\s]+\">\n>/
+      expect(@struct.ai(plain: true, depth: 1)).to match(regex)
+    end
+
+    it 'limited to 2 structs deep' do
+      regex = /\S+\n\s+address = \S+\n\s+neighborhood = \"[\w\s]+\",\n\s+street = \"[\w\s]+\"\n\s+>,\n\s+full_name = \S+\n\s+first_name = \"[\w\s]+\",\n\s+last_name = \"[\w\s]+\"\n\s+>\n>/
+      expect(@struct.ai(plain: true, depth: 2)).to match(regex)
+    end
+  end
+  
+  #------------------------------------------------------------------------------
   describe 'Inherited from standard Ruby classes' do
     after do
       Object.instance_eval { remove_const :My } if defined?(My)
