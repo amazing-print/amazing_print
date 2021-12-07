@@ -555,6 +555,71 @@ RSpec.describe 'AmazingPrint' do
   end
 
   #------------------------------------------------------------------------------
+  describe 'Limited Depth Hash' do
+    before do
+      @h = {:c => [1, 2], :d => [3, 4]}
+      @hash = {:a => @h, :b =>  @h}
+    end
+
+    it 'limited to 0 hashes deep' do
+      expect(@hash.ai(plain: true, depth: 0)).to eq <<~EOS.strip
+        { :a => { :c => [ 1, 2 ], :d => [ 3, 4 ] }, :b => { :c => [ 1, 2 ], :d => [ 3, 4 ] } }
+      EOS
+    end
+
+    it 'limited to 1 hash deep' do
+      expect(@hash.ai(plain: true, depth: 1)).to eq <<~EOS.strip
+        {
+            :a => { :c => [ 1, 2 ], :d => [ 3, 4 ] },
+            :b => { :c => [ 1, 2 ], :d => [ 3, 4 ] }
+        }
+      EOS
+    end
+
+    it 'limited to 2 hashes deep' do
+      expect(@hash.ai(plain: true, depth: 2)).to eq <<~EOS.strip
+        {
+            :a => {
+                :c => [ 1, 2 ],
+                :d => [ 3, 4 ]
+            },
+            :b => {
+                :c => [ 1, 2 ],
+                :d => [ 3, 4 ]
+            }
+        }
+      EOS
+    end
+
+    it 'limited to 3 hashes deep' do
+      expect(@hash.ai(plain: true, depth: 3)).to eq <<~EOS.strip
+        {
+            :a => {
+                :c => [
+                    [0] 1,
+                    [1] 2
+                ],
+                :d => [
+                    [0] 3,
+                    [1] 4
+                ]
+            },
+            :b => {
+                :c => [
+                    [0] 1,
+                    [1] 2
+                ],
+                :d => [
+                    [0] 3,
+                    [1] 4
+                ]
+            }
+        }
+      EOS
+    end
+  end
+  
+  #------------------------------------------------------------------------------
   describe 'Class' do
     it 'shows superclass (plain)' do
       expect(self.class.ai(plain: true)).to eq("#{self.class} < #{self.class.superclass}")
