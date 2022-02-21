@@ -266,6 +266,10 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           expect(out).to match(
             /\s+first\(\*args,\s&block\)\s+#<Class:\w+>\s+\(ActiveRecord::Querying\)/
           )
+        elsif RUBY_VERSION >= '3.1.0'
+          expect(out).to match(
+            /\s*first\(\*(\*|args),\s+\?,\s+&(&|block)\)\s+#<Class:User> \(ActiveRecord::Querying\)/
+          )
         elsif RUBY_VERSION >= '3.0.0'
           expect(out).to match(
             /\s*first\(\*(\*|args),\s+&(&|block)\)\s+#<Class:User> \(ActiveRecord::Querying\)/
