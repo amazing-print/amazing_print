@@ -286,7 +286,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:\w+> \(ActiveModel::Validations::ClassMethods\)/)
       elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:User> \(ActiveModel::Validations::ClassMethods\)/)
-      elsif (Gem::Version.new('2.6.7')..Gem::Version.new('2.7.1')).include? Gem::Version.new(RUBY_VERSION)
+      elsif (Gem::Version.new('2.6.7')..Gem::Version.new('2.7.1')).cover? Gem::Version.new(RUBY_VERSION)
         expect(out).to match(
           /\svalidate\(\*args.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveModel::Validations::ClassMethods\)/
         )
