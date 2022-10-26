@@ -192,16 +192,16 @@ RSpec.describe 'AmazingPrint' do
     it 'detects IRB' do
       class IRB; end
       ENV.delete('RAILS_ENV')
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(false)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(false)
       Object.instance_eval { remove_const :IRB }
     end
 
     it 'detects Pry' do
       class Pry; end
       ENV.delete('RAILS_ENV')
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(false)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(false)
       Object.instance_eval { remove_const :Pry }
     end
 
@@ -209,8 +209,8 @@ RSpec.describe 'AmazingPrint' do
       class IRB; end
 
       module Rails; class Console; end; end
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(true)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(true)
       Object.instance_eval { remove_const :IRB }
       Object.instance_eval { remove_const :Rails }
     end
@@ -218,8 +218,8 @@ RSpec.describe 'AmazingPrint' do
     it "detects ENV['RAILS_ENV']" do
       class Pry; end
       ENV['RAILS_ENV'] = 'development'
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(true)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(true)
       Object.instance_eval { remove_const :Pry }
     end
 
@@ -230,8 +230,8 @@ RSpec.describe 'AmazingPrint' do
 
     it 'returns nil when running under console' do
       class IRB; end
-      expect(capture! { ap([1, 2, 3]) }).to eq(nil)
-      expect(capture! { ap({ a: 1 }) }).to eq(nil)
+      expect(capture! { ap([1, 2, 3]) }).to be_nil
+      expect(capture! { ap({ a: 1 }) }).to be_nil
       Object.instance_eval { remove_const :IRB }
     end
 

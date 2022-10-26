@@ -93,7 +93,7 @@ RSpec.describe 'AmazingPrint' do
         [
             \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
             \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
-            \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+            \e[1;37m[2] \e[0m\e[0;33m"three"\e[0m,
             \e[1;37m[3] \e[0m[
                 \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
                 \e[1;37m[1] \e[0m[
@@ -110,7 +110,7 @@ RSpec.describe 'AmazingPrint' do
         [
                 \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
                 \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
-                \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+                \e[1;37m[2] \e[0m\e[0;33m"three"\e[0m,
                 \e[1;37m[3] \e[0m[
                         \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
                         \e[1;37m[1] \e[0m[
@@ -316,7 +316,7 @@ RSpec.describe 'AmazingPrint' do
         {
             1\e[0;37m => \e[0m{
                 :sym\e[0;37m => \e[0m{
-                    \"str\"\e[0;37m => \e[0m{
+                    "str"\e[0;37m => \e[0m{
                         [ 1, 2, 3 ]\e[0;37m => \e[0m{
                             { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                         }
@@ -332,7 +332,7 @@ RSpec.describe 'AmazingPrint' do
         {
             1\e[0;37m => \e[0m{
                 sym\e[0;37m: \e[0m{
-                    \"str\"\e[0;37m => \e[0m{
+                    "str"\e[0;37m => \e[0m{
                         [ 1, 2, 3 ]\e[0;37m => \e[0m{
                             { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                         }
@@ -348,7 +348,7 @@ RSpec.describe 'AmazingPrint' do
         {
           1\e[0;37m => \e[0m{
             :sym\e[0;37m => \e[0m{
-              \"str\"\e[0;37m => \e[0m{
+              "str"\e[0;37m => \e[0m{
                 [ 1, 2, 3 ]\e[0;37m => \e[0m{
                   { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                 }
@@ -498,7 +498,7 @@ RSpec.describe 'AmazingPrint' do
       end
     end
 
-    it 'should display a file (plain) akin to powershell Get-ChildItem', mswin: true do
+    it 'displays a file (plain) akin to powershell Get-ChildItem', mswin: true do
       File.open(__FILE__, 'r') do |f|
         expect(f.ai(plain: true)).to eq("#{f.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(f.path).to_s)
       end
@@ -513,7 +513,7 @@ RSpec.describe 'AmazingPrint' do
       end
     end
 
-    it 'should display a directory (plain) akin to powershell Get-ChildItem', mswin: true do
+    it 'displays a directory (plain) akin to powershell Get-ChildItem', mswin: true do
       Dir.open(File.dirname(__FILE__)) do |d|
         expect(d.ai(plain: true)).to eq("#{d.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(d.path).to_s)
       end
@@ -619,12 +619,12 @@ RSpec.describe 'AmazingPrint' do
 
     it 'plain multiline' do
       s1 = <<-EOS.strip
-    address = \"1313 Mockingbird Lane\",
-    name = \"Herman Munster\"
+    address = "1313 Mockingbird Lane",
+    name = "Herman Munster"
       EOS
       s2 = <<-EOS.strip
-    name = \"Herman Munster\",
-    address = \"1313 Mockingbird Lane\"
+    name = "Herman Munster",
+    address = "1313 Mockingbird Lane"
       EOS
       expect(@struct.ai(plain: true)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
@@ -649,12 +649,12 @@ RSpec.describe 'AmazingPrint' do
 
     it 'colored multiline (default)' do
       s1 = <<-EOS.strip
-    address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m,
-    name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m
+    address\e[0;37m = \e[0m\e[0;33m"1313 Mockingbird Lane"\e[0m,
+    name\e[0;37m = \e[0m\e[0;33m"Herman Munster"\e[0m
       EOS
       s2 = <<-EOS.strip
-    name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m,
-    address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m
+    name\e[0;37m = \e[0m\e[0;33m"Herman Munster"\e[0m,
+    address\e[0;37m = \e[0m\e[0;33m"1313 Mockingbird Lane"\e[0m
       EOS
       expect(@struct.ai).to satisfy { |out| out.include?(s1) || out.include?(s2) }
     end

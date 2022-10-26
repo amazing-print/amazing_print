@@ -24,7 +24,7 @@ module AmazingPrint
 
       def info
         if RUBY_PLATFORM.include?('mswin')
-          GetChildItem.new(@dir.path).to_s + "\n"
+          "#{GetChildItem.new(@dir.path)}\n"
         else
           `ls -alF #{dir.path.shellescape}`
         end
