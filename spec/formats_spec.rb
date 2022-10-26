@@ -393,12 +393,12 @@ RSpec.describe 'AmazingPrint' do
     it 'plain multiline' do
       out = @hash.ai(plain: true)
       expect(out).to eq <<~EOS.strip
-          {
-                  "b" => "b",
-                   :a => "a",
-                   :z => "z",
-              "alpha" => "alpha"
-          }
+        {
+                "b" => "b",
+                 :a => "a",
+                 :z => "z",
+            "alpha" => "alpha"
+        }
       EOS
     end
 
