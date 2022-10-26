@@ -8,6 +8,7 @@ module AmazingPrint
       attr_reader :method, :inspector, :options
 
       def initialize(method, inspector)
+        super()
         @method = method
         @inspector = inspector
         @options = inspector.options

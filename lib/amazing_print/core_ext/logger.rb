@@ -9,15 +9,20 @@ module AmazingPrint
   module Logger
     # Add ap method to logger
     #------------------------------------------------------------------------------
-    def ap(object, level = nil)
+    def ap(object, options = {})
+      if options.is_a?(Hash)
+        level = options.delete(:level)
+      else
+        level = options
+        options = {}
+      end
+
       level ||= AmazingPrint.defaults[:log_level] if AmazingPrint.defaults
       level ||= :debug
-      send level, object.ai
+      send level, object.ai(options)
     end
   end
 end
 
 Logger.include AmazingPrint::Logger
-if defined?(ActiveSupport::BufferedLogger)
-  ActiveSupport::BufferedLogger.include AmazingPrint::Logger
-end
+ActiveSupport::BufferedLogger.include AmazingPrint::Logger if defined?(ActiveSupport::BufferedLogger)

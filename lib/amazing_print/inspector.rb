@@ -5,6 +5,9 @@
 # AmazingPrint is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
+
+# rubocop:disable Metrics/ClassLength
+
 require_relative 'indentator'
 
 module AmazingPrint
@@ -12,6 +15,15 @@ module AmazingPrint
     attr_accessor :options, :indentator
 
     AP = :__amazing_print__
+
+    ##
+    # Unload the cached dotfile and load it again.
+    #
+    def self.reload_dotfile
+      @@dotfile = nil
+      new.send :load_dotfile
+      true
+    end
 
     def initialize(options = {})
       @options = {
@@ -91,7 +103,7 @@ module AmazingPrint
         if defined? @colorize_stdout
           @colorize_stdout
         else
-          @colorize_stdout = STDOUT.tty? && (
+          @colorize_stdout = $stdout.tty? && (
             (
               ENV['TERM'] &&
               ENV['TERM'] != 'dumb'
@@ -147,18 +159,28 @@ module AmazingPrint
       @options.merge!(options)
     end
 
+    def find_dotfile
+      xdg_config_home = File.expand_path(ENV.fetch('XDG_CONFIG_HOME', '~/.config'))
+      xdg_config_path = File.join(xdg_config_home, 'aprc') # ${XDG_CONFIG_HOME}/aprc
+
+      return xdg_config_path if File.exist?(xdg_config_path)
+
+      # default to ~/.aprc
+      File.join(ENV['HOME'], '.aprc')
+    end
+
     # This method needs to be mocked during testing so that it always loads
     # predictable values
     #---------------------------------------------------------------------------
     def load_dotfile
-      dotfile = File.join(ENV['HOME'], '.aprc')
+      return if @@dotfile # Load the dotfile only once.
+
+      dotfile = find_dotfile
       load dotfile if dotfile_readable?(dotfile)
     end
 
     def dotfile_readable?(dotfile)
-      if @@dotfile_readable.nil? || @@dotfile != dotfile
-        @@dotfile_readable = File.readable?(@@dotfile = dotfile)
-      end
+      @@dotfile_readable = File.readable?(@@dotfile = dotfile) if @@dotfile_readable.nil? || @@dotfile != dotfile
       @@dotfile_readable
     end
     @@dotfile_readable = @@dotfile = nil
@@ -173,3 +195,5 @@ module AmazingPrint
     end
   end
 end
+
+# rubocop:enable Metrics/ClassLength

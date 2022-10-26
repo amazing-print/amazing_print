@@ -5,7 +5,7 @@
 # AmazingPrint is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-class Object #:nodoc:
+class Object # :nodoc:
   #
   # Intercept methods below to inject @__amazing_print__ instance variable
   # so we know it is the *methods* array when formatting an array.

@@ -14,9 +14,7 @@ module AmazingPrint
 
     def cast_with_ostruct(object, type)
       cast = cast_without_ostruct(object, type)
-      if defined?(::OpenStruct) && object.is_a?(::OpenStruct)
-        cast = :open_struct_instance
-      end
+      cast = :open_struct_instance if defined?(::OpenStruct) && object.is_a?(::OpenStruct)
       cast
     end
 

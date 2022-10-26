@@ -18,9 +18,10 @@ module AmazingPrint
       cast = cast_without_ripple(object, type)
       return cast unless defined?(::Ripple)
 
-      if object.is_a?(::Ripple::AttributeMethods) # Module used to access attributes across documents and embedded documents
+      case object
+      when ::Ripple::AttributeMethods # Module used to access attributes across documents and embedded documents
         cast = :ripple_document_instance
-      elsif object.is_a?(::Ripple::Properties)    # Used to access property metadata on Ripple classes
+      when ::Ripple::Properties # Used to access property metadata on Ripple classes
         cast = :ripple_document_class
       end
       cast
@@ -58,9 +59,7 @@ module AmazingPrint
     # Format Ripple class object.
     #------------------------------------------------------------------------------
     def awesome_ripple_document_class(object)
-      if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:properties)
-        return object.inspect
-      end
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:properties)
 
       name = "class #{awesome_simple(object.to_s, :class)}"
       base = "< #{awesome_simple(object.superclass.to_s, :class)}"

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint/Nokogiri' do
-  it 'should colorize tags' do
+  it 'colorizes tags' do
     xml = Nokogiri::XML('<html><body><h1></h1></body></html>')
     # FIXME: Due to something strange with Nokogiri and JRuby, we need to remove extra blank lines.
     output = xml.ai.gsub(/\n\n/, "\n")
@@ -17,7 +17,7 @@ RSpec.describe 'AmazingPrint/Nokogiri' do
     EOS
   end
 
-  it 'should colorize contents' do
+  it 'colorizes contents' do
     xml = Nokogiri::XML('<html><body><h1>Hello</h1></body></html>')
     expect(xml.ai).to eq <<~EOS
       <?xml version=\"1.0\"?>\e[1;32m
@@ -29,7 +29,7 @@ RSpec.describe 'AmazingPrint/Nokogiri' do
     EOS
   end
 
-  it 'should colorize class and id' do
+  it 'colorizes class and id' do
     xml = Nokogiri::XML('<html><body><h1><span class="world" id="hello"></span></h1></body></html>')
     # FIXME: Due to something strange with Nokogiri and JRuby, we need to remove extra blank lines.
     output = xml.ai.gsub(/\n\n/, "\n")

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 
 RSpec.describe 'AmazingPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? }.call do
@@ -30,7 +32,7 @@ RSpec.describe 'AmazingPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? 
     @ap = AmazingPrint::Inspector.new plain: true
   end
 
-  it 'should print class instance' do
+  it 'prints class instance' do
     user = SomeModel.new first_name: 'Al', last_name: 'Capone'
     out = @ap.send :awesome, user
 
@@ -45,7 +47,7 @@ RSpec.describe 'AmazingPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? 
     expect(out).to eq(str)
   end
 
-  it 'should print the class' do
+  it 'prints the class' do
     class_spec = <<~EOS.strip
       class SomeModel < Object {
                   :id => :string,
@@ -58,3 +60,5 @@ RSpec.describe 'AmazingPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? 
     expect(@ap.send(:awesome, SomeModel)).to eq class_spec
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock

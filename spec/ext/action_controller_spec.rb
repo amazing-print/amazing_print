@@ -10,9 +10,9 @@ RSpec.describe 'AmazingPrint::ActionController', skip: -> { !ExtVerifier.has_rai
       ActionController::Parameters.new post: { id: 1, content: 'Some' }
     end
 
-    it 'should format as an object' do
-      expect(inspector.send(:awesome, parameters)).to eq(
-        '<ActionController::Parameters {"post"=>{"id"=>1, "content"=>"Some"}} permitted: false>'
+    it 'formats as an object' do
+      expect(inspector.send(:awesome, parameters)).to match(
+        /\A#?<ActionController::Parameters {"post"=>{"id"=>1, "content"=>"Some"}} permitted: false>\z/
       )
     end
   end
@@ -33,7 +33,7 @@ RSpec.describe 'AmazingPrint::ActionController', skip: -> { !ExtVerifier.has_rai
       ActionController::Parameters.new post: { id: 1, content: 'Some' }
     end
 
-    it 'should format as a hash' do
+    it 'formats as a hash' do
       expect(inspector.send(:awesome, parameters.permit!)).to eq expected_output
     end
   end

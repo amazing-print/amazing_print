@@ -7,8 +7,8 @@ module AmazingPrint
     # Class accessor to force colorized output (ex. forked subprocess where TERM
     # might be dumb).
     #---------------------------------------------------------------------------
-    def force_colors!(value = true)
-      @force_colors = value
+    def force_colors!(colors: true)
+      @force_colors = colors
     end
 
     def console?
@@ -29,7 +29,7 @@ module AmazingPrint
 
     def usual_rb
       IRB::Irb.class_eval do
-        def output_value
+        def output_value(_omit = false) # rubocop:disable Style/OptionalBooleanParameter
           ap @context.last_value
         rescue NoMethodError
           puts "(Object doesn't support #ai)"
@@ -45,6 +45,13 @@ module AmazingPrint
 
     def pry!
       Pry.print = proc { |output, value| output.puts value.ai } if defined?(Pry)
+    end
+
+    ##
+    # Reload the cached custom configurations.
+    #
+    def reload!
+      AmazingPrint::Inspector.reload_dotfile
     end
 
     private

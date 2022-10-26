@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 
 RSpec.describe 'Single method' do
@@ -385,7 +387,8 @@ if RUBY_VERSION >= '1.9.2'
 
     it ':opt' do
       class Hello
-        def m1(a, b = 1, c = 2); end # m1(a, *b, *c)
+        # m1(a, *b, *c)
+        def m1(a, b = 1, c = 2); end
       end
       out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
       expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, \*b, \*c\)\s+Hello$/)
@@ -393,7 +396,8 @@ if RUBY_VERSION >= '1.9.2'
 
     it ':rest' do
       class Hello
-        def m1(*a); end # m1(*a)
+        # m1(*a)
+        def m1(*a); end
       end
       out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
       expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\*a\)\s+Hello$/)
@@ -401,7 +405,8 @@ if RUBY_VERSION >= '1.9.2'
 
     it ':block' do
       class Hello
-        def m1(a, b = nil, &blk); end # m1(a, *b, &blk)
+        # m1(a, *b, &blk)
+        def m1(a, b = nil, &blk); end
       end
       out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
       expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, \*b, &blk\)\s+Hello$/)
@@ -431,10 +436,11 @@ RSpec.describe 'Methods arrays' do
 
       def self.m2; end
     end
+
     class World
       def self.m1; end
     end
-    out = (Hello.methods & World.methods - Class.methods).ai(plain: true)
+    out = (Hello.methods & (World.methods - Class.methods)).ai(plain: true)
     expect(out).to eq("[\n    [0] m1() Hello\n]")
   end
 
@@ -510,3 +516,5 @@ RSpec.describe 'Methods arrays' do
     end
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock

@@ -1,33 +1,43 @@
 name: Specs
 
-on: 
+on:
   pull_request:
   push:
     branches:
       - master
 
 jobs:
-  build:
-
-    runs-on: ubuntu-18.04
+  test:
     strategy:
+      fail-fast: false
       matrix:
+        os:
+          - ubuntu
         ruby:
           - "2.5"
           - "2.6"
           - "2.7"
+          - "3.0"
+          - "3.1"
+          - "head"
+          - "jruby"
+    runs-on: ${{ matrix.os }}-latest
+    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby ${{ matrix.ruby }}
-      uses: actions/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
     - name: Install Dependencies
       run: |
         sudo apt-get update
         sudo apt-get -y install libsqlite3-dev
-    - name: Build and test with Rake
-      run: |
         gem install bundler
         bundle install --retry 3
-        bundle exec rake
+    - name: Test with all appraisals
+      if : ${{ matrix.ruby != 'head' }}
+      run: bundle exec rake
+    - name: Test without appraisals
+      if : ${{ matrix.ruby == 'head' }}
+      run: bundle exec rspec

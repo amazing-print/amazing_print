@@ -15,8 +15,8 @@ AmazingPrint is a fork of [AwesomePrint](https://github.com/awesome-print/awesom
 
 ### Supported Versions ###
 
-- Ruby >= 2.3
-- Rails >= 5.1
+- Ruby >= 2.5
+- Rails >= 5.2
 
 ### Installation ###
     # Installing as Ruby gem
@@ -297,6 +297,12 @@ By default, this logs at the :debug level. You can override that globally with:
 in the custom defaults (see below). You can also override on a per call basis with:
 
     logger.ap object, :warn
+    # or
+    logger.ap object, level: :warn
+
+You can also pass additional options (providing `nil` or leaving off `level` will log at the default level):
+
+    logger.ap object, { level: :info, sort_keys: true }
 
 ### ActionView Convenience Method ###
 amazing_print adds the 'ap' method to the ActionView::Base class making it available
@@ -319,12 +325,13 @@ red text # (it's red)
 ```
 
 ### Setting Custom Defaults ###
-You can set your own default options by creating ``.aprc`` file in your home
-directory. Within that file assign your  defaults to ``AmazingPrint.defaults``.
+You can set your own default options by creating ``aprc`` file in your `$XDG_CONFIG_HOME`
+directory (defaults to `~/.config` if undefined). Within that file assign your defaults
+to ``AmazingPrint.defaults``.
 For example:
 
 ```ruby
-# ~/.aprc file.
+# ~/.config/aprc file.
 AmazingPrint.defaults = {
   :indent => -2,
   :color => {
@@ -333,6 +340,8 @@ AmazingPrint.defaults = {
   }
 }
 ```
+
+The previous `~/.aprc` location is still supported as fallback.
 
 ## Versioning
 

@@ -45,37 +45,30 @@ module AmazingPrint
       return object.inspect unless defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
-      data = if object.class.column_names != object.attributes.keys
-               object.attributes
-             else
+      data = if object.class.column_names == object.attributes.keys
                object.class.column_names.each_with_object(::ActiveSupport::OrderedHash.new) do |name, hash|
                  if object.has_attribute?(name) || object.new_record?
                    value = object.respond_to?(name) ? object.send(name) : object.read_attribute(name)
                    hash[name.to_sym] = value
                  end
                end
+             else
+               object.attributes
              end
-      [object.to_s, awesome_hash(data)].join(' ')
+      [awesome_simple(object.to_s, :active_record_instance), awesome_hash(data)].join(' ')
     end
 
     # Format ActiveRecord class object.
     #------------------------------------------------------------------------------
     def awesome_active_record_class(object)
-      if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == 'ActiveRecord::Base'
-        return object.inspect
-      end
-      if object.respond_to?(:abstract_class?) && object.abstract_class?
-        return awesome_class(object)
-      end
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == 'ActiveRecord::Base'
+      return awesome_class(object) if object.respond_to?(:abstract_class?) && object.abstract_class?
 
       data = object.columns.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
         hash[c.name.to_sym] = c.type
       end
 
-      name = "class #{awesome_simple(object.to_s, :class)}"
-      base = "< #{awesome_simple(object.superclass.to_s, :class)}"
-
-      [name, base, awesome_hash(data)].join(' ')
+      [awesome_simple("class #{object} < #{object.superclass}", :class), awesome_hash(data)].join(' ')
     end
 
     # Format ActiveModel error object.
@@ -84,20 +77,12 @@ module AmazingPrint
       return object.inspect unless defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
-      object_dump = object.marshal_dump.first
-      data = if object_dump.class.try(:column_names) != object_dump.attributes.keys
-               object_dump.attributes
-             else
-               object_dump.class.column_names.each_with_object(::ActiveSupport::OrderedHash.new) do |name, hash|
-                 if object_dump.has_attribute?(name) || object_dump.new_record?
-                   value = object_dump.respond_to?(name) ? object_dump.send(name) : object_dump.read_attribute(name)
-                   hash[name.to_sym] = value
-                 end
-               end
-             end
+      data = object.instance_variable_get('@base')
+                   .attributes
+                   .merge(details: object.details.to_h,
+                          messages: object.messages.to_h.transform_values(&:to_a))
 
-      data.merge!({ details: object.details, messages: object.messages })
-      [object.to_s, awesome_hash(data)].join(' ')
+      [awesome_simple(object.to_s, :active_model_error), awesome_hash(data)].join(' ')
     end
   end
 end

@@ -24,12 +24,11 @@ module AmazingPrint
     #------------------------------------------------------------------------------
     def format(object, type = nil)
       core_class = cast(object, type)
-      awesome = if core_class != :self
-                  send(:"awesome_#{core_class}", object) # Core formatters.
-                else
-                  awesome_self(object, type) # Catch all that falls back to object.inspect.
-                end
-      awesome
+      if core_class == :self
+        awesome_self(object, type) # Catch all that falls back to object.inspect.
+      else
+        send(:"awesome_#{core_class}", object) # Core formatters.
+      end
     end
 
     # Hook this when adding custom formatters. Check out lib/amazing_print/ext

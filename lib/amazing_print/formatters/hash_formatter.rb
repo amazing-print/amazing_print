@@ -8,6 +8,7 @@ module AmazingPrint
       attr_reader :hash, :inspector, :options
 
       def initialize(hash, inspector)
+        super()
         @hash = hash
         @inspector = inspector
         @options = inspector.options
@@ -55,12 +56,12 @@ module AmazingPrint
           end
         end
 
-        should_be_limited? ? limited(data, width, hash: true) : data
+        should_be_limited? ? limited(data, width, is_hash: true) : data
       end
 
       def left_width(keys)
         result = max_key_width(keys)
-        result += indentation if options[:indent] > 0
+        result += indentation if options[:indent].positive?
         result
       end
 
@@ -86,11 +87,11 @@ module AmazingPrint
 
       def ruby19_syntax(key, value, width)
         key[0] = ''
-        align(key, width - 1) << colorize(': ', :hash) << inspector.awesome(value)
+        "#{align(key, width - 1)}#{colorize(': ', :hash)}#{inspector.awesome(value)}"
       end
 
       def pre_ruby19_syntax(key, value, width)
-        align(key, width) + colorize(' => ', :hash) + inspector.awesome(value)
+        "#{align(key, width)}#{colorize(' => ', :hash)}#{inspector.awesome(value)}"
       end
 
       def plain_single_line

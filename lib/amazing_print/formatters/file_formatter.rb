@@ -11,6 +11,7 @@ module AmazingPrint
       attr_reader :file, :inspector, :options
 
       def initialize(file, inspector)
+        super()
         @file = file
         @inspector = inspector
         @options = inspector.options

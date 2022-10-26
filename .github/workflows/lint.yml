@@ -1,6 +1,6 @@
 name: Lints
 
-on: 
+on:
   pull_request:
   push:
     branches:
@@ -9,18 +9,14 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up Ruby 2.6
-      uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
-    - name: Install Dependencies
-      run: |
-        gem install bundler
-        bundle install
+        ruby-version: 3.1
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Lint files with Rubocop
       run: |
-        rubocop
+        bundle exec rubocop
