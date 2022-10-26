@@ -93,7 +93,7 @@ RSpec.describe 'AmazingPrint' do
         [
             \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
             \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
-            \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+            \e[1;37m[2] \e[0m\e[0;33m"three"\e[0m,
             \e[1;37m[3] \e[0m[
                 \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
                 \e[1;37m[1] \e[0m[
@@ -110,7 +110,7 @@ RSpec.describe 'AmazingPrint' do
         [
                 \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
                 \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
-                \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+                \e[1;37m[2] \e[0m\e[0;33m"three"\e[0m,
                 \e[1;37m[3] \e[0m[
                         \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
                         \e[1;37m[1] \e[0m[
@@ -316,7 +316,7 @@ RSpec.describe 'AmazingPrint' do
         {
             1\e[0;37m => \e[0m{
                 :sym\e[0;37m => \e[0m{
-                    \"str\"\e[0;37m => \e[0m{
+                    "str"\e[0;37m => \e[0m{
                         [ 1, 2, 3 ]\e[0;37m => \e[0m{
                             { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                         }
@@ -332,7 +332,7 @@ RSpec.describe 'AmazingPrint' do
         {
             1\e[0;37m => \e[0m{
                 sym\e[0;37m: \e[0m{
-                    \"str\"\e[0;37m => \e[0m{
+                    "str"\e[0;37m => \e[0m{
                         [ 1, 2, 3 ]\e[0;37m => \e[0m{
                             { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                         }
@@ -348,7 +348,7 @@ RSpec.describe 'AmazingPrint' do
         {
           1\e[0;37m => \e[0m{
             :sym\e[0;37m => \e[0m{
-              \"str\"\e[0;37m => \e[0m{
+              "str"\e[0;37m => \e[0m{
                 [ 1, 2, 3 ]\e[0;37m => \e[0m{
                   { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                 }
@@ -392,22 +392,14 @@ RSpec.describe 'AmazingPrint' do
 
     it 'plain multiline' do
       out = @hash.ai(plain: true)
-      if RUBY_VERSION.to_f < 1.9 # Order of @hash keys is not guaranteed.
-        expect(out).to match(/^\{[^}]+\}/m)
-        expect(out).to match(/        "b" => "b",?/)
-        expect(out).to match(/         :a => "a",?/)
-        expect(out).to match(/         :z => "z",?/)
-        expect(out).to match(/    "alpha" => "alpha",?$/)
-      else
-        expect(out).to eq <<~EOS.strip
-          {
-                  "b" => "b",
-                   :a => "a",
-                   :z => "z",
-              "alpha" => "alpha"
-          }
-        EOS
-      end
+      expect(out).to eq <<~EOS.strip
+        {
+                "b" => "b",
+                 :a => "a",
+                 :z => "z",
+            "alpha" => "alpha"
+        }
+      EOS
     end
 
     it 'plain multiline with sorted keys' do
@@ -492,18 +484,30 @@ RSpec.describe 'AmazingPrint' do
 
   #------------------------------------------------------------------------------
   describe 'File' do
-    it 'displays a file (plain)' do
+    it 'displays a file (plain)', unix: true do
       File.open(__FILE__, 'r') do |f|
         expect(f.ai(plain: true)).to eq("#{f.inspect}\n" + `ls -alF #{f.path}`.chop)
+      end
+    end
+
+    it 'displays a file (plain) akin to powershell Get-ChildItem', mswin: true do
+      File.open(__FILE__, 'r') do |f|
+        expect(f.ai(plain: true)).to eq("#{f.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(f.path).to_s)
       end
     end
   end
 
   #------------------------------------------------------------------------------
   describe 'Dir' do
-    it 'displays a direcory (plain)' do
+    it 'displays a direcory (plain)', unix: true do
       Dir.open(File.dirname(__FILE__)) do |d|
         expect(d.ai(plain: true)).to eq("#{d.inspect}\n" + `ls -alF #{d.path}`.chop)
+      end
+    end
+
+    it 'displays a directory (plain) akin to powershell Get-ChildItem', mswin: true do
+      Dir.open(File.dirname(__FILE__)) do |d|
+        expect(d.ai(plain: true)).to eq("#{d.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(d.path).to_s)
       end
     end
   end
@@ -518,16 +522,7 @@ RSpec.describe 'AmazingPrint' do
     it 'presents Rational object with arbitrary precision' do
       rat = Rational(201_020_102_010_201_020_102_010_201_020_102_010, 2)
       out = rat.ai(plain: true)
-      #
-      # Ruby 1.9 slightly changed the format of Rational#to_s, see
-      # http://techtime.getharvest.com/blog/harvest-is-now-on-ruby-1-dot-9-3 and
-      # http://www.ruby-forum.com/topic/189397
-      #
-      if RUBY_VERSION < '1.9'
-        expect(out).to eq('100510051005100510051005100510051005')
-      else
-        expect(out).to eq('100510051005100510051005100510051005/1')
-      end
+      expect(out).to eq('100510051005100510051005100510051005/1')
     end
   end
 
@@ -553,39 +548,20 @@ RSpec.describe 'AmazingPrint' do
       expect(Set.new.ai).to eq([].ai)
     end
 
-    if RUBY_VERSION > '1.9'
-      it 'plain multiline' do
-        expect(@set.ai(plain: true)).to eq(@arr.ai(plain: true))
-      end
+    it 'plain multiline' do
+      expect(@set.ai(plain: true)).to eq(@arr.ai(plain: true))
+    end
 
-      it 'plain multiline indented' do
-        expect(@set.ai(plain: true, indent: 1)).to eq(@arr.ai(plain: true, indent: 1))
-      end
+    it 'plain multiline indented' do
+      expect(@set.ai(plain: true, indent: 1)).to eq(@arr.ai(plain: true, indent: 1))
+    end
 
-      it 'plain single line' do
-        expect(@set.ai(plain: true, multiline: false)).to eq(@arr.ai(plain: true, multiline: false))
-      end
+    it 'plain single line' do
+      expect(@set.ai(plain: true, multiline: false)).to eq(@arr.ai(plain: true, multiline: false))
+    end
 
-      it 'colored multiline (default)' do
-        expect(@set.ai).to eq(@arr.ai)
-      end
-    else # Prior to Ruby 1.9 the order of set values is unpredicatble.
-      it 'plain multiline' do
-        expect(@set.sort_by(&:to_s).ai(plain: true)).to eq(@arr.sort_by(&:to_s).ai(plain: true))
-      end
-
-      it 'plain multiline indented' do
-        expect(@set.sort_by(&:to_s).ai(plain: true, indent: 1)).to eq(@arr.sort_by(&:to_s).ai(plain: true, indent: 1))
-      end
-
-      it 'plain single line' do
-        expect(@set.sort_by(&:to_s).ai(plain: true,
-                                       multiline: false)).to eq(@arr.sort_by(&:to_s).ai(plain: true, multiline: false))
-      end
-
-      it 'colored multiline (default)' do
-        expect(@set.sort_by(&:to_s).ai).to eq(@arr.sort_by(&:to_s).ai)
-      end
+    it 'colored multiline (default)' do
+      expect(@set.ai).to eq(@arr.ai)
     end
   end
 
@@ -607,12 +583,12 @@ RSpec.describe 'AmazingPrint' do
 
     it 'plain multiline' do
       s1 = <<-EOS.strip
-    address = \"1313 Mockingbird Lane\",
-    name = \"Herman Munster\"
+    address = "1313 Mockingbird Lane",
+    name = "Herman Munster"
       EOS
       s2 = <<-EOS.strip
-    name = \"Herman Munster\",
-    address = \"1313 Mockingbird Lane\"
+    name = "Herman Munster",
+    address = "1313 Mockingbird Lane"
       EOS
       expect(@struct.ai(plain: true)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
@@ -637,12 +613,12 @@ RSpec.describe 'AmazingPrint' do
 
     it 'colored multiline (default)' do
       s1 = <<-EOS.strip
-    address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m,
-    name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m
+    address\e[0;37m = \e[0m\e[0;33m"1313 Mockingbird Lane"\e[0m,
+    name\e[0;37m = \e[0m\e[0;33m"Herman Munster"\e[0m
       EOS
       s2 = <<-EOS.strip
-    name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m,
-    address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m
+    name\e[0;37m = \e[0m\e[0;33m"Herman Munster"\e[0m,
+    address\e[0;37m = \e[0m\e[0;33m"1313 Mockingbird Lane"\e[0m
       EOS
       expect(@struct.ai).to satisfy { |out| out.include?(s1) || out.include?(s2) }
     end
@@ -693,7 +669,7 @@ RSpec.describe 'AmazingPrint' do
       EOS
     end
 
-    it 'inherited from File should be displayed as File' do
+    it 'inherited from File should be displayed as File', unix: true do
       class My < File; end
 
       my = begin
@@ -704,12 +680,26 @@ RSpec.describe 'AmazingPrint' do
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
-    it 'inherited from Dir should be displayed as Dir' do
+    it 'inherited from File should be displayed as File', mswin: true do
+      class My < File; end
+      my = My.new('nul') # it's /dev/null in Windows
+      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(my.path).to_s)
+    end
+
+    it 'inherited from Dir should be displayed as Dir', unix: true do
       class My < Dir; end
 
       require 'tmpdir'
       my = My.new(Dir.tmpdir)
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
+    end
+
+    it 'inherited from Dir are displayed as Dir', mswin: true do
+      class My < Dir; end
+
+      require 'tmpdir'
+      my = My.new(Dir.tmpdir)
+      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(my.path).to_s)
     end
 
     it 'handles a class that defines its own #send method' do

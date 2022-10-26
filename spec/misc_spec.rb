@@ -32,12 +32,10 @@ RSpec.describe 'AmazingPrint' do
     end
 
     # See https://github.com/awesome-print/awesome_print/issues/85
-    if RUBY_VERSION >= '1.8.7'
-      it "handle array grep when a method is defined in C and thus doesn't have a binding" do
-        arr = (0..6).to_a
-        grepped = arr.grep(1..4, &:succ)
-        expect(grepped.ai(plain: true, multiline: false)).to eq('[ 2, 3, 4, 5 ]')
-      end
+    it "handle array grep when a method is defined in C and thus doesn't have a binding" do
+      arr = (0..6).to_a
+      grepped = arr.grep(1..4, &:succ)
+      expect(grepped.ai(plain: true, multiline: false)).to eq('[ 2, 3, 4, 5 ]')
     end
 
     it 'returns value passed as a parameter' do
@@ -164,11 +162,7 @@ RSpec.describe 'AmazingPrint' do
 
     it 'shoud not raise ArgumentError when formatting HTML' do
       out = 'hello'.ai(color: { string: :red }, html: true)
-      if RUBY_VERSION >= '1.9'
-        expect(out).to eq(%(<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>))
-      else
-        expect(out).to eq(%(<pre>[red]&quot;hello&quot;[/red]</pre>))
-      end
+      expect(out).to eq(%(<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>))
     end
 
     it 'shoud not raise ArgumentError when formatting HTML (shade color)' do
@@ -192,16 +186,16 @@ RSpec.describe 'AmazingPrint' do
     it 'detects IRB' do
       class IRB; end
       ENV.delete('RAILS_ENV')
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(false)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(false)
       Object.instance_eval { remove_const :IRB }
     end
 
     it 'detects Pry' do
       class Pry; end
       ENV.delete('RAILS_ENV')
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(false)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(false)
       Object.instance_eval { remove_const :Pry }
     end
 
@@ -209,8 +203,8 @@ RSpec.describe 'AmazingPrint' do
       class IRB; end
 
       module Rails; class Console; end; end
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(true)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(true)
       Object.instance_eval { remove_const :IRB }
       Object.instance_eval { remove_const :Rails }
     end
@@ -218,8 +212,8 @@ RSpec.describe 'AmazingPrint' do
     it "detects ENV['RAILS_ENV']" do
       class Pry; end
       ENV['RAILS_ENV'] = 'development'
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(true)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(true)
       Object.instance_eval { remove_const :Pry }
     end
 
@@ -230,8 +224,8 @@ RSpec.describe 'AmazingPrint' do
 
     it 'returns nil when running under console' do
       class IRB; end
-      expect(capture! { ap([1, 2, 3]) }).to eq(nil)
-      expect(capture! { ap({ a: 1 }) }).to eq(nil)
+      expect(capture! { ap([1, 2, 3]) }).to be_nil
+      expect(capture! { ap({ a: 1 }) }).to be_nil
       Object.instance_eval { remove_const :IRB }
     end
 

@@ -1,4 +1,6 @@
 ## Unreleased
+  - Drop support for Ruby 2.3 and 2.4 as well as JRuby 9.1
+  - Add File/Dir formatters for mswin platform
 
 ## v1.4.0
   - Support loading config from `$XDG_CONFIG_HOME/aprc` - #63

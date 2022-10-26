@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.files         = Dir['[A-Z]*[^~]'] + Dir['lib/**/*.rb'] + Dir['spec/**/*'] + ['.gitignore']
-  s.test_files    = Dir['spec/**/*']
   s.executables   = []
   s.require_paths = ['lib']
 
