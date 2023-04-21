@@ -478,7 +478,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'shows superclass (color)' do
-      expect(self.class.ai).to eq("#{self.class} < #{self.class.superclass}".yellow)
+      expect(self.class.ai).to eq(AmazingPrint::Colors.yellow("#{self.class} < #{self.class.superclass}"))
     end
   end
 
