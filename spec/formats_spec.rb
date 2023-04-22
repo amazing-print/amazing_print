@@ -747,7 +747,7 @@ RSpec.describe 'AmazingPrint' do
         class My
           def to_hash
             object = Object.new
-            object.define_singleton_method('[]') { return nil }
+            object.define_singleton_method('[]') { nil }
 
             object
           end
@@ -761,7 +761,7 @@ RSpec.describe 'AmazingPrint' do
         class My
           def to_hash
             object = Object.new
-            object.define_singleton_method(:keys) { return [:foo] }
+            object.define_singleton_method(:keys) { [:foo] }
 
             object
           end

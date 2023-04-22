@@ -39,7 +39,7 @@ RSpec.describe 'AmazingPrint/Sequel', skip: -> { !ExtVerifier.has_sequel? }.call
   end
 
   it 'does not crash if on Sequel::Model' do
-    out = @ap.awesome(::Sequel::Model)
+    out = @ap.awesome(Sequel::Model)
     expect(out).to be_similar_to('Sequel::Model < Object')
   end
 end
