@@ -478,7 +478,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'shows superclass (color)' do
-      expect(self.class.ai).to eq("#{self.class} < #{self.class.superclass}".yellow)
+      expect(self.class.ai).to eq(AmazingPrint::Colors.yellow("#{self.class} < #{self.class.superclass}"))
     end
   end
 
@@ -747,7 +747,7 @@ RSpec.describe 'AmazingPrint' do
         class My
           def to_hash
             object = Object.new
-            object.define_singleton_method('[]') { return nil }
+            object.define_singleton_method('[]') { nil }
 
             object
           end
@@ -761,7 +761,7 @@ RSpec.describe 'AmazingPrint' do
         class My
           def to_hash
             object = Object.new
-            object.define_singleton_method(:keys) { return [:foo] }
+            object.define_singleton_method(:keys) { [:foo] }
 
             object
           end
