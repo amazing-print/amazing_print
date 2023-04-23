@@ -19,8 +19,10 @@ jobs:
           - "2.7"
           - "3.0"
           - "3.1"
+          # Enable 3.2 once https://github.com/thoughtbot/appraisal/pull/202 is released
+          #- "3.2"
           - "head"
-          - "jruby"
+          - "jruby-9.3"
     runs-on: ${{ matrix.os }}-latest
     continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
@@ -33,7 +35,6 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get -y install libsqlite3-dev
-        gem install bundler
         bundle install --retry 3
     - name: Test with all appraisals
       if : ${{ matrix.ruby != 'head' }}
