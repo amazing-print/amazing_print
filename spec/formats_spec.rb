@@ -331,7 +331,7 @@ RSpec.describe 'AmazingPrint' do
       expect(@hash.ai(ruby19_syntax: true)).to eq <<~EOS.strip
         {
             1\e[0;37m => \e[0m{
-                sym\e[0;37m: \e[0m{
+                sym: {
                     "str"\e[0;37m => \e[0m{
                         [ 1, 2, 3 ]\e[0;37m => \e[0m{
                             { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
@@ -469,6 +469,21 @@ RSpec.describe 'AmazingPrint' do
         }
       EOS
     end
+  end
+
+  #
+  # With Ruby 1.9 syntax
+  #
+  it 'hash keys must be left aligned' do
+    hash = { [0, 0, 255] => :yellow, :bloodiest_red => 'rgb(255, 0, 0)', 'magenta' => 'rgb(255, 0, 255)' }
+    out = hash.ai(plain: true, indent: -2, ruby19_syntax: true, sort_keys: true)
+    expect(out).to eq <<~EOS.strip
+      {
+        [ 0, 0, 255 ]  => :yellow,
+        bloodiest_red: "rgb(255, 0, 0)",
+        "magenta"      => "rgb(255, 0, 255)"
+      }
+    EOS
   end
 
   #------------------------------------------------------------------------------
