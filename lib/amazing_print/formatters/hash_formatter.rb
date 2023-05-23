@@ -87,7 +87,7 @@ module AmazingPrint
 
       def ruby19_syntax(key, value, width)
         key[0] = ''
-        key << ":"
+        key << ':'
         "#{align(key, width)} #{inspector.awesome(value)}"
       end
 

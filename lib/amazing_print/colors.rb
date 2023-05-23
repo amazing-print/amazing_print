@@ -19,14 +19,14 @@ module AmazingPrint
     ).each_with_index do |(color, shade), i|
       # NOTE: Format strings are created once only, for performance, and remembered by closures.
 
-      term_bright_seq = "\e[1;#{30 + i}m%s\e[0m"
+      term_bright_seq = "\e[1;#{i + 30}m%s\e[0m"
       html_bright_seq = %(<kbd style="color:#{color}">%s</kbd>)
 
       define_method color do |str, html = false|
         (html ? html_bright_seq : term_bright_seq) % str
       end
 
-      term_normal_seq = "\e[0;#{30 + i}m%s\e[0m"
+      term_normal_seq = "\e[0;#{i + 30}m%s\e[0m"
       html_normal_seq = %(<kbd style="color:#{shade}">%s</kbd>)
 
       define_method "#{color}ish" do |str, html = false|

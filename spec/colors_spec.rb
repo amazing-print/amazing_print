@@ -107,11 +107,11 @@ RSpec.describe 'AmazingPrint' do
   describe 'AmazingPrint::Colors' do
     %i[gray red green yellow blue purple cyan white].each_with_index do |color, i|
       it "has #{color} color" do
-        expect(AmazingPrint::Colors.public_send(color, color.to_s)).to eq("\e[1;#{30 + i}m#{color}\e[0m")
+        expect(AmazingPrint::Colors.public_send(color, color.to_s)).to eq("\e[1;#{i + 30}m#{color}\e[0m")
       end
 
       it "has #{color}ish color" do
-        expect(AmazingPrint::Colors.public_send(:"#{color}ish", color.to_s)).to eq("\e[0;#{30 + i}m#{color}\e[0m")
+        expect(AmazingPrint::Colors.public_send(:"#{color}ish", color.to_s)).to eq("\e[0;#{i + 30}m#{color}\e[0m")
       end
     end
   end
