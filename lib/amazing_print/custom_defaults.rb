@@ -44,7 +44,13 @@ module AmazingPrint
     end
 
     def pry!
-      Pry.print = proc { |output, value| output.puts value.ai } if defined?(Pry)
+      return unless defined?(Pry)
+
+      Pry.print = proc do |output, value, pry_instance|
+        pry_instance.pager.open do |pager|
+          pager.print value.ai + "\n"
+        end
+      end
     end
 
     ##
