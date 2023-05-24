@@ -1,6 +1,10 @@
 ## Unreleased
+
+## v1.5.0
   - Drop support for Ruby 2.3 and 2.4 as well as JRuby 9.1
-  - Add File/Dir formatters for mswin platform
+  - Add File/Dir formatters for mswin platform #48
+  - Don't monkey patch String class #91
+  - Fix ruby19 hash syntax so it can be copy-pasted #94
 
 ## v1.4.0
   - Support loading config from `$XDG_CONFIG_HOME/aprc` - #63
