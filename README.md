@@ -3,9 +3,8 @@
 [![RubyGems][gem_version_badge]][ruby_gems]
 [![RubyGems][gem_downloads_badge]][ruby_gems]
 |
-[![Travis CI][travis_ci_badge]][travis_ci]
 ![Specs](https://github.com/amazing-print/amazing_print/workflows/Specs/badge.svg)
-![Lint](https://github.com/amazing-print/amazing_print/workflows/Lint/badge.svg)
+![Lint](https://github.com/amazing-print/amazing_print/workflows/Lints/badge.svg)
 |
 [![Gitter](https://badges.gitter.im/amazing-print/community.svg)](https://gitter.im/amazing-print/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 

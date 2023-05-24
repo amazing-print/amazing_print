@@ -181,7 +181,7 @@ module AmazingPrint
       return xdg_config_path if File.exist?(xdg_config_path)
 
       # default to ~/.aprc
-      File.join(ENV['HOME'], '.aprc')
+      File.join(Dir.home, '.aprc')
     end
 
     # This method needs to be mocked during testing so that it always loads

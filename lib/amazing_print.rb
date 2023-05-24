@@ -10,7 +10,7 @@
 # so do nothing for subsequent requires.
 #
 unless defined?(AmazingPrint::Inspector)
-  %w[awesome_method_array string object class kernel].each do |file|
+  %w[awesome_method_array object class kernel].each do |file|
     require_relative "amazing_print/core_ext/#{file}"
   end
 

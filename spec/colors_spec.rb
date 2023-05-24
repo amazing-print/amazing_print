@@ -102,11 +102,16 @@ RSpec.describe 'AmazingPrint' do
         stub_tty!
       end
     end
+  end
 
-    describe 'uncolor' do
-      it 'removes any ANSI color codes' do
-        expect('red'.red + 'blue'.blue).to eq "\e[1;31mred\e[0m\e[1;34mblue\e[0m"
-        expect(('red'.red + 'blue'.blue).uncolor).to eq 'redblue'
+  describe 'AmazingPrint::Colors' do
+    %i[gray red green yellow blue purple cyan white].each_with_index do |color, i|
+      it "has #{color} color" do
+        expect(AmazingPrint::Colors.public_send(color, color.to_s)).to eq("\e[1;#{i + 30}m#{color}\e[0m")
+      end
+
+      it "has #{color}ish color" do
+        expect(AmazingPrint::Colors.public_send(:"#{color}ish", color.to_s)).to eq("\e[0;#{i + 30}m#{color}\e[0m")
       end
     end
   end

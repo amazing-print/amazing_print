@@ -8,7 +8,7 @@ RSpec.describe 'AmazingPrint/Nokogiri' do
     # FIXME: Due to something strange with Nokogiri and JRuby, we need to remove extra blank lines.
     output = xml.ai.gsub(/\n\n/, "\n")
     expect(output).to eq <<~EOS
-      <?xml version=\"1.0\"?>\e[1;32m
+      <?xml version="1.0"?>\e[1;32m
       \e[0m<\e[1;36mhtml\e[0m>\e[1;32m
         \e[0m<\e[1;36mbody\e[0m>\e[1;32m
           \e[0m<\e[1;36mh1\e[0m/>\e[1;32m
@@ -20,7 +20,7 @@ RSpec.describe 'AmazingPrint/Nokogiri' do
   it 'colorizes contents' do
     xml = Nokogiri::XML('<html><body><h1>Hello</h1></body></html>')
     expect(xml.ai).to eq <<~EOS
-      <?xml version=\"1.0\"?>\e[1;32m
+      <?xml version="1.0"?>\e[1;32m
       \e[0m<\e[1;36mhtml\e[0m>\e[1;32m
         \e[0m<\e[1;36mbody\e[0m>\e[1;32m
           \e[0m<\e[1;36mh1\e[0m>\e[1;32mHello\e[0m<\e[1;36m/h1\e[0m>\e[1;32m
@@ -34,11 +34,11 @@ RSpec.describe 'AmazingPrint/Nokogiri' do
     # FIXME: Due to something strange with Nokogiri and JRuby, we need to remove extra blank lines.
     output = xml.ai.gsub(/\n\n/, "\n")
     expect(output).to eq <<~EOS
-      <?xml version=\"1.0\"?>\e[1;32m
+      <?xml version="1.0"?>\e[1;32m
       \e[0m<\e[1;36mhtml\e[0m>\e[1;32m
         \e[0m<\e[1;36mbody\e[0m>\e[1;32m
           \e[0m<\e[1;36mh1\e[0m>\e[1;32m
-            \e[0m<\e[1;36mspan\e[0m \e[1;33mclass=\"world\"\e[0m \e[1;33mid=\"hello\"\e[0m/>\e[1;32m
+            \e[0m<\e[1;36mspan\e[0m \e[1;33mclass="world"\e[0m \e[1;33mid="hello"\e[0m/>\e[1;32m
           \e[0m<\e[1;36m/h1\e[0m>\e[1;32m
         \e[0m<\e[1;36m/body\e[0m>\e[1;32m
       \e[0m<\e[1;36m/html\e[0m>

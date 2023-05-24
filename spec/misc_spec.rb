@@ -32,12 +32,10 @@ RSpec.describe 'AmazingPrint' do
     end
 
     # See https://github.com/awesome-print/awesome_print/issues/85
-    if RUBY_VERSION >= '1.8.7'
-      it "handle array grep when a method is defined in C and thus doesn't have a binding" do
-        arr = (0..6).to_a
-        grepped = arr.grep(1..4, &:succ)
-        expect(grepped.ai(plain: true, multiline: false)).to eq('[ 2, 3, 4, 5 ]')
-      end
+    it "handle array grep when a method is defined in C and thus doesn't have a binding" do
+      arr = (0..6).to_a
+      grepped = arr.grep(1..4, &:succ)
+      expect(grepped.ai(plain: true, multiline: false)).to eq('[ 2, 3, 4, 5 ]')
     end
 
     it 'returns value passed as a parameter' do
@@ -144,64 +142,20 @@ RSpec.describe 'AmazingPrint' do
   end
 
   #------------------------------------------------------------------------------
-  describe 'Coexistence with the colorize gem' do
-    before do # Redefine String#red just like colorize gem does it.
-      @awesome_method = ''.method(:red)
-
-      String.instance_eval do
-        define_method :red do # Method arity is now 0 in Ruby 1.9+.
-          "[red]#{self}[/red]"
-        end
-      end
-    end
-
-    after do # Restore String#red method.
-      awesome_method = @awesome_method
-      String.instance_eval do
-        define_method :red, awesome_method
-      end
-    end
-
-    it 'shoud not raise ArgumentError when formatting HTML' do
-      out = 'hello'.ai(color: { string: :red }, html: true)
-      if RUBY_VERSION >= '1.9'
-        expect(out).to eq(%(<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>))
-      else
-        expect(out).to eq(%(<pre>[red]&quot;hello&quot;[/red]</pre>))
-      end
-    end
-
-    it 'shoud not raise ArgumentError when formatting HTML (shade color)' do
-      out = 'hello'.ai(color: { string: :redish }, html: true)
-      expect(out).to eq(%(<pre><kbd style="color:darkred">&quot;hello&quot;</kbd></pre>))
-    end
-
-    it 'shoud not raise ArgumentError when formatting non-HTML' do
-      out = 'hello'.ai(color: { string: :red }, html: false)
-      expect(out).to eq(%([red]"hello"[/red]))
-    end
-
-    it 'shoud not raise ArgumentError when formatting non-HTML (shade color)' do
-      out = 'hello'.ai(color: { string: :redish }, html: false)
-      expect(out).to eq(%(\e[0;31m"hello"\e[0m))
-    end
-  end
-
-  #------------------------------------------------------------------------------
   describe 'Console' do
     it 'detects IRB' do
       class IRB; end
       ENV.delete('RAILS_ENV')
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(false)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(false)
       Object.instance_eval { remove_const :IRB }
     end
 
     it 'detects Pry' do
       class Pry; end
       ENV.delete('RAILS_ENV')
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(false)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(false)
       Object.instance_eval { remove_const :Pry }
     end
 
@@ -209,8 +163,8 @@ RSpec.describe 'AmazingPrint' do
       class IRB; end
 
       module Rails; class Console; end; end
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(true)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(true)
       Object.instance_eval { remove_const :IRB }
       Object.instance_eval { remove_const :Rails }
     end
@@ -218,8 +172,8 @@ RSpec.describe 'AmazingPrint' do
     it "detects ENV['RAILS_ENV']" do
       class Pry; end
       ENV['RAILS_ENV'] = 'development'
-      expect(AmazingPrint.console?).to eq(true)
-      expect(AmazingPrint.rails_console?).to eq(true)
+      expect(AmazingPrint.console?).to be(true)
+      expect(AmazingPrint.rails_console?).to be(true)
       Object.instance_eval { remove_const :Pry }
     end
 
@@ -230,8 +184,8 @@ RSpec.describe 'AmazingPrint' do
 
     it 'returns nil when running under console' do
       class IRB; end
-      expect(capture! { ap([1, 2, 3]) }).to eq(nil)
-      expect(capture! { ap({ a: 1 }) }).to eq(nil)
+      expect(capture! { ap([1, 2, 3]) }).to be_nil
+      expect(capture! { ap({ a: 1 }) }).to be_nil
       Object.instance_eval { remove_const :IRB }
     end
 
