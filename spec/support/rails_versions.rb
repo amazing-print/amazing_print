@@ -5,6 +5,11 @@ module RailsVersions
     Gem::Version.new(Rails::VERSION::STRING)
   end
 
+  def rails_7_0?
+    Gem::Requirement.new('~> 7.0.0').satisfied_by?(rails_version)
+  end
+  alias activerecord_7_0? rails_7_0?
+
   def rails_6_1?
     Gem::Requirement.new('~> 6.1.0').satisfied_by?(rails_version)
   end
