@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe 'AmazingPrint::ActiveSupport', skip: -> { !ExtVerifier.has_rails? }.call do
   let(:expected_ar_time_str) do
-    if activerecord_6_1?
+    if activerecord_6_1? || activerecord_7_0?
       '15:30:45.000000000'
     else
       '15:30:45'
