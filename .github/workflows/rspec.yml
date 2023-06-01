@@ -19,8 +19,7 @@ jobs:
           - "2.7"
           - "3.0"
           - "3.1"
-          # Enable 3.2 once https://github.com/thoughtbot/appraisal/pull/202 is released
-          #- "3.2"
+          - "3.2"
           - "head"
           - "jruby-9.3"
     runs-on: ${{ matrix.os }}-latest
