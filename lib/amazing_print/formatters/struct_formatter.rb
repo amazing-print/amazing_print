@@ -30,28 +30,30 @@ module AmazingPrint
           end
         end
 
-        data = vars.sort.map do |declaration, var|
-          key = left_aligned do
-            align(declaration, declaration.size)
+        single_line_if_reached_depth do
+          data = vars.sort.map do |declaration, var|
+            key = left_aligned do
+              align(declaration, declaration.size)
+            end
+
+            unless options[:plain]
+              key = if key =~ /(@\w+)/
+                      key.sub(Regexp.last_match(1), colorize(Regexp.last_match(1), :variable))
+                    else
+                      key.sub(/(attr_\w+)\s(:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
+                    end
+            end
+
+            indented do
+              key + colorize(' = ', :hash) + inspector.awesome(struct.send(var))
+            end
           end
 
-          unless options[:plain]
-            key = if key =~ /(@\w+)/
-                    key.sub(Regexp.last_match(1), colorize(Regexp.last_match(1), :variable))
-                  else
-                    key.sub(/(attr_\w+)\s(:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
-                  end
+          if options[:multiline]
+            "#<#{awesome_instance}\n#{data.join(%(,\n))}\n#{outdent}>"
+          else
+            "#<#{awesome_instance} #{data.join(', ')}>"
           end
-
-          indented do
-            key + colorize(' = ', :hash) + inspector.awesome(struct.send(var))
-          end
-        end
-
-        if options[:multiline]
-          "#<#{awesome_instance}\n#{data.join(%(,\n))}\n#{outdent}>"
-        else
-          "#<#{awesome_instance} #{data.join(', ')}>"
         end
       end
 

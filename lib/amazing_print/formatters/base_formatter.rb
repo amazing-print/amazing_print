@@ -141,6 +141,33 @@ module AmazingPrint
           value
         end
       end
+
+      #
+      # Depth related methods
+      #-----------------------------------------
+      def depth
+        inspector.current_depth
+      end
+
+      def depth_limit
+        inspector.max_depth
+      end
+
+      def track_depth(&blk)
+        inspector.increase_depth(&blk)
+      end
+
+      def reached_depth_limit
+        !depth_limit.nil? && depth >= depth_limit
+      end
+
+      def single_line_if_reached_depth(&blk)
+        multiline = options[:multiline]
+        options[:multiline] = false if reached_depth_limit
+        track_depth { yield }
+      ensure
+        options[:multiline] = multiline
+      end
     end
   end
 end

@@ -249,6 +249,81 @@ RSpec.describe 'AmazingPrint' do
   end
 
   #------------------------------------------------------------------------------
+  describe 'Limited Depth Array' do
+    before do
+      @arr = Array.new(3).map{ |e| [[1, 2], [3, 4]] }
+      @arr = [@arr, @arr]
+    end
+
+    it 'limited to 0 array deep' do
+      expect(@arr.ai(plain: true, depth: 0)).to eq <<~EOS.strip
+        [ [ [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ] ], [ [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ] ] ]
+      EOS
+    end
+
+    it 'limited to 1 array deep' do
+      expect(@arr.ai(plain: true, depth: 1)).to eq <<~EOS.strip
+        [
+            [0] [ [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ] ],
+            [1] [ [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ], [ [ 1, 2 ], [ 3, 4 ] ] ]
+        ]
+      EOS
+    end
+
+    it 'limited to 2 arrays deep' do
+      expect(@arr.ai(plain: true, depth: 2)).to eq <<~EOS.strip
+        [
+            [0] [
+                [0] [ [ 1, 2 ], [ 3, 4 ] ],
+                [1] [ [ 1, 2 ], [ 3, 4 ] ],
+                [2] [ [ 1, 2 ], [ 3, 4 ] ]
+            ],
+            [1] [
+                [0] [ [ 1, 2 ], [ 3, 4 ] ],
+                [1] [ [ 1, 2 ], [ 3, 4 ] ],
+                [2] [ [ 1, 2 ], [ 3, 4 ] ]
+            ]
+        ]
+      EOS
+    end
+
+    it 'limited to 3 arrays deep' do
+      expect(@arr.ai(plain: true, depth: 3)).to eq <<~EOS.strip
+        [
+            [0] [
+                [0] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ],
+                [1] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ],
+                [2] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ]
+            ],
+            [1] [
+                [0] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ],
+                [1] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ],
+                [2] [
+                    [0] [ 1, 2 ],
+                    [1] [ 3, 4 ]
+                ]
+            ]
+        ]
+      EOS
+    end
+  end
+
+  #------------------------------------------------------------------------------
   describe 'Hash' do
     before do
       @hash = { 1 => { sym: { 'str' => { [1, 2, 3] => { { k: :v } => Hash } } } } }
@@ -487,6 +562,71 @@ RSpec.describe 'AmazingPrint' do
   end
 
   #------------------------------------------------------------------------------
+  describe 'Limited Depth Hash' do
+    before do
+      @h = {:c => [1, 2], :d => [3, 4]}
+      @hash = {:a => @h, :b =>  @h}
+    end
+
+    it 'limited to 0 hashes deep' do
+      expect(@hash.ai(plain: true, depth: 0)).to eq <<~EOS.strip
+        { :a => { :c => [ 1, 2 ], :d => [ 3, 4 ] }, :b => { :c => [ 1, 2 ], :d => [ 3, 4 ] } }
+      EOS
+    end
+
+    it 'limited to 1 hash deep' do
+      expect(@hash.ai(plain: true, depth: 1)).to eq <<~EOS.strip
+        {
+            :a => { :c => [ 1, 2 ], :d => [ 3, 4 ] },
+            :b => { :c => [ 1, 2 ], :d => [ 3, 4 ] }
+        }
+      EOS
+    end
+
+    it 'limited to 2 hashes deep' do
+      expect(@hash.ai(plain: true, depth: 2)).to eq <<~EOS.strip
+        {
+            :a => {
+                :c => [ 1, 2 ],
+                :d => [ 3, 4 ]
+            },
+            :b => {
+                :c => [ 1, 2 ],
+                :d => [ 3, 4 ]
+            }
+        }
+      EOS
+    end
+
+    it 'limited to 3 hashes deep' do
+      expect(@hash.ai(plain: true, depth: 3)).to eq <<~EOS.strip
+        {
+            :a => {
+                :c => [
+                    [0] 1,
+                    [1] 2
+                ],
+                :d => [
+                    [0] 3,
+                    [1] 4
+                ]
+            },
+            :b => {
+                :c => [
+                    [0] 1,
+                    [1] 2
+                ],
+                :d => [
+                    [0] 3,
+                    [1] 4
+                ]
+            }
+        }
+      EOS
+    end
+  end
+  
+  #------------------------------------------------------------------------------
   describe 'Class' do
     it 'shows superclass (plain)' do
       expect(self.class.ai(plain: true)).to eq("#{self.class} < #{self.class.superclass}")
@@ -639,6 +779,37 @@ RSpec.describe 'AmazingPrint' do
     end
   end
 
+  #------------------------------------------------------------------------------
+  describe 'Limited Depth Struct' do
+    before do
+      @struct = Struct.new('SimpleStruct', :full_name, :address).new
+      name_struct = Struct.new('SimpleStruct', :first_name, :last_name).new
+      address_struct = Struct.new('SimpleStruct', :street, :neighborhood).new
+      name_struct.first_name = "Bob"
+      name_struct.last_name = "Smith"
+      address_struct.street = "S Blue Island Ave"
+      address_struct.neighborhood = "Lower West Side"
+      @struct.full_name = name_struct
+      @struct.address = address_struct
+    end
+
+
+    it 'limited to 0 structs deep' do
+      regex = /\S+ address = \S+ neighborhood = \"[\w\s]+\", street = \"[\w\s]+\">, full_name = \S+ first_name = \"[\w\s]+\", last_name = \"[\w\s]+\">>/
+      expect(@struct.ai(plain: true, depth: 0)).to match(regex)
+    end
+
+    it 'limited to 1 struct deep' do
+      regex = /\S+\n\s+address = \S+ neighborhood = \"[\w\s]+\", street = \"[\w\s]+\">,\n\s+full_name = \S+ first_name = \"[\w\s]+\", last_name = \"[\w\s]+\">\n>/
+      expect(@struct.ai(plain: true, depth: 1)).to match(regex)
+    end
+
+    it 'limited to 2 structs deep' do
+      regex = /\S+\n\s+address = \S+\n\s+neighborhood = \"[\w\s]+\",\n\s+street = \"[\w\s]+\"\n\s+>,\n\s+full_name = \S+\n\s+first_name = \"[\w\s]+\",\n\s+last_name = \"[\w\s]+\"\n\s+>\n>/
+      expect(@struct.ai(plain: true, depth: 2)).to match(regex)
+    end
+  end
+  
   #------------------------------------------------------------------------------
   describe 'Inherited from standard Ruby classes' do
     after do

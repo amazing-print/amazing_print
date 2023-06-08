@@ -17,8 +17,6 @@ module AmazingPrint
       def format
         if hash.empty?
           empty_hash
-        elsif multiline_hash?
-          multiline_hash
         else
           simple_hash
         end
@@ -30,16 +28,22 @@ module AmazingPrint
         '{}'
       end
 
+      def simple_hash
+        single_line_if_reached_depth do
+          if multiline_hash?
+            multiline_hash
+          else
+            "{ #{printable_hash.join(', ')} }"
+          end
+        end
+      end
+
       def multiline_hash?
         options[:multiline]
       end
 
       def multiline_hash
         ["{\n", printable_hash.join(",\n"), "\n#{outdent}}"].join
-      end
-
-      def simple_hash
-        "{ #{printable_hash.join(', ')} }"
       end
 
       def printable_hash
