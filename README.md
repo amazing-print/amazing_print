@@ -315,11 +315,11 @@ formatting:
 
     <%= ap @accounts.first, :html => true %>
 
-### String Convenience Methods ###
+### Colorizing Strings ###
 Use methods such as `.red` to set string color:
 
 ```ruby
-irb> puts "red text".red
+irb> puts AmazingPrint::Colors.red("red text")
 red text # (it's red)
 ```
 
