@@ -2,6 +2,13 @@
 
 source "https://rubygems.org"
 
+gem "appraisal", git: "https://github.com/thoughtbot/appraisal.git", branch: :main
+gem "fakefs", "~> 1.2"
+gem "nokogiri", "~> 1.10"
+gem "pry"
+gem "rspec", "~> 3.9"
+gem "rubocop", "~> 1.20"
+gem "rubocop-rspec", "~> 2.4"
 gem "jdbc-sqlite3", platform: :jruby
 gem "sequel", "~> 5.0"
 gem "sqlite3", platform: :mri
