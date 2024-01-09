@@ -499,13 +499,13 @@ RSpec.describe 'AmazingPrint' do
 
   #------------------------------------------------------------------------------
   describe 'File' do
-    it 'displays a file (plain)', unix: true do
+    it 'displays a file (plain)', :unix do
       File.open(__FILE__, 'r') do |f|
         expect(f.ai(plain: true)).to eq("#{f.inspect}\n" + `ls -alF #{f.path}`.chop)
       end
     end
 
-    it 'displays a file (plain) akin to powershell Get-ChildItem', mswin: true do
+    it 'displays a file (plain) akin to powershell Get-ChildItem', :mswin do
       File.open(__FILE__, 'r') do |f|
         expect(f.ai(plain: true)).to eq("#{f.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(f.path).to_s)
       end
@@ -514,13 +514,13 @@ RSpec.describe 'AmazingPrint' do
 
   #------------------------------------------------------------------------------
   describe 'Dir' do
-    it 'displays a direcory (plain)', unix: true do
+    it 'displays a direcory (plain)', :unix do
       Dir.open(File.dirname(__FILE__)) do |d|
         expect(d.ai(plain: true)).to eq("#{d.inspect}\n" + `ls -alF #{d.path}`.chop)
       end
     end
 
-    it 'displays a directory (plain) akin to powershell Get-ChildItem', mswin: true do
+    it 'displays a directory (plain) akin to powershell Get-ChildItem', :mswin do
       Dir.open(File.dirname(__FILE__)) do |d|
         expect(d.ai(plain: true)).to eq("#{d.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(d.path).to_s)
       end
@@ -684,7 +684,7 @@ RSpec.describe 'AmazingPrint' do
       EOS
     end
 
-    it 'inherited from File should be displayed as File', unix: true do
+    it 'inherited from File should be displayed as File', :unix do
       class My < File; end
 
       my = begin
@@ -695,13 +695,13 @@ RSpec.describe 'AmazingPrint' do
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
-    it 'inherited from File should be displayed as File', mswin: true do
+    it 'inherited from File should be displayed as File', :mswin do
       class My < File; end
       my = My.new('nul') # it's /dev/null in Windows
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(my.path).to_s)
     end
 
-    it 'inherited from Dir should be displayed as Dir', unix: true do
+    it 'inherited from Dir should be displayed as Dir', :unix do
       class My < Dir; end
 
       require 'tmpdir'
@@ -709,7 +709,7 @@ RSpec.describe 'AmazingPrint' do
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
-    it 'inherited from Dir are displayed as Dir', mswin: true do
+    it 'inherited from Dir are displayed as Dir', :mswin do
       class My < Dir; end
 
       require 'tmpdir'
