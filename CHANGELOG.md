@@ -1,4 +1,9 @@
 ## Unreleased
+  - Use pager with Pry #96
+  - Add Rails 7 appraisal #98 
+  - Allow Hash keys to be colorized #99 
+  - Use CI merge queue #104
+  - Add support for Ruby 3.3 #105
 
 ## v1.5.0
   - Drop support for Ruby 2.3 and 2.4 as well as JRuby 9.1
