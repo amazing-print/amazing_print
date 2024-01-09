@@ -1,6 +1,7 @@
 name: Lints
 
 on:
+  merge_group:
   pull_request:
   push:
     branches:
