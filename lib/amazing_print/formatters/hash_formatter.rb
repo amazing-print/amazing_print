@@ -97,7 +97,6 @@ module AmazingPrint
 
       def plain_single_line
         multiline = options[:multiline]
-        options[:index]
         options[:multiline] = false
         yield
       ensure
