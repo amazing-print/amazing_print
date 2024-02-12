@@ -33,8 +33,14 @@ module AmazingPrint
     def awesome_mongoid_class(object)
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
 
+      aliases = object.aliased_fields.invert
       data = object.fields.sort.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
-        hash[c[1].name.to_sym] = (c[1].type || 'undefined').to_s.underscore.intern
+        name = c[1].name
+        alias_name = aliases[name] unless name == '_id'
+        printed_name = alias_name ? "#{alias_name}(#{name})" : name
+
+        hash[printed_name.to_sym] = (c[1].type || 'undefined').to_s.underscore.intern
+        hash
       end
 
       name = "class #{awesome_simple(object.to_s, :class)}"
@@ -48,8 +54,14 @@ module AmazingPrint
     def awesome_mongoid_document(object)
       return object.inspect unless defined?(::ActiveSupport::OrderedHash)
 
+      aliases = object.aliased_fields.invert
       data = (object.attributes || {}).sort.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
-        hash[c[0].to_sym] = c[1]
+        name = c[0]
+        alias_name = aliases[name] unless name == '_id'
+        printed_name = alias_name ? "#{alias_name}(#{name})" : name
+
+        hash[printed_name.to_sym] = c[1]
+        hash
       end
       data = { errors: object.errors, attributes: data } unless object.errors.empty?
       "#{object} #{awesome_hash(data)}"
