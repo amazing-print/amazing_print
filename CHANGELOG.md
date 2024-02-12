@@ -4,6 +4,7 @@
   - Allow Hash keys to be colorized #99 
   - Use CI merge queue #104
   - Add support for Ruby 3.3 #105
+  - Add Mongoid field aliases #106 
 
 ## v1.5.0
   - Drop support for Ruby 2.3 and 2.4 as well as JRuby 9.1
