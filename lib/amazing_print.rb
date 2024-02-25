@@ -9,6 +9,18 @@
 # AmazingPrint might be loaded implicitly through ~/.irbrc or ~/.pryrc
 # so do nothing for subsequent requires.
 #
+
+# We attempt to load required libraries before we load an extension to prevent
+# Gemfile load order issues.
+def load_and_require(extension, required_library)
+  require extension
+  return unless defined?(Object.const_get(required_library))
+
+  require_relative "amazing_print/ext/#{extension}"
+rescue LoadError
+  # library is not included
+end
+
 unless defined?(AmazingPrint::Inspector)
   %w[awesome_method_array object class kernel].each do |file|
     require_relative "amazing_print/core_ext/#{file}"
@@ -23,8 +35,13 @@ unless defined?(AmazingPrint::Inspector)
   # Load the following under normal circumstances as well as in Rails
   # console when required from ~/.irbrc or ~/.pryrc.
   #
-  require_relative 'amazing_print/ext/active_record' if defined?(ActiveRecord) || AmazingPrint.rails_console?
-  require_relative 'amazing_print/ext/active_support' if defined?(ActiveSupport) || AmazingPrint.rails_console?
+  if AmazingPrint.rails_console?
+    require_relative 'amazing_print/ext/active_record'
+    require_relative 'amazing_print/ext/active_support'
+  else
+    load_and_require 'active_record', 'ActiveRecord'
+    load_and_require 'active_support', 'ActiveSupport'
+  end
   #
   # Load remaining extensions.
   #
@@ -33,12 +50,12 @@ unless defined?(AmazingPrint::Inspector)
       require_relative 'amazing_print/ext/action_view'
     end
   end
-  require_relative 'amazing_print/ext/mongo_mapper'   if defined?(MongoMapper)
-  require_relative 'amazing_print/ext/mongoid'        if defined?(Mongoid)
-  require_relative 'amazing_print/ext/nokogiri'       if defined?(Nokogiri)
-  require_relative 'amazing_print/ext/nobrainer'      if defined?(NoBrainer)
-  require_relative 'amazing_print/ext/ripple'         if defined?(Ripple)
-  require_relative 'amazing_print/ext/sequel'         if defined?(Sequel)
-  require_relative 'amazing_print/ext/ostruct'        if defined?(OpenStruct)
+  load_and_require 'mongo_mapper', 'MongoMapper'
+  load_and_require 'mongoid', 'Mongoid'
+  load_and_require 'nokogiri', 'Nokogiri'
+  load_and_require 'nobrainer', 'NoBrainer'
+  load_and_require 'ripple', 'Ripple'
+  load_and_require 'sequel', 'Sequel'
+  load_and_require 'ostruct', 'OpenStruct'
 end
 # test
