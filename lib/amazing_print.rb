@@ -13,9 +13,7 @@
 # We attempt to load required libraries before we load an extension to prevent
 # Gemfile load order issues.
 def load_and_require(extension, required_library)
-  require extension
-  return unless defined?(Object.const_get(required_library))
-
+  require(extension) unless defined?(Object.const_get(required_library))
   require_relative "amazing_print/ext/#{extension}"
 rescue LoadError
   # library is not included
