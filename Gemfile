@@ -9,6 +9,7 @@ gemspec
 # Update this once https://github.com/thoughtbot/appraisal/pull/202 is released
 gem 'appraisal', git: 'https://github.com/thoughtbot/appraisal.git', branch: :main
 
+gem 'bigdecimal'
 gem 'fakefs', '~> 1.2'
 gem 'nokogiri', '~> 1.10'
 gem 'pry'
