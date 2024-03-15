@@ -85,7 +85,7 @@ module AmazingPrint
       end
 
       def max_key_width(keys)
-        keys.map { |key, _value| colorless_size(key) }.max || 0
+        keys.map { |key, _value| colorless_size(key.to_s) }.max || 0
       end
 
       def printable_keys
@@ -95,7 +95,10 @@ module AmazingPrint
 
         keys.map! do |key|
           plain_single_line do
-            [inspector.awesome(key), hash[key]]
+            [
+              json_format? ? key : inspector.awesome(key),
+              hash[key]
+            ]
           end
         end
       end
@@ -108,20 +111,12 @@ module AmazingPrint
         key[0] == ':'
       end
 
-      def json_syntax(key, value, width)
-        formatted_key = if symbol?(key)
-                          # Symbols should have a colon we need to remove
-                          # Strings should have surrounding double quotes we need to remove
-                          # symbol?(key) ? key[1..-1] : key[1..-2]
-                          key[1..-1].to_json
-                        elsif string?(key)
-                          key
-                        elsif key.respond_to?(:to_json)
-                          key.to_json
-                        else
-                          key
-                        end
+      def json_format?
+        options[:hash_format] == :json
+      end
 
+      def json_syntax(key, value, width)
+        formatted_key = json_awesome(key, is_key: true)
         formatted_value = json_awesome(value)
 
         "#{align(formatted_key, width)}#{colorize(': ', :hash)}#{formatted_value}"
