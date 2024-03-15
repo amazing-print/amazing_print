@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'base_formatter'
+require_relative '../json_helper'
 
 module AmazingPrint
   module Formatters
     class ArrayFormatter < BaseFormatter
+      include AmazingPrint::JSONHelper
+
       attr_reader :array, :inspector, :options
 
       def initialize(array, inspector)
@@ -51,7 +54,9 @@ module AmazingPrint
       def generate_printable_array
         array.map.with_index do |item, index|
           array_prefix(index, width(array)).tap do |temp|
-            indented { temp << inspector.awesome(item) }
+            indented do
+              temp << json_awesome(item)
+            end
           end
         end
       end
@@ -127,7 +132,7 @@ module AmazingPrint
       end
 
       def generic_prefix(iteration, width, padding = '')
-        if options[:index]
+        if options[:index] && options[:hash_format] != :json
           indent + colorize("[#{iteration.to_s.rjust(width)}] ", :array)
         else
           indent + padding

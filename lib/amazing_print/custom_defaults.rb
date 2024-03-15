@@ -31,8 +31,8 @@ module AmazingPrint
       IRB::Irb.class_eval do
         def output_value(_omit = false) # rubocop:disable Style/OptionalBooleanParameter
           ap @context.last_value
-        rescue NoMethodError
-          puts "(Object doesn't support #ai)"
+        # rescue NoMethodError
+        #   puts "(Object doesn't support #ai)"
         end
       end
     end

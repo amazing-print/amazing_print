@@ -1,10 +1,19 @@
 # frozen_string_literal: true
 
+require 'json'
+
 require_relative 'base_formatter'
+require_relative '../json_helper'
 
 module AmazingPrint
   module Formatters
     class HashFormatter < BaseFormatter
+      include AmazingPrint::JSONHelper
+
+      VALID_HASH_FORMATS = %i[json rocket symbol].freeze
+
+      class InvalidHashFormatError < StandardError; end
+
       attr_reader :hash, :inspector, :options
 
       def initialize(hash, inspector)
@@ -12,6 +21,12 @@ module AmazingPrint
         @hash = hash
         @inspector = inspector
         @options = inspector.options
+
+        puts "DEBUG hash_format: #{options[:hash_format]}"
+        unless VALID_HASH_FORMATS.include?(options[:hash_format])
+          raise(InvalidHashFormatError, "Invalid hash_format: #{options[:hash_format].inspect}. " \
+                                        "Must be one of #{VALID_HASH_FORMATS}")
+        end
       end
 
       def format
@@ -45,13 +60,17 @@ module AmazingPrint
       def printable_hash
         data = printable_keys
         width = left_width(data)
+        # require 'pry'; binding.pry
 
         data.map! do |key, value|
           indented do
-            if options[:ruby19_syntax] && symbol?(key)
-              ruby19_syntax(key, value, width)
-            else
+            case options[:hash_format]
+            when :json
+              json_syntax(key, value, width)
+            when :rocket
               pre_ruby19_syntax(key, value, width)
+            when :symbol
+              ruby19_syntax(key, value, width)
             end
           end
         end
@@ -66,7 +85,7 @@ module AmazingPrint
       end
 
       def max_key_width(keys)
-        keys.map { |key, _value| colorless_size(key) }.max || 0
+        keys.map { |key, _value| colorless_size(key.to_s) }.max || 0
       end
 
       def printable_keys
@@ -76,19 +95,37 @@ module AmazingPrint
 
         keys.map! do |key|
           plain_single_line do
-            [inspector.awesome(key), hash[key]]
+            [
+              json_format? ? key : inspector.awesome(key),
+              hash[key]
+            ]
           end
         end
+      end
+
+      def string?(key)
+        key[0] == '"' && key[-1] == '"'
       end
 
       def symbol?(key)
         key[0] == ':'
       end
 
+      def json_format?
+        options[:hash_format] == :json
+      end
+
+      def json_syntax(key, value, width)
+        formatted_key = json_awesome(key, is_key: true)
+        formatted_value = json_awesome(value)
+
+        "#{align(formatted_key, width)}#{colorize(': ', :hash)}#{formatted_value}"
+      end
+
       def ruby19_syntax(key, value, width)
-        key[0] = ''
-        key << ':'
-        "#{align(key, width)} #{inspector.awesome(value)}"
+        return pre_ruby19_syntax(key, value, width) unless symbol?(key)
+
+        "#{align(key[1..-1], width - 1)}#{colorize(': ', :hash)}#{inspector.awesome(value)}"
       end
 
       def pre_ruby19_syntax(key, value, width)

@@ -43,7 +43,7 @@ raw:           false,  # Do not recursively format instance variables.
 sort_keys:     false,  # Do not sort hash keys.
 sort_vars:     true,   # Sort instance variables.
 limit:         false,  # Limit arrays & hashes. Accepts bool or int.
-ruby19_syntax: false,  # Use Ruby 1.9 hash syntax in output.
+hash_format:   :symbol,# The format for printing hashes. Can be one of :json, :rocket, or :symbol
 class_name:    :class, # Method called to report the instance class name. (e.g. :to_s)
 object_id:     true,   # Show object id.
 color: {
