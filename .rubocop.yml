@@ -29,3 +29,6 @@ Style/HashTransformValues:
 Style/StringLiterals:
   Exclude:
     - gemfiles/*
+
+Style/FetchEnvVar:
+  Enabled: false

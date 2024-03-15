@@ -10,7 +10,7 @@
 # so do nothing for subsequent requires.
 #
 unless defined?(AmazingPrint::Inspector)
-  %w[awesome_method_array string object class kernel].each do |file|
+  %w[awesome_method_array object class kernel].each do |file|
     require_relative "amazing_print/core_ext/#{file}"
   end
 
@@ -33,12 +33,6 @@ unless defined?(AmazingPrint::Inspector)
       require_relative 'amazing_print/ext/action_view'
     end
   end
-  require_relative 'amazing_print/ext/mongo_mapper'   if defined?(MongoMapper)
-  require_relative 'amazing_print/ext/mongoid'        if defined?(Mongoid)
-  require_relative 'amazing_print/ext/nokogiri'       if defined?(Nokogiri)
-  require_relative 'amazing_print/ext/nobrainer'      if defined?(NoBrainer)
-  require_relative 'amazing_print/ext/ripple'         if defined?(Ripple)
-  require_relative 'amazing_print/ext/sequel'         if defined?(Sequel)
-  require_relative 'amazing_print/ext/ostruct'        if defined?(OpenStruct)
+
+  AmazingPrint::ExtLoader.call
 end
-# test

@@ -23,11 +23,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
                   :rank => 1
         }
       EOS
-      if RUBY_VERSION < '1.9'
-        str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
-      else
-        str.sub!('?', '1992-10-10 12:30:00 UTC')
-      end
+      str.sub!('?', '1992-10-10 12:30:00 UTC')
       expect(out).to be_similar_to(str)
     end
 
@@ -51,13 +47,8 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
             }
         ]
       EOS
-      if RUBY_VERSION < '1.9'
-        str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
-        str.sub!('?!', 'Mon May 26 14:15:00 UTC 2003')
-      else
-        str.sub!('??', '1992-10-10 12:30:00 UTC')
-        str.sub!('?!', '2003-05-26 14:15:00 UTC')
-      end
+      str.sub!('??', '1992-10-10 12:30:00 UTC')
+      str.sub!('?!', '2003-05-26 14:15:00 UTC')
       expect(out).to be_similar_to(str)
     end
 
@@ -83,13 +74,8 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
             }
         ]
       EOS
-      if RUBY_VERSION < '1.9'
-        str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
-        str.sub!('?!', 'Mon May 26 14:15:00 UTC 2003')
-      else
-        str.sub!('??', '1992-10-10 12:30:00 UTC')
-        str.sub!('?!', '2003-05-26 14:15:00 UTC')
-      end
+      str.sub!('??', '1992-10-10 12:30:00 UTC')
+      str.sub!('?!', '2003-05-26 14:15:00 UTC')
       expect(out).to be_similar_to(str)
     end
   end
@@ -128,7 +114,9 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(@diana)
 
       raw_object_string =
-        if activerecord_6_1?
+        if activerecord_7_0?
+          ActiveRecordData.raw_7_0_diana
+        elsif activerecord_6_1?
           ActiveRecordData.raw_6_1_diana
         elsif activerecord_6_0?
           ActiveRecordData.raw_6_0_diana
@@ -139,21 +127,13 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         elsif activerecord_5_0?
           ActiveRecordData.raw_5_0_diana
         elsif activerecord_4_2?
-          if RUBY_VERSION > '1.9.3'
-            ActiveRecordData.raw_4_2_diana
-          else
-            ActiveRecordData.raw_4_2_diana_legacy
-          end
+          ActiveRecordData.raw_4_2_diana
         elsif activerecord_4_1?
           ActiveRecordData.raw_4_1_diana
         elsif activerecord_4_0?
           ActiveRecordData.raw_4_0_diana
         elsif activerecord_3_2?
-          if RUBY_VERSION > '1.9.3'
-            ActiveRecordData.raw_3_2_diana
-          else
-            ActiveRecordData.raw_3_2_diana_legacy
-          end
+          ActiveRecordData.raw_3_2_diana
         end
 
       if RUBY_PLATFORM == 'java' && !activerecord_6_1?
@@ -170,7 +150,9 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome([@diana, @laura])
 
       raw_object_string =
-        if activerecord_6_1?
+        if activerecord_7_0?
+          ActiveRecordData.raw_7_0_multi
+        elsif activerecord_6_1?
           ActiveRecordData.raw_6_1_multi
         elsif activerecord_6_0?
           ActiveRecordData.raw_6_0_multi
@@ -181,21 +163,13 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         elsif activerecord_5_0?
           ActiveRecordData.raw_5_0_multi
         elsif activerecord_4_2?
-          if RUBY_VERSION > '1.9.3'
-            ActiveRecordData.raw_4_2_multi
-          else
-            ActiveRecordData.raw_4_2_multi_legacy
-          end
+          ActiveRecordData.raw_4_2_multi
         elsif activerecord_4_1?
           ActiveRecordData.raw_4_1_multi
         elsif activerecord_4_0?
           ActiveRecordData.raw_4_0_multi
         elsif activerecord_3_2?
-          if RUBY_VERSION > '1.9.3'
-            ActiveRecordData.raw_3_2_multi
-          else
-            ActiveRecordData.raw_3_2_multi_legacy
-          end
+          ActiveRecordData.raw_3_2_multi
         end
 
       if RUBY_PLATFORM == 'java' && !activerecord_6_1?
@@ -266,24 +240,24 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           expect(out).to match(
             /\s+first\(\*args,\s&block\)\s+#<Class:\w+>\s+\(ActiveRecord::Querying\)/
           )
-        elsif RUBY_VERSION >= '3.0.0'
+        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.1.0')
+          expect(out).to match(
+            /\s*first\(\*(\*|args),\s+\?,\s+&(&|block)\)\s+#<Class:User> \(ActiveRecord::Querying\)/
+          )
+        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
           expect(out).to match(
             /\s*first\(\*(\*|args),\s+&(&|block)\)\s+#<Class:User> \(ActiveRecord::Querying\)/
           )
-        elsif RUBY_VERSION >= '2.7.2'
+        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.2')
           expect(out).to match(
             /\s*first\(\*(\*|args),\s+&(&|block)\)\s+User/
           )
-        elsif RUBY_VERSION >= '2.6.7'
+        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.6.7')
           expect(out).to match(
             /\s*first\(\*(\*|args),\s+&(&|block)\)\s+#<Class:ActiveRecord::Base> \(ActiveRecord::Querying\)/
           )
-        elsif RUBY_VERSION =~ /^2\.4\.([4-9]|[1-9][0-9])|^2\.[56]\./
+        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.4.4')
           expect(out).to match(/\sfirst\(\*arg.*?\)\s+User/)
-        elsif RUBY_VERSION >= '1.9'
-          expect(out).to match(/\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/)
-        else
-          expect(out).to match(/\sfirst\(\*arg1\)\s+Class \(ActiveRecord::Querying\)/)
         end
       else
         expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
@@ -295,18 +269,16 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         expect(out).to match(
           /\sprimary_key\(.*?\)\s+#<Class:\w+>\s\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
         )
-      elsif RUBY_VERSION >= '3.0.0'
+      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
         expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:User> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
-      elsif RUBY_VERSION >= '2.6.7' && RUBY_VERSION < '2.7.0'
+      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.6.7') && Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.7.0')
         expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
-      elsif RUBY_VERSION =~ /^2\.4\.([4-9]|[1-9][0-9])|^2\.[56]\./ || RUBY_VERSION >= '2.7.2'
+      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.4.4') || Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.2')
         expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
-      elsif RUBY_VERSION >= '2.7.0'
+      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.0')
         expect(out).to match(
           /\sprimary_key\(.*?\)\s+.+Class.+\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
         )
-      else
-        expect(out).to match(/\sprimary_key\(.*?\)\s+Class \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
       end
 
       # spec 3
@@ -316,16 +288,14 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
       elsif RUBY_PLATFORM == 'java'
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:\w+> \(ActiveModel::Validations::ClassMethods\)/)
-      elsif RUBY_VERSION >= '3.0.0'
+      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:User> \(ActiveModel::Validations::ClassMethods\)/)
-      elsif RUBY_VERSION =~ /2\.7\.(0|1)/ || (RUBY_VERSION >= '2.6.7' && RUBY_VERSION < '2.7.0')
+      elsif (Gem::Version.new('2.6.7')..Gem::Version.new('2.7.1')).cover? Gem::Version.new(RUBY_VERSION)
         expect(out).to match(
           /\svalidate\(\*args.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveModel::Validations::ClassMethods\)/
         )
-      elsif RUBY_VERSION =~ /^2\.4\.([4-9]|[1-9][0-9])|^2\.[56]\./ || RUBY_VERSION >= '2.7.2'
+      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.4.4') || Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.2')
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
-      else
-        expect(out).to match(/\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/)
       end
     end
   end

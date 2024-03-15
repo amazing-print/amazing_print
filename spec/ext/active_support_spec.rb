@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe 'AmazingPrint::ActiveSupport', skip: -> { !ExtVerifier.has_rails? }.call do
   let(:expected_ar_time_str) do
-    if activerecord_6_1?
+    if activerecord_6_1? || activerecord_7_0?
       '15:30:45.000000000'
     else
       '15:30:45'
@@ -24,7 +24,7 @@ RSpec.describe 'AmazingPrint::ActiveSupport', skip: -> { !ExtVerifier.has_rails?
 
   it 'formats HashWithIndifferentAccess as regular Hash' do
     hash = HashWithIndifferentAccess.new({ hello: 'world' })
-    expect(@ap.send(:awesome, hash)).to eq("{\n    \"hello\"\e[0;37m => \e[0m\e[0;33m\"world\"\e[0m\n}")
+    expect(@ap.send(:awesome, hash)).to eq("{\n    \e[0;33m\"hello\"\e[0m\e[0;37m => \e[0m\e[0;33m\"world\"\e[0m\n}")
   end
 
   # ActiveSupport sticks in instance variables to the date object. Make sure

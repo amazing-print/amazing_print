@@ -21,9 +21,9 @@ RSpec.describe 'AmazingPrint::ActionController', skip: -> { !ExtVerifier.has_rai
     let(:expected_output) do
       <<~OUTPUT
         {
-            \"post\"\e[0;37m => \e[0m{
-                     \"id\"\e[0;37m => \e[0m\e[1;34m1\e[0m,
-                \"content\"\e[0;37m => \e[0m\e[0;33m\"Some\"\e[0m
+            \e[0;33m"post"\e[0m\e[0;37m => \e[0m{
+                     \e[0;33m"id"\e[0m\e[0;37m => \e[0m\e[1;34m1\e[0m,
+                \e[0;33m"content"\e[0m\e[0;37m => \e[0m\e[0;33m"Some"\e[0m
             }
         }
       OUTPUT

@@ -85,7 +85,7 @@ module AmazingPrint
       end
 
       def max_key_width(keys)
-        keys.map { |key, _value| key.to_s.size }.max || 0
+        keys.map { |key, _value| colorless_size(key) }.max || 0
       end
 
       def printable_keys
@@ -138,13 +138,10 @@ module AmazingPrint
       end
 
       def plain_single_line
-        plain = options[:plain]
         multiline = options[:multiline]
-        options[:plain] = true
         options[:multiline] = false
         yield
       ensure
-        options[:plain] = plain
         options[:multiline] = multiline
       end
     end

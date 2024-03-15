@@ -6,9 +6,10 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 
-# rubocop:disable Metrics/ClassLength
+# rubocop:disable Metrics/ClassLength, Metrics/MethodLength
 
 require_relative 'indentator'
+require_relative 'ext_loader'
 
 module AmazingPrint
   class Inspector
@@ -70,6 +71,8 @@ module AmazingPrint
       @formatter = AmazingPrint::Formatter.new(self)
       @indentator = AmazingPrint::Indentator.new(@options[:indent].abs)
       Thread.current[AP] ||= []
+
+      ExtLoader.call
     end
 
     def current_indentation
@@ -166,7 +169,7 @@ module AmazingPrint
       return xdg_config_path if File.exist?(xdg_config_path)
 
       # default to ~/.aprc
-      File.join(ENV['HOME'], '.aprc')
+      File.join(Dir.home, '.aprc')
     end
 
     # This method needs to be mocked during testing so that it always loads
@@ -196,4 +199,4 @@ module AmazingPrint
   end
 end
 
-# rubocop:enable Metrics/ClassLength
+# rubocop:enable Metrics/ClassLength, Metrics/MethodLength

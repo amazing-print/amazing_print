@@ -130,16 +130,21 @@ module AmazingPrint
       def align(value, width)
         if options[:multiline]
           indent_option = options[:indent]
+          effective_width = width + value.size - colorless_size(value)
           if indent_option.positive?
-            value.rjust(width)
+            value.rjust(effective_width)
           elsif indent_option.zero?
-            "#{indent}#{value.ljust(width)}"
+            "#{indent}#{value.ljust(effective_width)}"
           else
-            "#{indent(indentation + indent_option)}#{value.ljust(width)}"
+            "#{indent(indentation + indent_option)}#{value.ljust(effective_width)}"
           end
         else
           value
         end
+      end
+
+      def colorless_size(string)
+        string.gsub(/\e\[[\d;]+m/, '').size
       end
     end
   end

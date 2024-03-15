@@ -22,15 +22,6 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.files         = Dir['[A-Z]*[^~]'] + Dir['lib/**/*.rb'] + Dir['spec/**/*'] + ['.gitignore']
-  s.test_files    = Dir['spec/**/*']
   s.executables   = []
   s.require_paths = ['lib']
-
-  s.add_development_dependency 'appraisal', '~> 2.3'
-  s.add_development_dependency 'fakefs', '~> 1.2'
-  s.add_development_dependency 'nokogiri', '~> 1.10'
-  s.add_development_dependency 'pry'
-  s.add_development_dependency 'rspec', '~> 3.9'
-  s.add_development_dependency 'rubocop', '~> 1.20'
-  s.add_development_dependency 'rubocop-rspec', '~> 2.4'
 end
