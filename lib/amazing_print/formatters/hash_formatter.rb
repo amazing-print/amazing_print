@@ -65,8 +65,18 @@ module AmazingPrint
         result
       end
 
+      def key_size(key)
+        return key.inspect.size if symbol?(key)
+
+        if options[:html]
+          single_line { inspector.awesome(key) }.size
+        else
+          plain_single_line { inspector.awesome(key) }.size
+        end
+      end
+
       def max_key_width(keys)
-        keys.map { |key, _value| colorless_size(key) }.max || 0
+        keys.map { |key, _value| key_size(key) }.max || 0
       end
 
       def printable_keys
@@ -75,27 +85,37 @@ module AmazingPrint
         keys.sort! { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
 
         keys.map! do |key|
-          plain_single_line do
-            [inspector.awesome(key), hash[key]]
+          single_line do
+            [key, hash[key]]
           end
         end
       end
 
       def symbol?(key)
-        key[0] == ':'
+        key.is_a?(Symbol)
       end
 
       def ruby19_syntax(key, value, width)
-        key[0] = ''
-        key << ':'
-        "#{align(key, width)} #{inspector.awesome(value)}"
+        # Move the colon to the right side of the symbol
+        awesome_key = inspector.awesome(key).sub(/#{key.inspect}/, "#{key}:")
+
+        "#{align(awesome_key, width)} #{inspector.awesome(value)}"
       end
 
       def pre_ruby19_syntax(key, value, width)
-        "#{align(key, width)}#{colorize(' => ', :hash)}#{inspector.awesome(value)}"
+        awesome_key = single_line { inspector.awesome(key) }
+        "#{align(awesome_key, width)}#{colorize(' => ', :hash)}#{inspector.awesome(value)}"
       end
 
-      def plain_single_line
+      def plain_single_line(&block)
+        plain = options[:plain]
+        options[:plain] = true
+        single_line(&block)
+      ensure
+        options[:plain] = plain
+      end
+
+      def single_line
         multiline = options[:multiline]
         options[:multiline] = false
         yield

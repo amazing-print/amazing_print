@@ -2,16 +2,14 @@
 
 source "https://rubygems.org"
 
-gem "activerecord-jdbcsqlite3-adapter", "~> 61.0", platform: :jruby
 gem "appraisal", git: "https://github.com/thoughtbot/appraisal.git", branch: :main
 gem "bigdecimal"
 gem "fakefs", "~> 1.2"
+gem "mongoid", "~> 7.0.0"
 gem "nokogiri", "~> 1.10"
 gem "pry"
-gem "rails", "~> 6.1.0"
 gem "rspec", "~> 3.9"
 gem "rubocop", "~> 1.20"
 gem "rubocop-rspec", "~> 2.4"
-gem "sqlite3", "~> 1.4", platform: :mri
 
 gemspec path: "../"
