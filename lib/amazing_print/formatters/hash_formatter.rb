@@ -66,7 +66,13 @@ module AmazingPrint
       end
 
       def key_size(key)
-        key.is_a?(Symbol) ? key.inspect.size : key.to_s.size
+        return key.inspect.size if symbol?(key)
+
+        if options[:html]
+          single_line { inspector.awesome(key) }.size
+        else
+          plain_single_line { inspector.awesome(key) }.size
+        end
       end
 
       def max_key_width(keys)
@@ -79,7 +85,7 @@ module AmazingPrint
         keys.sort! { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
 
         keys.map! do |key|
-          plain_single_line do
+          single_line do
             [key, hash[key]]
           end
         end
@@ -93,14 +99,25 @@ module AmazingPrint
         # Move the colon to the right side of the symbol
         awesome_key = inspector.awesome(key).sub(/#{key.inspect}/, "#{key}:")
 
-        "#{align(awesome_key, width)}    #{inspector.awesome(value)}"
+        "#{align(awesome_key, width)} #{inspector.awesome(value)}"
       end
 
       def pre_ruby19_syntax(key, value, width)
-        "#{align(inspector.awesome(key), width)}#{colorize(' => ', :hash)}#{inspector.awesome(value)}"
+        awesome_key = single_line { inspector.awesome(key) }
+        "#{align(awesome_key, width)}#{colorize(' => ', :hash)}#{inspector.awesome(value)}"
       end
 
       def plain_single_line
+        plain = options[:plain]
+        options[:plain] = true
+        single_line do
+          yield
+        end
+      ensure
+        options[:plain] = plain
+      end
+
+      def single_line
         multiline = options[:multiline]
         options[:multiline] = false
         yield

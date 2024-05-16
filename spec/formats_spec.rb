@@ -331,10 +331,10 @@ RSpec.describe 'AmazingPrint' do
       expect(@hash.ai(ruby19_syntax: true)).to eq <<~EOS.strip
         {
             \e[1;34m1\e[0m\e[0;37m => \e[0m{
-                \e[0;36m:sym\e[0m\e[0;37m => \e[0m{
+                \e[0;36msym:\e[0m {
                     \e[0;33m"str"\e[0m\e[0;37m => \e[0m{
                         [ \e[1;34m1\e[0m, \e[1;34m2\e[0m, \e[1;34m3\e[0m ]\e[0;37m => \e[0m{
-                            { \e[0;36m:k\e[0m\e[0;37m => \e[0m\e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                            { \e[0;36mk:\e[0m \e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                         }
                     }
                 }
