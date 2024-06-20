@@ -192,7 +192,7 @@ module AmazingPrint
     #---------------------------------------------------------------------------
     def merge_custom_defaults!
       load_dotfile
-      merge_options!(AmazingPrint.defaults) if AmazingPrint.defaults.is_a?(Hash)
+      merge_options!(AmazingPrint.defaults.dup) if AmazingPrint.defaults.is_a?(Hash)
     rescue StandardError => e
       warn "Could not load '.aprc' from ENV['HOME']: #{e}"
     end

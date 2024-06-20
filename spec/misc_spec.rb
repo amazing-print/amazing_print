@@ -139,6 +139,17 @@ RSpec.describe 'AmazingPrint' do
         }
       EOS
     end
+
+    it 'preserves user color defaults' do
+      COLORIZED_123 = "\e[0;34m123\e[0m"
+
+      AmazingPrint.force_colors = true
+      AmazingPrint.defaults = { color: { integer: :blueish } }
+      out = 123.ai
+      expect(out).to eq COLORIZED_123
+      out = 123.ai
+      expect(out).to eq COLORIZED_123
+    end
   end
 
   #------------------------------------------------------------------------------
