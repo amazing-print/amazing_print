@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Preserve user defined color defaults
+
 ## V1.6.0
 
 - Use pager with Pry #96
