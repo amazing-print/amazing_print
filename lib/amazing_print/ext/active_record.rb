@@ -22,9 +22,9 @@ module AmazingPrint
         cast = :active_record_instance
       elsif object.is_a?(::ActiveModel::Errors)
         cast = :active_model_error
-      elsif object.is_a?(Class) && object.ancestors.include?(::ActiveRecord::Base)
+      elsif object.is_a?(Class) && object <= ::ActiveRecord::Base
         cast = :active_record_class
-      elsif type == :activerecord_relation || object.class.ancestors.include?(::ActiveRecord::Relation)
+      elsif type == :activerecord_relation || object.is_a?(::ActiveRecord::Relation)
         cast = :array
       end
       cast
