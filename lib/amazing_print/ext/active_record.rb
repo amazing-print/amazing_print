@@ -20,6 +20,10 @@ module AmazingPrint
 
       if object.is_a?(::ActiveRecord::Base)
         cast = :active_record_instance
+      elsif object.is_a?(Class) && object.include?(::ActiveModel::Attributes)
+        cast = :active_model_class
+      elsif object.is_a?(::ActiveModel::Attributes)
+        cast = :active_model_instance
       elsif object.is_a?(::ActiveModel::Errors)
         cast = :active_model_error
       elsif object.is_a?(Class) && object.ancestors.include?(::ActiveRecord::Base)
@@ -66,6 +70,32 @@ module AmazingPrint
 
       data = object.columns.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
         hash[c.name.to_sym] = c.type
+      end
+
+      [awesome_simple("class #{object} < #{object.superclass}", :class), awesome_hash(data)].join(' ')
+    end
+
+    # Format ActiveModel instance object.
+    #------------------------------------------------------------------------------
+    def awesome_active_model_instance(object)
+      return object.inspect unless defined?(::ActiveSupport::OrderedHash)
+      return awesome_object(object) if @options[:raw]
+
+      data = object.attributes.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
+        hash[c.first.to_sym] = c.last
+      end
+
+      [awesome_simple(object.to_s, :active_model_instance), awesome_hash(data)].join(' ')
+    end
+
+    # Format ActiveModel class object.
+    #------------------------------------------------------------------------------
+    def awesome_active_model_class(object)
+      return object.inspect unless defined?(::ActiveSupport::OrderedHash)
+      return awesome_class(object) if @options[:raw]
+
+      data = object.attribute_types.each_with_object(::ActiveSupport::OrderedHash.new) do |c, hash|
+        hash[c.first.to_sym] = c.last.type
       end
 
       [awesome_simple("class #{object} < #{object.superclass}", :class), awesome_hash(data)].join(' ')
