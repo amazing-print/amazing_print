@@ -136,7 +136,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           ActiveRecordData.raw_3_2_diana
         end
 
-      if RUBY_PLATFORM == 'java' && !activerecord_6_1?
+      if RUBY_PLATFORM == 'java' && !activerecord_6_1? && !activerecord_7_0?
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
           'ArJdbc::SQLite3::SQLite3Integer'
