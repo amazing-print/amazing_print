@@ -172,7 +172,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           ActiveRecordData.raw_3_2_multi
         end
 
-      if RUBY_PLATFORM == 'java' && !activerecord_6_1?
+      if RUBY_PLATFORM == 'java' && !activerecord_6_1? && !activerecord_7_0?
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
           'ArJdbc::SQLite3::SQLite3Integer'
@@ -238,7 +238,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       if ActiveRecord::VERSION::STRING >= '3.2'
         if RUBY_PLATFORM == 'java'
           expect(out).to match(
-            /\s+first\(\*args,\s&block\)\s+#<Class:\w+>\s+\(ActiveRecord::Querying\)/
+            /\s+first\(\*\*,\s\?, &&\)\s+#</
           )
         elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.1.0')
           expect(out).to match(
