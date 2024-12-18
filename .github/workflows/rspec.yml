@@ -20,7 +20,7 @@ jobs:
           - "3.2"
           - "3.3"
           - "head"
-          - "jruby-9.3"
+          - "jruby-9.4"
     runs-on: ${{ matrix.os }}-latest
     continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
