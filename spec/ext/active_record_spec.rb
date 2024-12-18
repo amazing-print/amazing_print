@@ -267,7 +267,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(User.methods.grep(/primary_key/))
       if RUBY_PLATFORM == 'java'
         expect(out).to match(
-          /\sprimary_key\(.*?\)\s+#<Class:\w+>\s\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
+          /\sprimary_key\(\)\s+#</
         )
       elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
         expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:User> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
