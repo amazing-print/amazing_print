@@ -40,4 +40,11 @@ if ExtVerifier.has_rails?
       { 'name' => name }
     end
   end
+
+  class ActiveModelModel
+    include ::ActiveModel::Model
+    include ::ActiveModel::Attributes
+    attribute :name, :string
+    attribute :rank, :integer, default: 0
+  end
 end
