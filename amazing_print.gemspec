@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
     'changelog_uri' => 'https://github.com/amazing-print/amazing_print/blob/master/CHANGELOG.md'
   }
 
-  s.files       = Dir['lib/**/*', 'rails/*', 'CHANGELOG.md', 'CONTRIBUTING.md', 'README.md']
+  s.files = Dir['lib/**/*', 'rails/*', 'CHANGELOG.md', 'CONTRIBUTING.md', 'README.md']
   s.executables   = []
   s.require_paths = ['lib']
 end
