@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.description = 'Great Ruby debugging companion: pretty print Ruby objects to visualize their structure. Supports custom object formatting via plugins'
   s.license     = 'MIT'
   s.metadata = {
-    "changelog_uri" => "https://github.com/amazing-print/amazing_print/blob/master/CHANGELOG.md"
+    'changelog_uri' => 'https://github.com/amazing-print/amazing_print/blob/master/CHANGELOG.md'
   }
 
   s.files       = Dir['lib/**/*', 'rails/*', 'CHANGELOG.md', 'CONTRIBUTING.md', 'README.md']
