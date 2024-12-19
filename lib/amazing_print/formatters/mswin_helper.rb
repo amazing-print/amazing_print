@@ -27,10 +27,10 @@ module AmazingPrint
       def mode
         r = ['-'] * 6
         r[0] = 'd' if @stat.directory?
-        r[1] = 'a' unless (@attrs & FILE_ATTRIBUTE_ARCHIVE).zero?
-        r[2] = 'r' unless (@attrs & FILE_ATTRIBUTE_READONLY).zero?
-        r[3] = 'h' unless (@attrs & FILE_ATTRIBUTE_HIDDEN).zero?
-        r[4] = 's' unless (@attrs & FILE_ATTRIBUTE_SYSTEM).zero?
+        r[1] = 'a' unless @attrs.nobits?(FILE_ATTRIBUTE_ARCHIVE)
+        r[2] = 'r' unless @attrs.nobits?(FILE_ATTRIBUTE_READONLY)
+        r[3] = 'h' unless @attrs.nobits?(FILE_ATTRIBUTE_HIDDEN)
+        r[4] = 's' unless @attrs.nobits?(FILE_ATTRIBUTE_SYSTEM)
         r[5] = 'l' if File.symlink? @fname
         r.join
       end
