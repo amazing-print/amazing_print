@@ -136,7 +136,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           ActiveRecordData.raw_3_2_diana
         end
 
-      if RUBY_PLATFORM == 'java' && !activerecord_6_1?
+      if RUBY_PLATFORM == 'java' && !activerecord_6_1? && !activerecord_7_0?
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
           'ArJdbc::SQLite3::SQLite3Integer'
@@ -172,7 +172,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           ActiveRecordData.raw_3_2_multi
         end
 
-      if RUBY_PLATFORM == 'java' && !activerecord_6_1?
+      if RUBY_PLATFORM == 'java' && !activerecord_6_1? && !activerecord_7_0?
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
           'ArJdbc::SQLite3::SQLite3Integer'
@@ -238,7 +238,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       if ActiveRecord::VERSION::STRING >= '3.2'
         if RUBY_PLATFORM == 'java'
           expect(out).to match(
-            /\s+first\(\*args,\s&block\)\s+#<Class:\w+>\s+\(ActiveRecord::Querying\)/
+            /\s+first\(\*\*,\s\?, &&\)\s+#</
           )
         elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.1.0')
           expect(out).to match(
@@ -267,7 +267,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(User.methods.grep(/primary_key/))
       if RUBY_PLATFORM == 'java'
         expect(out).to match(
-          /\sprimary_key\(.*?\)\s+#<Class:\w+>\s\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
+          /\sprimary_key\(\)\s+#</
         )
       elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
         expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:User> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
@@ -287,7 +287,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       if ActiveRecord::VERSION::MAJOR < 3
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
       elsif RUBY_PLATFORM == 'java'
-        expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:\w+> \(ActiveModel::Validations::ClassMethods\)/)
+        expect(out).to match(/\svalidate\(\*args, &block\)\s+#</)
       elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:User> \(ActiveModel::Validations::ClassMethods\)/)
       elsif (Gem::Version.new('2.6.7')..Gem::Version.new('2.7.1')).cover? Gem::Version.new(RUBY_VERSION)

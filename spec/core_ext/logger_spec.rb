@@ -7,9 +7,9 @@ require 'amazing_print/core_ext/logger'
 
 RSpec.describe 'AmazingPrint logging extensions' do
   subject(:logger) do
-    Logger.new('/dev/null')
+    Logger.new(File::NULL)
   rescue Errno::ENOENT
-    Logger.new('nul')
+    Logger.new(File::NULL)
   end
 
   let(:object) { double }

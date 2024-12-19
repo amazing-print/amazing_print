@@ -17,7 +17,7 @@ module AmazingPrint
 
       def format
         vars = variables.map do |var|
-          property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
+          property = var.to_s[1..].to_sym # to_s because of some monkey patching done by Puppet.
           accessor = if struct.respond_to?(:"#{property}=")
                        struct.respond_to?(property) ? :accessor : :writer
                      else

@@ -691,16 +691,16 @@ RSpec.describe 'AmazingPrint' do
       class My < File; end
 
       my = begin
-        File.new('/dev/null')
+        File.new(File::NULL)
       rescue StandardError
-        File.new('nul')
+        File.new(File::NULL)
       end
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
     it 'inherited from File should be displayed as File', :mswin do
       class My < File; end
-      my = My.new('nul') # it's /dev/null in Windows
+      my = My.new(File::NULL) # it's /dev/null in Windows
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(my.path).to_s)
     end
 
