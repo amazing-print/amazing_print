@@ -13,7 +13,7 @@ require 'amazing_print/version'
 Gem::Specification.new do |s|
   s.name        = 'amazing_print'
   s.version     = AmazingPrint.version
-  s.required_ruby_version = '>= 2.5.0'
+  s.required_ruby_version = '>= 3.0.0'
   s.authors     = ['Michael Dvorkin', 'Kevin McCormack' 'Patrik Wenger']
   s.email       = 'harlemsquirrel@gmail.com'
   s.homepage    = 'https://github.com/amazing-print/amazing_print'
@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
     "changelog_uri" => "https://github.com/amazing-print/amazing_print/blob/master/CHANGELOG.md"
   }
 
-  s.files         = Dir['[A-Z]*[^~]'] + Dir['lib/**/*.rb'] + Dir['spec/**/*'] + ['.gitignore']
+  s.files       = Dir['lib/**/*', 'rails/*', 'CHANGELOG.md', 'CONTRIBUTING.md', 'README.md']
   s.executables   = []
   s.require_paths = ['lib']
 end
