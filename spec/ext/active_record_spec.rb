@@ -248,16 +248,6 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           expect(out).to match(
             /\s*first\(\*(\*|args),\s+&(&|block)\)\s+#<Class:User> \(ActiveRecord::Querying\)/
           )
-        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.2')
-          expect(out).to match(
-            /\s*first\(\*(\*|args),\s+&(&|block)\)\s+User/
-          )
-        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.6.7')
-          expect(out).to match(
-            /\s*first\(\*(\*|args),\s+&(&|block)\)\s+#<Class:ActiveRecord::Base> \(ActiveRecord::Querying\)/
-          )
-        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.4.4')
-          expect(out).to match(/\sfirst\(\*arg.*?\)\s+User/)
         end
       else
         expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
@@ -271,14 +261,6 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         )
       elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
         expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:User> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
-      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.6.7') && Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.7.0')
-        expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
-      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.4.4') || Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.2')
-        expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
-      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.0')
-        expect(out).to match(
-          /\sprimary_key\(.*?\)\s+.+Class.+\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
-        )
       end
 
       # spec 3
@@ -290,12 +272,6 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         expect(out).to match(/\svalidate\(\*args, &block\)\s+#</)
       elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:User> \(ActiveModel::Validations::ClassMethods\)/)
-      elsif (Gem::Version.new('2.6.7')..Gem::Version.new('2.7.1')).cover? Gem::Version.new(RUBY_VERSION)
-        expect(out).to match(
-          /\svalidate\(\*args.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveModel::Validations::ClassMethods\)/
-        )
-      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.4.4') || Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.2')
-        expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
       end
     end
   end
