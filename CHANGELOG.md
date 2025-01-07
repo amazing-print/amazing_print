@@ -1,10 +1,13 @@
 # CHANGELOG
 
-## Unreleased
+## v1.7.0
 
+- Require Ruby >= 3.0
+- Add support for `::ActiveModel::Attributes`
 - Preserve user defined color defaults
+- Micro-optimization to `AmazingPrint::ActiveRecord#cast` (avoid calls to `#ancestors`)
 
-## V1.6.0
+## v1.6.0
 
 - Use pager with Pry #96
 - Add Rails 7 appraisal #98
