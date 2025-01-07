@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.7.2
+
+- update the version string in `AmazingPrint.version`
+
 ## v1.7.1
 
 - no changes, only linting
