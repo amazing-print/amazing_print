@@ -10,6 +10,7 @@ gemspec
 gem 'appraisal', git: 'https://github.com/thoughtbot/appraisal.git', branch: :main
 
 gem 'bigdecimal'
+gem 'ostruct'
 gem 'fakefs', '~> 1.2'
 gem 'nokogiri', '~> 1.16.7'
 gem 'pry'
