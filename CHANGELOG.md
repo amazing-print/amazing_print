@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.7.1
+
+- no changes, only linting
+
 ## v1.7.0
 
 - Require Ruby >= 3.0
