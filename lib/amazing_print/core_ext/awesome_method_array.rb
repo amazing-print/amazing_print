@@ -56,7 +56,7 @@ module AwesomeMethodArray # :nodoc:
     # the comment :-)
     #
     arr = if blk
-            super(pattern) do |match|
+            super do |match|
               #
               # The binding can only be used with Ruby-defined methods, therefore
               # we must rescue potential "ArgumentError: Can't create Binding from

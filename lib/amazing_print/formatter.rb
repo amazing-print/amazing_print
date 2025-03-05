@@ -48,7 +48,7 @@ module AmazingPrint
       elsif (hash = convert_to_hash(object))
         awesome_hash(hash)
       else
-        awesome_simple(object.inspect.to_s, type, @inspector)
+        awesome_simple(object.inspect.to_s, type, @inspector) # rubocop:disable Lint/RedundantTypeConversion
       end
     end
 

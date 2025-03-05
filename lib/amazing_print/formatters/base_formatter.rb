@@ -110,8 +110,8 @@ module AmazingPrint
         inspector.current_indentation
       end
 
-      def indented(&blk)
-        inspector.increase_indentation(&blk)
+      def indented(&)
+        inspector.increase_indentation(&)
       end
 
       # precompute common indentations
