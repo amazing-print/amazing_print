@@ -61,7 +61,7 @@ module AmazingPrint
         # We need to ensure that the original Kernel#format is used here instead of the one defined
         # above.
         # rubocop:disable Style/ColonMethodCall
-        Kernel::format("#{struct.class.superclass}:#{struct.class}:0x%08x", (struct.__id__ * 2))
+        Kernel::format("#{struct.class.superclass}:#{struct.class}:0x%08x", struct.__id__ * 2)
         # rubocop:enable Style/ColonMethodCall
       end
 
