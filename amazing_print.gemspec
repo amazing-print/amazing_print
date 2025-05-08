@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.name        = 'amazing_print'
   s.version     = AmazingPrint.version
   s.required_ruby_version = '>= 3.1.0'
-  s.authors     = ['Michael Dvorkin', 'Kevin McCormack' 'Patrik Wenger']
+  s.authors     = ['Michael Dvorkin', 'Kevin McCormack', 'Patrik Wenger']
   s.email       = 'harlemsquirrel@gmail.com'
   s.homepage    = 'https://github.com/amazing-print/amazing_print'
   s.summary     = 'Pretty print Ruby objects with proper indentation and colors'
