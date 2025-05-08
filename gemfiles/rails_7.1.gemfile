@@ -11,8 +11,8 @@ gem "pry"
 gem "rspec", "~> 3.9"
 gem "rubocop", "~> 1.20"
 gem "rubocop-rspec", "~> 2.4"
-gem "jdbc-sqlite3", platform: :jruby
-gem "sequel", "~> 5.0"
-gem "sqlite3", "~> 1.4", platform: :mri
+gem "activerecord-jdbcsqlite3-adapter", "~> 71.0", platform: :jruby
+gem "rails", "~> 7.1.0"
+gem "sqlite3", "~> 2.6", platform: :mri
 
 gemspec path: "../"
