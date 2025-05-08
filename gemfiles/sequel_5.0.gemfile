@@ -6,6 +6,7 @@ gem "appraisal", git: "https://github.com/thoughtbot/appraisal.git", branch: :ma
 gem "bigdecimal"
 gem "fakefs", "~> 1.2"
 gem "jdbc-sqlite3", platform: :jruby
+gem "logger", "~> 1.7"
 gem "nokogiri", "~> 1.18.3"
 gem "ostruct"
 gem "pry"

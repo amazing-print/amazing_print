@@ -2,10 +2,10 @@
 
 source "https://rubygems.org"
 
-gem "activerecord-jdbcsqlite3-adapter", "~> 72.0", platform: :jruby
 gem "appraisal", git: "https://github.com/thoughtbot/appraisal.git", branch: :main
 gem "bigdecimal"
 gem "fakefs", "~> 1.2"
+gem "logger", "~> 1.7"
 gem "nokogiri", "~> 1.18.3"
 gem "ostruct"
 gem "pry"
