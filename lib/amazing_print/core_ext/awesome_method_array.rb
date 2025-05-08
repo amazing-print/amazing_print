@@ -75,7 +75,7 @@ module AwesomeMethodArray # :nodoc:
               yield match
             end
           else
-            super(pattern)
+            super
           end
     arr.instance_variable_set(:@__awesome_methods__, instance_variable_get(:@__awesome_methods__))
     arr.select! { |item| item.is_a?(Symbol) || item.is_a?(String) } # grep block might return crap.
