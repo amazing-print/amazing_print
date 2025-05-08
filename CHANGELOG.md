@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.8.0
+
+- Drop Ruby 3.0 and add Ruby 3.4 #125
+
 ## v1.7.2
 
 - update the version string in `AmazingPrint.version`
