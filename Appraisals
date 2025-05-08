@@ -22,10 +22,12 @@ if RUBY_VERSION < '3.4.0'
 
   appraise 'mongoid-7.0' do
     gem 'mongoid', '~> 7.0.0'
+    gem 'concurrent-ruby', '1.3.4' # https://stackoverflow.com/a/79361034/3446655
   end
 
   appraise 'mongoid-8.0' do
     gem 'mongoid', '~> 8.0.0'
+    gem 'concurrent-ruby', '1.3.4' # https://stackoverflow.com/a/79361034/3446655
   end
 
   appraise 'rails-6.1' do
