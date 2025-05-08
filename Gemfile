@@ -11,9 +11,10 @@ gem 'appraisal', git: 'https://github.com/thoughtbot/appraisal.git', branch: :ma
 
 gem 'bigdecimal'
 gem 'fakefs', '~> 1.2'
-gem 'nokogiri', '~> 1.16.7'
+gem 'logger', '~> 1.7'
+gem 'nokogiri', '~> 1.18.3'
 gem 'ostruct'
 gem 'pry'
 gem 'rspec', '~> 3.9'
 gem 'rubocop', '~> 1.20'
-gem 'rubocop-rspec', '~> 2.4'
+gem 'rubocop-rspec', '~> 3.6'

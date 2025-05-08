@@ -12,7 +12,11 @@ RSpec.describe 'AmazingPrint::ActionController', skip: -> { !ExtVerifier.has_rai
 
     it 'formats as an object' do
       expect(inspector.send(:awesome, parameters)).to match(
-        /\A#?<ActionController::Parameters {"post"=>{"id"=>1, "content"=>"Some"}} permitted: false>\z/
+        if RUBY_VERSION < '3.4.0'
+          /\A#?<ActionController::Parameters {"post"=>{"id"=>1, "content"=>"Some"}} permitted: false>\z/
+        else
+          /\A#?<ActionController::Parameters {"post" => {"id" => 1, "content" => "Some"}} permitted: false>\z/
+        end
       )
     end
   end

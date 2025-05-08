@@ -107,10 +107,10 @@ module AmazingPrint
         "#{align(awesome_key, width)}#{colorize(' => ', :hash)}#{inspector.awesome(value)}"
       end
 
-      def plain_single_line(&block)
+      def plain_single_line(&)
         plain = options[:plain]
         options[:plain] = true
-        single_line(&block)
+        single_line(&)
       ensure
         options[:plain] = plain
       end

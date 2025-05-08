@@ -56,7 +56,7 @@ module AwesomeMethodArray # :nodoc:
     # the comment :-)
     #
     arr = if blk
-            super(pattern) do |match|
+            super do |match|
               #
               # The binding can only be used with Ruby-defined methods, therefore
               # we must rescue potential "ArgumentError: Can't create Binding from
@@ -75,7 +75,7 @@ module AwesomeMethodArray # :nodoc:
               yield match
             end
           else
-            super(pattern)
+            super
           end
     arr.instance_variable_set(:@__awesome_methods__, instance_variable_get(:@__awesome_methods__))
     arr.select! { |item| item.is_a?(Symbol) || item.is_a?(String) } # grep block might return crap.

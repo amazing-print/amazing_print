@@ -365,10 +365,10 @@ RSpec.describe 'Ruby 1.9.2+ Method#parameters' do
   it ':block' do
     class Hello
       # m1(a, *b, &blk)
-      def m1(a, b = nil, &blk); end
+      def m1(a, b = nil, &); end
     end
     out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
-    expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, \*b, &blk\)\s+Hello$/)
+    expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, \*b, &&\)\s+Hello$/)
   end
 end
 
