@@ -6,7 +6,7 @@ require 'active_record_helper'
 RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }.call do
   describe 'ActiveRecord instance, attributes only (default)' do
     before do
-      ActiveRecord::Base.default_timezone = :utc
+      ActiveRecord.default_timezone = :utc
       @diana = User.new(name: 'Diana', rank: 1, admin: false, created_at: '1992-10-10 12:30:00')
       @laura = User.new(name: 'Laura', rank: 2, admin: true,  created_at: '2003-05-26 14:15:00')
       @ap = AmazingPrint::Inspector.new(plain: true, sort_keys: true)
@@ -104,7 +104,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
   #------------------------------------------------------------------------------
   describe 'ActiveRecord instance (raw)' do
     before do
-      ActiveRecord::Base.default_timezone = :utc
+      ActiveRecord.default_timezone = :utc
       @diana = User.new(name: 'Diana', rank: 1, admin: false, created_at: '1992-10-10 12:30:00')
       @laura = User.new(name: 'Laura', rank: 2, admin: true,  created_at: '2003-05-26 14:15:00')
       @ap = AmazingPrint::Inspector.new(plain: true, sort_keys: true, raw: true)
@@ -114,7 +114,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(@diana)
 
       raw_object_string =
-        if activerecord_7_0?
+        if activerecord_7_2?
+          ActiveRecordData.raw_7_2_diana
+        elsif activerecord_7_1?
+          ActiveRecordData.raw_7_1_diana
+        elsif activerecord_7_0?
           ActiveRecordData.raw_7_0_diana
         elsif activerecord_6_1?
           ActiveRecordData.raw_6_1_diana
@@ -150,7 +154,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome([@diana, @laura])
 
       raw_object_string =
-        if activerecord_7_0?
+        if activerecord_7_2?
+          ActiveRecordData.raw_7_2_multi
+        elsif activerecord_7_1?
+          ActiveRecordData.raw_7_1_multi
+        elsif activerecord_7_0?
           ActiveRecordData.raw_7_0_multi
         elsif activerecord_6_1?
           ActiveRecordData.raw_6_1_multi
