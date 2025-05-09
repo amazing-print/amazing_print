@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+- Fix authors list in gemspec #128
+
 ## v1.8.0
 
 - Drop Ruby 3.0 and add Ruby 3.4 #125
