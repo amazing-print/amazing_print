@@ -15,7 +15,7 @@ module AmazingPrint
       end
 
       def format
-        if array.length.zero?
+        if array.length.zero? # rubocop:disable Style/ZeroLengthPredicate
           '[]'
         elsif methods_array?
           methods_array

@@ -129,7 +129,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       collection = wizard.spells
 
       @ap.awesome collection
-      expect(collection).to_not eq([])
+      expect(collection).not_to eq([])
       expect(collection.length).to eq(3)
     end
   end
