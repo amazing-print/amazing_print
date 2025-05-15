@@ -106,7 +106,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
     end
   end
 
-  describe 'ActiveRecord collection with counter cache' do
+  describe 'ActiveRecord collection with counter cache', skip: -> { !defined?(Rails) || Rails::VERSION::STRING < '7.1.0' }.call do
     before do
       @ap = AmazingPrint::Inspector.new(plain: true)
     end
