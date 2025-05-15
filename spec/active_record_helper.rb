@@ -25,12 +25,34 @@ if ExtVerifier.has_rails?
     t.string :email_address
   end
 
+  ActiveRecord::Migration.create_table :wizards do |t|
+    t.string :name
+    t.datetime :created_at
+    t.datetime :updated_at
+    t.integer :spells_count
+  end
+
+  ActiveRecord::Migration.create_table :spells do |t|
+    t.references :wizard
+    t.string :name
+  end
+
   # Create models
   class User < ActiveRecord::Base; has_many :emails; end
 
   class SubUser < User; end
 
-  class Email < ActiveRecord::Base; belongs_to :user; end
+  class Email < ActiveRecord::Base
+    belongs_to :user
+  end
+
+  class Wizard < ActiveRecord::Base
+    has_many :spells
+  end
+
+  class Spell < ActiveRecord::Base
+    belongs_to :wizard, counter_cache: true
+  end
 
   class TableFreeModel
     include ::ActiveModel::Validations

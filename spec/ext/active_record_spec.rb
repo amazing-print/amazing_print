@@ -106,6 +106,34 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
     end
   end
 
+  describe 'ActiveRecord collection with counter cache', skip: -> { !defined?(Rails) || Rails::VERSION::STRING < '7.1.0' }.call do
+    before do
+      @ap = AmazingPrint::Inspector.new(plain: true)
+    end
+
+    it 'preserves the collection' do
+      wizard = Wizard.create!(name: 'Gandalf')
+      wizard.spells.create!(
+        [
+          { name: 'poof' },
+          { name: 'puff' },
+          { name: 'push' }
+        ]
+      )
+      expect(wizard.spells_count).to eq(3)
+
+      wizard.update_column(:spells_count, 0)
+      wizard.reload
+      expect(wizard.spells_count).to eq(0)
+
+      collection = wizard.spells
+
+      @ap.awesome collection
+      expect(collection).not_to eq([])
+      expect(collection.length).to eq(3)
+    end
+  end
+
   #------------------------------------------------------------------------------
   describe 'ActiveRecord instance (raw)' do
     before do
