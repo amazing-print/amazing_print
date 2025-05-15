@@ -15,7 +15,7 @@ module AmazingPrint
       end
 
       def format
-        if array.empty?
+        if array.length.zero?
           '[]'
         elsif methods_array?
           methods_array
