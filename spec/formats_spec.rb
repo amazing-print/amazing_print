@@ -259,7 +259,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline' do
-      expect(@hash.ai(plain: true)).to eq <<~EOS.strip
+      expect(@hash.ai(plain: true, hash_format: :rocket)).to eq <<~EOS.strip
         {
             1 => {
                 :sym => {
@@ -291,7 +291,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline indented' do
-      expect(@hash.ai(plain: true, indent: 1)).to eq <<~EOS.strip
+      expect(@hash.ai(plain: true, indent: 1, hash_format: :rocket)).to eq <<~EOS.strip
         {
          1 => {
           :sym => {
@@ -308,17 +308,18 @@ RSpec.describe 'AmazingPrint' do
 
     it 'plain single line' do
       expect(@hash.ai(plain: true,
-                      multiline: false)).to eq('{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }')
+                      multiline: false,
+                      hash_format: :rocket)).to eq('{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }')
     end
 
     it 'colored multiline (default)' do
       expect(@hash.ai).to eq <<~EOS.strip
         {
             \e[1;34m1\e[0m\e[0;37m => \e[0m{
-                \e[0;36m:sym\e[0m\e[0;37m => \e[0m{
+                \e[0;36msym:\e[0m {
                     \e[0;33m"str"\e[0m\e[0;37m => \e[0m{
                         [ \e[1;34m1\e[0m, \e[1;34m2\e[0m, \e[1;34m3\e[0m ]\e[0;37m => \e[0m{
-                            { \e[0;36m:k\e[0m\e[0;37m => \e[0m\e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                            { \e[0;36mk:\e[0m \e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                         }
                     }
                 }
@@ -347,10 +348,10 @@ RSpec.describe 'AmazingPrint' do
       expect(@hash.ai(indent: 2)).to eq <<~EOS.strip
         {
           \e[1;34m1\e[0m\e[0;37m => \e[0m{
-            \e[0;36m:sym\e[0m\e[0;37m => \e[0m{
+            \e[0;36msym:\e[0m {
               \e[0;33m"str"\e[0m\e[0;37m => \e[0m{
                 [ \e[1;34m1\e[0m, \e[1;34m2\e[0m, \e[1;34m3\e[0m ]\e[0;37m => \e[0m{
-                  { \e[0;36m:k\e[0m\e[0;37m => \e[0m\e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                  { \e[0;36mk:\e[0m \e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                 }
               }
             }
@@ -360,8 +361,8 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'colored single line' do
-      puts @hash.ai(multiline: false)
-      expect(@hash.ai(multiline: false)).to eq(
+      # puts @hash.ai(multiline: false)
+      expect(@hash.ai(multiline: false, hash_format: :rocket)).to eq(
         "{ \e[1;34m1\e[0m\e[0;37m => \e[0m{ \e[0;36m:sym\e[0m\e[0;37m => \e[0m{ \e[0;33m\"str\"\e[0m\e[0;37m => \e[0m{ [ \e[1;34m1\e[0m, \e[1;34m2\e[0m, \e[1;34m3\e[0m ]\e[0;37m => \e[0m{ { \e[0;36m:k\e[0m\e[0;37m => \e[0m\e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m } } } } }" # rubocop:disable Layout/LineLength
       )
     end
@@ -377,13 +378,13 @@ RSpec.describe 'AmazingPrint' do
     it 'plain multiline' do
       expect(@hash.ai(plain: true)).to eq <<~EOS.strip
         {
-            :a => {...}
+            a: {...}
         }
       EOS
     end
 
     it 'plain single line' do
-      expect(@hash.ai(plain: true, multiline: false)).to eq('{ :a => {...} }')
+      expect(@hash.ai(plain: true, multiline: false)).to eq('{ a: {...} }')
     end
   end
 
@@ -394,7 +395,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline' do
-      out = @hash.ai(plain: true)
+      out = @hash.ai(plain: true, hash_format: :rocket)
       expect(out).to eq <<~EOS.strip
         {
                 "b" => "b",
@@ -406,7 +407,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline with sorted keys' do
-      expect(@hash.ai(plain: true, sort_keys: true)).to eq <<~EOS.strip
+      expect(@hash.ai(plain: true, sort_keys: true, hash_format: :rocket)).to eq <<~EOS.strip
         {
                  :a => "a",
             "alpha" => "alpha",
@@ -430,14 +431,14 @@ RSpec.describe 'AmazingPrint' do
         {
             [ 0, 0, 255 ] => :yellow,
             "magenta"     => "rgb(255, 0, 255)",
-            :red          => "rgb(255, 0, 0)"
+            red:          "rgb(255, 0, 0)"
         }
       EOS
     end
 
     it 'nested hash keys should be indented (array of hashes)' do
       arr = [{ a: 1, bb: 22, ccc: 333 }, { 1 => :a, 22 => :bb, 333 => :ccc }]
-      out = arr.ai(plain: true, indent: -4, sort_keys: true)
+      out = arr.ai(plain: true, indent: -4, sort_keys: true, hash_format: :rocket)
       expect(out).to eq <<~EOS.strip
         [
             [0] {
@@ -456,7 +457,7 @@ RSpec.describe 'AmazingPrint' do
 
     it 'nested hash keys should be indented (hash of hashes)' do
       arr = { first: { a: 1, bb: 22, ccc: 333 }, second: { 1 => :a, 22 => :bb, 333 => :ccc } }
-      out = arr.ai(plain: true, indent: -4, sort_keys: true)
+      out = arr.ai(plain: true, indent: -4, sort_keys: true, hash_format: :rocket)
       expect(out).to eq <<~EOS.strip
         {
             :first  => {
@@ -479,7 +480,7 @@ RSpec.describe 'AmazingPrint' do
   #
   it 'hash keys must be left aligned' do
     hash = { [0, 0, 255] => :yellow, :bloodiest_red => 'rgb(255, 0, 0)', 'magenta' => 'rgb(255, 0, 255)' }
-    out = hash.ai(plain: true, indent: -2, ruby19_syntax: true, sort_keys: true)
+    out = hash.ai(plain: true, indent: -2, hash_format: :symbol, sort_keys: true)
     expect(out).to eq <<~EOS.strip
       {
         [ 0, 0, 255 ]  => :yellow,
@@ -672,7 +673,7 @@ RSpec.describe 'AmazingPrint' do
       class My < Hash; end
 
       my = My[{ 1 => { sym: { 'str' => { [1, 2, 3] => { { k: :v } => Hash } } } } }]
-      expect(my.ai(plain: true)).to eq <<~EOS.strip
+      expect(my.ai(plain: true, hash_format: :rocket)).to eq <<~EOS.strip
         {
             1 => {
                 :sym => {

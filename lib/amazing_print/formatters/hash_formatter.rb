@@ -95,7 +95,7 @@ module AmazingPrint
       end
 
       def max_key_width(keys)
-        keys.map { |key, _value| key_size(key.to_s) }.max || 0
+        keys.map { |key, _value| key_size(key) }.max || 0
       end
 
       def printable_keys
@@ -130,6 +130,8 @@ module AmazingPrint
       end
 
       def ruby19_syntax(key, value, width)
+        return pre_ruby19_syntax(key, value, width) unless symbol?(key)
+
         # Move the colon to the right side of the symbol
         awesome_key = inspector.awesome(key).sub(/#{key.inspect}/, "#{key}:")
 
