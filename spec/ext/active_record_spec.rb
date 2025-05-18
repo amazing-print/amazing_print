@@ -21,11 +21,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(@diana)
       str = <<~EOS.strip
         #<User:placeholder_id> {
-                 :admin => false,
-            :created_at => ?,
-                    :id => nil,
-                  :name => "Diana",
-                  :rank => 1
+                 admin: false,
+            created_at: ?,
+                    id: nil,
+                  name: "Diana",
+                  rank: 1
         }
       EOS
       str.sub!('?', '1992-10-10 12:30:00 UTC')
@@ -37,18 +37,18 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       str = <<~EOS.strip
         [
             [0] #<User:placeholder_id> {
-                     :admin => false,
-                :created_at => ??,
-                        :id => nil,
-                      :name => "Diana",
-                      :rank => 1
+                     admin: false,
+                created_at: ??,
+                        id: nil,
+                      name: "Diana",
+                      rank: 1
             },
             [1] #<User:placeholder_id> {
-                     :admin => true,
-                :created_at => ?!,
-                        :id => nil,
-                      :name => "Laura",
-                      :rank => 2
+                     admin: true,
+                created_at: ?!,
+                        id: nil,
+                      name: "Laura",
+                      rank: 2
             }
         ]
       EOS
@@ -64,18 +64,18 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       str = <<~EOS.strip
         [
             [0] #<User:placeholder_id> {
-                     :admin => false,
-                :created_at => ??,
-                        :id => 1,
-                      :name => "Diana",
-                      :rank => 1
+                     admin: false,
+                created_at: ??,
+                        id: 1,
+                      name: "Diana",
+                      rank: 1
             },
             [1] #<User:placeholder_id> {
-                     :admin => true,
-                :created_at => ?!,
-                        :id => 2,
-                      :name => "Laura",
-                      :rank => 2
+                     admin: true,
+                created_at: ?!,
+                        id: 2,
+                      name: "Laura",
+                      rank: 2
             }
         ]
       EOS
@@ -239,11 +239,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
     it 'prints the class' do
       expect(@ap.awesome(User)).to eq <<~EOS.strip
         class User < ActiveRecord::Base {
-                    :id => :integer,
-                  :name => :string,
-                  :rank => :integer,
-                 :admin => :boolean,
-            :created_at => :datetime
+                    id: :integer,
+                  name: :string,
+                  rank: :integer,
+                 admin: :boolean,
+            created_at: :datetime
         }
       EOS
     end
@@ -252,11 +252,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(SubUser)
       expect(out).to eq <<~EOS.strip
         class SubUser < User {
-                    :id => :integer,
-                  :name => :string,
-                  :rank => :integer,
-                 :admin => :boolean,
-            :created_at => :datetime
+                    id: :integer,
+                  name: :string,
+                  rank: :integer,
+                 admin: :boolean,
+            created_at: :datetime
         }
       EOS
     end
