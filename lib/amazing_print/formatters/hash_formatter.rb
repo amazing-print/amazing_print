@@ -57,7 +57,6 @@ module AmazingPrint
       def printable_hash
         data = printable_keys
         width = left_width(data)
-        # require 'pry'; binding.pry
 
         data.map! do |key, value|
           indented do
@@ -135,7 +134,8 @@ module AmazingPrint
         return pre_ruby19_syntax(key, value, width) unless symbol?(key)
 
         # Move the colon to the right side of the symbol
-        awesome_key = inspector.awesome(key).sub(/#{key.inspect}/, "#{key}:")
+        key_string = key.inspect.include?('"') ? key.inspect.sub(':', '') : key.to_s
+        awesome_key = inspector.awesome(key).sub(/#{Regexp.escape(key.inspect)}/, "#{key_string}:")
 
         "#{align(awesome_key, width)} #{inspector.awesome(value)}"
       end
