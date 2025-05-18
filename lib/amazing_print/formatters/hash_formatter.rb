@@ -23,10 +23,10 @@ module AmazingPrint
         @options = inspector.options
 
         puts "DEBUG hash_format: #{options[:hash_format]}"
-        unless VALID_HASH_FORMATS.include?(options[:hash_format])
-          raise(InvalidHashFormatError, "Invalid hash_format: #{options[:hash_format].inspect}. " \
-                                        "Must be one of #{VALID_HASH_FORMATS}")
-        end
+        return if VALID_HASH_FORMATS.include?(options[:hash_format])
+
+        raise(InvalidHashFormatError, "Invalid hash_format: #{options[:hash_format].inspect}. " \
+                                      "Must be one of #{VALID_HASH_FORMATS}")
       end
 
       def format

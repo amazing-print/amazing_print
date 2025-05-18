@@ -37,7 +37,7 @@ module AmazingPrint
         sort_keys: false,  # Do not sort hash keys.
         sort_vars: true,   # Sort instance variables.
         limit: false, # Limit arrays & hashes. Accepts bool or int.
-        hash_format:  :symbol,# The format for printing hashes. Can be one of :json, :rocket, or :symbol
+        hash_format: :symbol, # The format for printing hashes. Can be one of :json, :rocket, or :symbol
         class_name: :class, # Method used to get Instance class name.
         object_id: true, # Show object_id.
         color: {
