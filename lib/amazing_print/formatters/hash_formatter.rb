@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'json'
-
 require_relative 'base_formatter'
 require_relative '../json_helper'
 
@@ -22,7 +20,6 @@ module AmazingPrint
         @inspector = inspector
         @options = inspector.options
 
-        puts "DEBUG hash_format: #{options[:hash_format]}"
         return if VALID_HASH_FORMATS.include?(options[:hash_format])
 
         raise(InvalidHashFormatError, "Invalid hash_format: #{options[:hash_format].inspect}. " \
@@ -123,6 +120,11 @@ module AmazingPrint
       end
 
       def json_syntax(key, value, width)
+        unless defined?(JSON)
+          warn "JSON is not defined. Defaulting hash format to symbol"
+          return ruby19_syntax(key, value, width)
+        end
+
         formatted_key = json_awesome(key, is_key: true)
         formatted_value = json_awesome(value)
 
