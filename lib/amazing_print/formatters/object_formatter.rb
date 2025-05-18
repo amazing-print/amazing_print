@@ -17,7 +17,7 @@ module AmazingPrint
 
       def format
         vars = variables.map do |var|
-          property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
+          property = var.to_s[1..].to_sym # to_s because of some monkey patching done by Puppet.
           accessor = if object.respond_to?(:"#{property}=")
                        object.respond_to?(property) ? :accessor : :writer
                      else
@@ -68,7 +68,7 @@ module AmazingPrint
         # We need to ensure that the original Kernel#format is used here instead of the one
         # defined above.
         # rubocop:disable Style/ColonMethodCall
-        str + Kernel::format(':0x%08x', (object.__id__ * 2))
+        str + Kernel::format(':0x%08x', object.__id__ * 2)
         # rubocop:enable Style/ColonMethodCall
       end
 

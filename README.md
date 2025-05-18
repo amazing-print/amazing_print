@@ -8,14 +8,14 @@
 |
 [![Gitter](https://badges.gitter.im/amazing-print/community.svg)](https://gitter.im/amazing-print/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-AmazingPrint is a fork of [AwesomePrint](https://github.com/awesome-print/awesome_print) which became stale and should be used in its place to avoid conflicts. It is a Ruby library that pretty prints Ruby objects in full color exposing their internal structure with proper indentation. Rails ActiveRecord objects and usage within Rails templates are supported via included mixins.
+AmazingPrint is a fork of [AwesomePrint](https://github.com/awesome-print/awesome_print), which became stale, and should be used in its place to avoid conflicts. It is a Ruby library that pretty prints Ruby objects in full color, exposing their internal structure with proper indentation. Rails ActiveRecord objects and usage within Rails templates are supported via included mixins.
 
 ![GitHub API demo](github-api-demo.gif)
 
 ### Supported Versions ###
 
-- Ruby >= 2.5
-- Rails >= 5.2
+- Ruby >= 3.1
+- Rails >= 6.1
 
 ### Installation ###
     # Installing as Ruby gem
@@ -266,7 +266,7 @@ rails>
 ```
 
 ### IRB integration ###
-To use amazing_print as default formatter in irb and Rails console add the following
+To use amazing_print as the default formatter in irb and the Rails console, add the following
 code to your ~/.irbrc file:
 
 ```ruby
@@ -293,7 +293,7 @@ By default, this logs at the :debug level. You can override that globally with:
 
     :log_level => :info
 
-in the custom defaults (see below). You can also override on a per call basis with:
+in the custom defaults (see below). You can also override it on a per call basis with:
 
     logger.ap object, :warn
     # or
@@ -310,7 +310,7 @@ within Rails templates. For example:
     <%= ap @accounts.first %>   # ERB
     != ap @accounts.first       # HAML
 
-With other web frameworks (ex: in Sinatra templates) you can explicitly request HTML
+With other web frameworks (for example in Sinatra templates) you can explicitly request HTML
 formatting:
 
     <%= ap @accounts.first, :html => true %>
@@ -324,8 +324,8 @@ red text # (it's red)
 ```
 
 ### Setting Custom Defaults ###
-You can set your own default options by creating ``aprc`` file in your `$XDG_CONFIG_HOME`
-directory (defaults to `~/.config` if undefined). Within that file assign your defaults
+You can set your own default options by creating an ``aprc`` file in your `$XDG_CONFIG_HOME`
+directory (which defaults to `~/.config` if undefined). Within that file assign your defaults
 to ``AmazingPrint.defaults``.
 For example:
 
@@ -340,7 +340,7 @@ AmazingPrint.defaults = {
 }
 ```
 
-The previous `~/.aprc` location is still supported as fallback.
+The previous `~/.aprc` location is still supported as a fallback.
 
 ## Versioning
 

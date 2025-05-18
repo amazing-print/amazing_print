@@ -3,14 +3,17 @@
 source "https://rubygems.org"
 
 gem "appraisal", git: "https://github.com/thoughtbot/appraisal.git", branch: :main
+gem "bigdecimal"
 gem "fakefs", "~> 1.2"
 gem "jdbc-sqlite3", platform: :jruby
-gem "nokogiri", "~> 1.10"
+gem "logger", "~> 1.7"
+gem "nokogiri", "~> 1.18.3"
+gem "ostruct"
 gem "pry"
 gem "rspec", "~> 3.9"
 gem "rubocop", "~> 1.20"
-gem "rubocop-rspec", "~> 2.4"
+gem "rubocop-rspec", "~> 3.6"
 gem "sequel", "~> 5.0"
-gem "sqlite3", platform: :mri
+gem "sqlite3", "~> 1.4", platform: :mri
 
 gemspec path: "../"

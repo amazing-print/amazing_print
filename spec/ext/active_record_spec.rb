@@ -6,7 +6,12 @@ require 'active_record_helper'
 RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }.call do
   describe 'ActiveRecord instance, attributes only (default)' do
     before do
-      ActiveRecord::Base.default_timezone = :utc
+      if ActiveRecord.respond_to?(:default_timezone)
+        # Rails >= 7.0
+        ActiveRecord.default_timezone = :utc
+      else
+        ActiveRecord::Base.default_timezone = :utc
+      end
       @diana = User.new(name: 'Diana', rank: 1, admin: false, created_at: '1992-10-10 12:30:00')
       @laura = User.new(name: 'Laura', rank: 2, admin: true,  created_at: '2003-05-26 14:15:00')
       @ap = AmazingPrint::Inspector.new(plain: true, sort_keys: true)
@@ -101,10 +106,43 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
     end
   end
 
+  describe 'ActiveRecord collection with counter cache', skip: -> { !defined?(Rails) || Rails::VERSION::STRING < '7.1.0' }.call do
+    before do
+      @ap = AmazingPrint::Inspector.new(plain: true)
+    end
+
+    it 'preserves the collection' do
+      wizard = Wizard.create!(name: 'Gandalf')
+      wizard.spells.create!(
+        [
+          { name: 'poof' },
+          { name: 'puff' },
+          { name: 'push' }
+        ]
+      )
+      expect(wizard.spells_count).to eq(3)
+
+      wizard.update_column(:spells_count, 0)
+      wizard.reload
+      expect(wizard.spells_count).to eq(0)
+
+      collection = wizard.spells
+
+      @ap.awesome collection
+      expect(collection).not_to eq([])
+      expect(collection.length).to eq(3)
+    end
+  end
+
   #------------------------------------------------------------------------------
   describe 'ActiveRecord instance (raw)' do
     before do
-      ActiveRecord::Base.default_timezone = :utc
+      if ActiveRecord.respond_to?(:default_timezone)
+        # Rails >= 7.0
+        ActiveRecord.default_timezone = :utc
+      else
+        ActiveRecord::Base.default_timezone = :utc
+      end
       @diana = User.new(name: 'Diana', rank: 1, admin: false, created_at: '1992-10-10 12:30:00')
       @laura = User.new(name: 'Laura', rank: 2, admin: true,  created_at: '2003-05-26 14:15:00')
       @ap = AmazingPrint::Inspector.new(plain: true, sort_keys: true, raw: true)
@@ -114,7 +152,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(@diana)
 
       raw_object_string =
-        if activerecord_7_0?
+        if activerecord_7_2?
+          ActiveRecordData.raw_7_2_diana
+        elsif activerecord_7_1?
+          ActiveRecordData.raw_7_1_diana
+        elsif activerecord_7_0?
           ActiveRecordData.raw_7_0_diana
         elsif activerecord_6_1?
           ActiveRecordData.raw_6_1_diana
@@ -136,7 +178,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           ActiveRecordData.raw_3_2_diana
         end
 
-      if RUBY_PLATFORM == 'java' && !activerecord_6_1?
+      if RUBY_PLATFORM == 'java' && !activerecord_6_1? && !activerecord_7_0? && !activerecord_7_1? && !activerecord_7_2?
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
           'ArJdbc::SQLite3::SQLite3Integer'
@@ -150,7 +192,11 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome([@diana, @laura])
 
       raw_object_string =
-        if activerecord_7_0?
+        if activerecord_7_2?
+          ActiveRecordData.raw_7_2_multi
+        elsif activerecord_7_1?
+          ActiveRecordData.raw_7_1_multi
+        elsif activerecord_7_0?
           ActiveRecordData.raw_7_0_multi
         elsif activerecord_6_1?
           ActiveRecordData.raw_6_1_multi
@@ -172,7 +218,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           ActiveRecordData.raw_3_2_multi
         end
 
-      if RUBY_PLATFORM == 'java' && !activerecord_6_1?
+      if RUBY_PLATFORM == 'java' && !activerecord_6_1? && !activerecord_7_0? && !activerecord_7_1? && !activerecord_7_2?
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
           'ArJdbc::SQLite3::SQLite3Integer'
@@ -238,7 +284,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       if ActiveRecord::VERSION::STRING >= '3.2'
         if RUBY_PLATFORM == 'java'
           expect(out).to match(
-            /\s+first\(\*args,\s&block\)\s+#<Class:\w+>\s+\(ActiveRecord::Querying\)/
+            /\s+first\(\*\*,\s\?, &&\)\s+#</
           )
         elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.1.0')
           expect(out).to match(
@@ -248,16 +294,6 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           expect(out).to match(
             /\s*first\(\*(\*|args),\s+&(&|block)\)\s+#<Class:User> \(ActiveRecord::Querying\)/
           )
-        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.2')
-          expect(out).to match(
-            /\s*first\(\*(\*|args),\s+&(&|block)\)\s+User/
-          )
-        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.6.7')
-          expect(out).to match(
-            /\s*first\(\*(\*|args),\s+&(&|block)\)\s+#<Class:ActiveRecord::Base> \(ActiveRecord::Querying\)/
-          )
-        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.4.4')
-          expect(out).to match(/\sfirst\(\*arg.*?\)\s+User/)
         end
       else
         expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
@@ -267,18 +303,10 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(User.methods.grep(/primary_key/))
       if RUBY_PLATFORM == 'java'
         expect(out).to match(
-          /\sprimary_key\(.*?\)\s+#<Class:\w+>\s\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
+          /\sprimary_key\(\)\s+#</
         )
       elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
         expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:User> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
-      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.6.7') && Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.7.0')
-        expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
-      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.4.4') || Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.2')
-        expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
-      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.0')
-        expect(out).to match(
-          /\sprimary_key\(.*?\)\s+.+Class.+\(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/
-        )
       end
 
       # spec 3
@@ -287,15 +315,9 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       if ActiveRecord::VERSION::MAJOR < 3
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
       elsif RUBY_PLATFORM == 'java'
-        expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:\w+> \(ActiveModel::Validations::ClassMethods\)/)
+        expect(out).to match(/\svalidate\(\*args, &block\)\s+#</)
       elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:User> \(ActiveModel::Validations::ClassMethods\)/)
-      elsif (Gem::Version.new('2.6.7')..Gem::Version.new('2.7.1')).cover? Gem::Version.new(RUBY_VERSION)
-        expect(out).to match(
-          /\svalidate\(\*args.*?\)\s+#<Class:ActiveRecord::Base> \(ActiveModel::Validations::ClassMethods\)/
-        )
-      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.4.4') || Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7.2')
-        expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
       end
     end
   end

@@ -331,10 +331,10 @@ RSpec.describe 'AmazingPrint' do
       expect(@hash.ai(hash_format: :symbol)).to eq <<~EOS.strip
         {
             \e[1;34m1\e[0m\e[0;37m => \e[0m{
-                \e[0;36m:sym\e[0m\e[0;37m => \e[0m{
+                \e[0;36msym:\e[0m {
                     \e[0;33m"str"\e[0m\e[0;37m => \e[0m{
                         [ \e[1;34m1\e[0m, \e[1;34m2\e[0m, \e[1;34m3\e[0m ]\e[0;37m => \e[0m{
-                            { \e[0;36m:k\e[0m\e[0;37m => \e[0m\e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                            { \e[0;36mk:\e[0m \e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                         }
                     }
                 }
@@ -691,16 +691,16 @@ RSpec.describe 'AmazingPrint' do
       class My < File; end
 
       my = begin
-        File.new('/dev/null')
+        File.new(File::NULL)
       rescue StandardError
-        File.new('nul')
+        File.new(File::NULL)
       end
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
     it 'inherited from File should be displayed as File', :mswin do
       class My < File; end
-      my = My.new('nul') # it's /dev/null in Windows
+      my = My.new(File::NULL) # it's /dev/null in Windows
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(my.path).to_s)
     end
 

@@ -2,7 +2,28 @@
 
 ## Unreleased
 
-## V1.6.0
+- Fix authors list in gemspec #128
+
+## v1.8.0
+
+- Drop Ruby 3.0 and add Ruby 3.4 #125
+
+## v1.7.2
+
+- update the version string in `AmazingPrint.version`
+
+## v1.7.1
+
+- no changes, only linting
+
+## v1.7.0
+
+- Require Ruby >= 3.0
+- Add support for `::ActiveModel::Attributes`
+- Preserve user defined color defaults
+- Micro-optimization to `AmazingPrint::ActiveRecord#cast` (avoid calls to `#ancestors`)
+
+## v1.6.0
 
 - Use pager with Pry #96
 - Add Rails 7 appraisal #98

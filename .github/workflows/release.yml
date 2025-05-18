@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  push:
+    name: Push gem to RubyGems.org
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+      contents: write # IMPORTANT: this permission is required for `rake release` to push the release tag
+
+    steps:
+      # Set up
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: ruby
+      - name: Set Environment Variables
+        run: |
+          version=$(ruby -e 'require_relative "lib/amazing_print/version.rb"; puts AmazingPrint.version')
+          echo "APP_VERSION=$version" >> $GITHUB_ENV
+
+      # Release
+      - uses: rubygems/release-gem@v1
+
+      # GitHub release
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "pkg/*.gem"
+          generateReleaseNotes: true
+          skipIfReleaseExists: true
+          tag: ${{ env.APP_VERSION }}

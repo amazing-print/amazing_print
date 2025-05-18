@@ -79,8 +79,8 @@ module AmazingPrint
       indentator.indentation
     end
 
-    def increase_indentation(&blk)
-      indentator.indent(&blk)
+    def increase_indentation(&)
+      indentator.indent(&)
     end
 
     # Dispatcher that detects data nesting and invokes object-aware formatter.
@@ -192,7 +192,7 @@ module AmazingPrint
     #---------------------------------------------------------------------------
     def merge_custom_defaults!
       load_dotfile
-      merge_options!(AmazingPrint.defaults) if AmazingPrint.defaults.is_a?(Hash)
+      merge_options!(AmazingPrint.defaults.dup) if AmazingPrint.defaults.is_a?(Hash)
     rescue StandardError => e
       warn "Could not load '.aprc' from ENV['HOME']: #{e}"
     end

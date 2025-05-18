@@ -110,8 +110,8 @@ module AmazingPrint
         inspector.current_indentation
       end
 
-      def indented(&blk)
-        inspector.increase_indentation(&blk)
+      def indented(&)
+        inspector.increase_indentation(&)
       end
 
       # precompute common indentations
@@ -143,8 +143,12 @@ module AmazingPrint
         end
       end
 
+      def colorless(string)
+        string.gsub(/\e\[[\d;]+m/, '')
+      end
+
       def colorless_size(string)
-        string.gsub(/\e\[[\d;]+m/, '').size
+        colorless(string).size
       end
     end
   end

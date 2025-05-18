@@ -11,20 +11,12 @@ RSpec.describe 'Single method' do
 
   it 'plain: should handle a method with no arguments' do
     method = ''.method(:upcase)
-    if RUBY_VERSION >= '2.4.0'
-      expect(method.ai(plain: true)).to eq('String#upcase(*arg1)')
-    else
-      expect(method.ai(plain: true)).to eq('String#upcase()')
-    end
+    expect(method.ai(plain: true)).to eq('String#upcase(*arg1)')
   end
 
   it 'color: should handle a method with no arguments' do
     method = ''.method(:upcase)
-    if RUBY_VERSION >= '2.4.0'
-      expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m(*arg1)\e[0m")
-    else
-      expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m()\e[0m")
-    end
+    expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m(*arg1)\e[0m")
   end
 
   it 'plain: should handle a method with one argument' do
@@ -112,11 +104,7 @@ RSpec.describe 'Single method' do
       def world(a, b); end
     end
     method = Hello.instance_method(:world)
-    if RUBY_VERSION < '1.9.2'
-      expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(arg1, arg2)\e[0m")
-    else
-      expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m")
-    end
+    expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m")
   end
 end
 
@@ -179,11 +167,7 @@ RSpec.describe 'Object methods' do
 
         def m3(a, b); end
       end
-      if RUBY_VERSION < '1.9.2'
-        expect(Hello.new.protected_methods.ai(plain: true, index: false)).to eq("[\n     m3(arg1, arg2) Hello\n]")
-      else
-        expect(Hello.new.protected_methods.ai(plain: true, index: false)).to eq("[\n     m3(a, b) Hello\n]")
-      end
+      expect(Hello.new.protected_methods.ai(plain: true, index: false)).to eq("[\n     m3(a, b) Hello\n]")
     end
   end
 
@@ -209,11 +193,7 @@ RSpec.describe 'Object methods' do
         def m3(a, b); end
       end
       out = Hello.new.private_methods.ai(plain: true).split("\n").grep(/m\d/)
-      if RUBY_VERSION < '1.9.2'
-        expect(out.first).to match(/^\s+\[\s*\d+\]\s+m3\(arg1, arg2\)\s+Hello$/)
-      else
-        expect(out.first).to match(/^\s+\[\s*\d+\]\s+m3\(a, b\)\s+Hello$/)
-      end
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m3\(a, b\)\s+Hello$/)
     end
   end
 
@@ -236,11 +216,7 @@ RSpec.describe 'Object methods' do
         def self.m3(a, b); end
       end
       out = Hello.singleton_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
-      if RUBY_VERSION < '1.9.2'
-        expect(out.first).to match(/^\s+m3\(arg1, arg2\)\s+Hello$/)
-      else
-        expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello$/)
-      end
+      expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello$/)
     end
   end
 end
@@ -267,11 +243,7 @@ RSpec.describe 'Class methods' do
         def m3(a, b); end
       end
       out = Hello.instance_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
-      if RUBY_VERSION < '1.9.2'
-        expect(out.first).to match(/^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/)
-      else
-        expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
-      end
+      expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
     end
   end
 
@@ -292,11 +264,7 @@ RSpec.describe 'Class methods' do
         def m3(a, b); end
       end
       out = Hello.public_instance_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
-      if RUBY_VERSION < '1.9.2'
-        expect(out.first).to match(/^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/)
-      else
-        expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
-      end
+      expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
     end
   end
 
@@ -321,11 +289,7 @@ RSpec.describe 'Class methods' do
         def m3(a, b); end
       end
       out = Hello.protected_instance_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
-      if RUBY_VERSION < '1.9.2'
-        expect(out.first).to match(/^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/)
-      else
-        expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
-      end
+      expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
     end
   end
 
@@ -350,67 +314,61 @@ RSpec.describe 'Class methods' do
         def m3(a, b); end
       end
       out = Hello.private_instance_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
-      if RUBY_VERSION < '1.9.2'
-        expect(out.first).to match(/^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/)
-      else
-        expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
-      end
+      expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
     end
   end
 end
 
-if RUBY_VERSION >= '1.9.2'
-  RSpec.describe 'Ruby 1.9.2+ Method#parameters' do
-    before do
-      stub_dotfile!
-    end
+RSpec.describe 'Ruby 1.9.2+ Method#parameters' do
+  before do
+    stub_dotfile!
+  end
 
-    after do
-      Object.instance_eval { remove_const :Hello } if defined?(Hello)
-    end
+  after do
+    Object.instance_eval { remove_const :Hello } if defined?(Hello)
+  end
 
-    it '()' do
-      class Hello
-        def m1; end
-      end
-      out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
-      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/)
+  it '()' do
+    class Hello
+      def m1; end
     end
+    out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
+    expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/)
+  end
 
-    it ':req' do
-      class Hello
-        def m1(a, b, c); end
-      end
-      out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
-      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, b, c\)\s+Hello$/)
+  it ':req' do
+    class Hello
+      def m1(a, b, c); end
     end
+    out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
+    expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, b, c\)\s+Hello$/)
+  end
 
-    it ':opt' do
-      class Hello
-        # m1(a, *b, *c)
-        def m1(a, b = 1, c = 2); end
-      end
-      out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
-      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, \*b, \*c\)\s+Hello$/)
+  it ':opt' do
+    class Hello
+      # m1(a, *b, *c)
+      def m1(a, b = 1, c = 2); end
     end
+    out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
+    expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, \*b, \*c\)\s+Hello$/)
+  end
 
-    it ':rest' do
-      class Hello
-        # m1(*a)
-        def m1(*a); end
-      end
-      out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
-      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\*a\)\s+Hello$/)
+  it ':rest' do
+    class Hello
+      # m1(*a)
+      def m1(*a); end
     end
+    out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
+    expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\*a\)\s+Hello$/)
+  end
 
-    it ':block' do
-      class Hello
-        # m1(a, *b, &blk)
-        def m1(a, b = nil, &blk); end
-      end
-      out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
-      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, \*b, &blk\)\s+Hello$/)
+  it ':block' do
+    class Hello
+      # m1(a, *b, &blk)
+      def m1(a, b = nil, &); end
     end
+    out = Hello.new.methods.ai(plain: true).split("\n").grep(/m1/)
+    expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, \*b, &&\)\s+Hello$/)
   end
 end
 
@@ -509,11 +467,7 @@ RSpec.describe 'Methods arrays' do
   it 'appending garbage to methods array should not raise error' do
     arr = 42.methods << [:wtf]
     expect { arr.ai(plain: true) }.not_to raise_error
-    if RUBY_VERSION < '1.9.2'
-      expect(arr.ai(plain: true)).to match(/\s+wtf\(\?\)\s+\?/)      # [ :wtf ].to_s => "wtf"
-    else
-      expect(arr.ai(plain: true)).to match(/\s+\[:wtf\]\(\?\)\s+\?/) # [ :wtf ].to_s => [:wtf]
-    end
+    expect(arr.ai(plain: true)).to match(/\s+\[:wtf\]\(\?\)\s+\?/) # [ :wtf ].to_s => [:wtf]
   end
 end
 
