@@ -121,7 +121,7 @@ module AmazingPrint
 
       def json_syntax(key, value, width)
         unless defined?(JSON)
-          warn "JSON is not defined. Defaulting hash format to symbol"
+          warn 'JSON is not defined. Defaulting hash format to symbol'
           return ruby19_syntax(key, value, width)
         end
 
