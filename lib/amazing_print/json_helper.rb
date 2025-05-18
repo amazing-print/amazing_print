@@ -6,7 +6,7 @@
 module AmazingPrint
   module JSONHelper
     def json_awesome(object, is_key: false)
-      return inspector.awesome(object) unless options[:hash_format] == :json
+      return inspector.awesome(object) unless options[:hash_format] == :json && object.respond_to?(:to_json)
 
       if object.nil?
         # Color null like we do nil
