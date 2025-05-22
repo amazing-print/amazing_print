@@ -14,8 +14,8 @@ RSpec.describe 'AmazingPrint/Sequel', skip: -> { !ExtVerifier.has_sequel? }.call
     out = @ap.awesome(@user1)
     str = <<~EOS.strip
       #<SequelUser:placeholder_id> {
-          :first_name => "Jeremy",
-           :last_name => "Evans"
+          first_name: "Jeremy",
+           last_name: "Evans"
       }
     EOS
     expect(out).to be_similar_to(str)
@@ -26,12 +26,12 @@ RSpec.describe 'AmazingPrint/Sequel', skip: -> { !ExtVerifier.has_sequel? }.call
     str = <<~EOS.strip
       [
           [0] #<SequelUser:placeholder_id> {
-              :first_name => "Jeremy",
-               :last_name => "Evans"
+              first_name: "Jeremy",
+               last_name: "Evans"
           },
           [1] #<SequelUser:placeholder_id> {
-              :first_name => "Sequel",
-               :last_name => "Five"
+              first_name: "Sequel",
+               last_name: "Five"
           }
       ]
     EOS

@@ -33,9 +33,9 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
       object_id = user.id.inspect
       str = <<~EOS.strip
         #<MongoUser:placeholder_id> {
-                   :_id => #{object_id},
-            :first_name => "Al",
-             :last_name => "Capone"
+                   _id: #{object_id},
+            first_name: "Al",
+             last_name: "Capone"
         }
       EOS
       expect(out).to be_similar_to(str, { skip_bson: true })
@@ -44,9 +44,9 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
     it 'prints the class' do
       class_spec = <<~EOS.strip
         class MongoUser < Object {
-                   :_id => :"bson/object_id",
-            :first_name => :string,
-             :last_name => :string
+                   _id: :"bson/object_id",
+            first_name: :string,
+             last_name: :string
         }
       EOS
 
@@ -61,8 +61,8 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
 
       class_spec = <<~EOS.strip
         class Chamelion < Object {
-                       :_id => :"bson/object_id",
-            :last_attribute => :object
+                       _id: :"bson/object_id",
+            last_attribute: :object
         }
       EOS
 
@@ -94,9 +94,9 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
       object_id = user.id.inspect
       str = <<~EOS.strip
         #<MongoUser:placeholder_id> {
-                         :_id => #{object_id},
-            :"first_name(fn)" => "Al",
-             :"last_name(ln)" => "Capone"
+                         _id: #{object_id},
+            "first_name(fn)": "Al",
+             "last_name(ln)": "Capone"
         }
       EOS
       expect(out).to be_similar_to(str, { skip_bson: true })
@@ -105,9 +105,9 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
     it 'prints the class' do
       class_spec = <<~EOS.strip
         class MongoUser < Object {
-                         :_id => :"bson/object_id",
-            :"first_name(fn)" => :string,
-             :"last_name(ln)" => :string
+                         _id: :"bson/object_id",
+            "first_name(fn)": :string,
+             "last_name(ln)": :string
         }
       EOS
 
@@ -122,8 +122,8 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
 
       class_spec = <<~EOS.strip
         class Chamelion < Object {
-                             :_id => :"bson/object_id",
-            :"last_attribute(la)" => :object
+                             _id: :"bson/object_id",
+            "last_attribute(la)": :object
         }
       EOS
 

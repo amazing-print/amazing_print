@@ -135,7 +135,7 @@ RSpec.describe 'AmazingPrint' do
         {
           [ 0, 0, 255 ] => :yellow,
           "magenta"     => "rgb(255, 0, 255)",
-          :red          => "rgb(255, 0, 0)"
+          red:          "rgb(255, 0, 0)"
         }
       EOS
     end

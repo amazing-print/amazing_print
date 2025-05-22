@@ -1,10 +1,17 @@
 # frozen_string_literal: true
 
 require_relative 'base_formatter'
+require_relative '../json_helper'
 
 module AmazingPrint
   module Formatters
     class HashFormatter < BaseFormatter
+      include AmazingPrint::JSONHelper
+
+      VALID_HASH_FORMATS = %i[json rocket symbol].freeze
+
+      class InvalidHashFormatError < StandardError; end
+
       attr_reader :hash, :inspector, :options
 
       def initialize(hash, inspector)
@@ -12,6 +19,11 @@ module AmazingPrint
         @hash = hash
         @inspector = inspector
         @options = inspector.options
+
+        return if VALID_HASH_FORMATS.include?(options[:hash_format])
+
+        raise(InvalidHashFormatError, "Invalid hash_format: #{options[:hash_format].inspect}. " \
+                                      "Must be one of #{VALID_HASH_FORMATS}")
       end
 
       def format
@@ -48,10 +60,13 @@ module AmazingPrint
 
         data.map! do |key, value|
           indented do
-            if options[:ruby19_syntax] && symbol?(key)
-              ruby19_syntax(key, value, width)
-            else
+            case options[:hash_format]
+            when :json
+              json_syntax(key, value, width)
+            when :rocket
               pre_ruby19_syntax(key, value, width)
+            when :symbol
+              ruby19_syntax(key, value, width)
             end
           end
         end
@@ -91,13 +106,36 @@ module AmazingPrint
         end
       end
 
+      def string?(key)
+        key[0] == '"' && key[-1] == '"'
+      end
+
       def symbol?(key)
         key.is_a?(Symbol)
       end
 
+      def json_format?
+        options[:hash_format] == :json
+      end
+
+      def json_syntax(key, value, width)
+        unless defined?(JSON)
+          warn 'JSON is not defined. Defaulting hash format to symbol'
+          return ruby19_syntax(key, value, width)
+        end
+
+        formatted_key = json_awesome(key, is_key: true)
+        formatted_value = json_awesome(value)
+
+        "#{align(formatted_key, width)}#{colorize(': ', :hash)}#{formatted_value}"
+      end
+
       def ruby19_syntax(key, value, width)
+        return pre_ruby19_syntax(key, value, width) unless symbol?(key)
+
         # Move the colon to the right side of the symbol
-        awesome_key = inspector.awesome(key).sub(/#{key.inspect}/, "#{key}:")
+        key_string = key.inspect.include?('"') ? key.inspect.sub(':', '') : key.to_s
+        awesome_key = inspector.awesome(key).sub(/#{Regexp.escape(key.inspect)}/, "#{key_string}:")
 
         "#{align(awesome_key, width)} #{inspector.awesome(value)}"
       end

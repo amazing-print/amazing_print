@@ -12,8 +12,8 @@ RSpec.describe 'ActiveModel formatting', skip: -> { !ExtVerifier.has_rails? }.ca
     it 'prints the class' do
       expect(@ap.awesome(ActiveModelModel)).to eq <<~PRINT.strip
         class ActiveModelModel < Object {
-            :name => :string,
-            :rank => :integer
+            name: :string,
+            rank: :integer
         }
       PRINT
     end
@@ -24,8 +24,8 @@ RSpec.describe 'ActiveModel formatting', skip: -> { !ExtVerifier.has_rails? }.ca
       model = ActiveModelModel.new(name: 'John', rank: 1)
       expect(@ap.awesome(model)).to be_similar_to <<~PRINT.strip
         #<ActiveModelModel:placeholder_id> {
-            :name => "John",
-            :rank => 1
+            name: "John",
+            rank: 1
         }
       PRINT
     end
@@ -40,15 +40,15 @@ RSpec.describe 'ActiveModel formatting', skip: -> { !ExtVerifier.has_rails? }.ca
     str = <<~ERRORS.strip
       #<ActiveModel::Errors:placeholder_id> {
              "name" => nil,
-           :details => {
-              :name => [
+           details: {
+              name: [
                   [0] {
-                      :error => "can't be blank"
+                      error: "can't be blank"
                   }
               ]
           },
-          :messages => {
-              :name => [
+          messages: {
+              name: [
                   [0] "can't be blank"
               ]
           }
