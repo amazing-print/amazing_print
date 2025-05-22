@@ -5,16 +5,18 @@
 #
 module AmazingPrint
   module JSONHelper
+    VALUE_CLASSES_NOT_TO_CONVERT = %w[Array BigDecimal Float Hash Integer String].freeze
+
     def json_awesome(object, is_key: false)
       return inspector.awesome(object) unless options[:hash_format] == :json && object.respond_to?(:to_json)
 
       if object.nil?
         # Color null like we do nil
         colorize(object.to_json, :nilclass)
-      elsif is_key && %w[BigDecimal Float Integer].include?(object.class.name)
+      elsif is_key && object.is_a?(Numeric)
         # JSON keys should be a string
         inspector.awesome(object.to_s)
-      elsif %w[Array BigDecimal Float Hash Integer String].include?(object.class.name) || !object.respond_to?(:to_json)
+      elsif VALUE_CLASSES_NOT_TO_CONVERT.include?(object.class.name) || !object.respond_to?(:to_json)
         # These objects should not be converted to strings with #to_json so we can treat them normally
         inspector.awesome(object)
       else
