@@ -2,7 +2,11 @@
 
 ## Unreleased
 
+## v1.8.1
+
 - Fix authors list in gemspec #128
+- Use array.length.zero? to avoid issues with ActiveRecord collection proxy #129
+- grammar glowup in README.md #130
 
 ## v1.8.0
 
