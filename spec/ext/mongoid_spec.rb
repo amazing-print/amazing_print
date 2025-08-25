@@ -56,6 +56,7 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
     it 'prints the class when type is undefined' do
       class Chamelion
         include Mongoid::Document
+
         field :last_attribute
       end
 
@@ -117,6 +118,7 @@ RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
     it 'prints the class when type is undefined' do
       class Chamelion
         include Mongoid::Document
+
         field :la, as: :last_attribute
       end
 

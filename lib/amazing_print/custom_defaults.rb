@@ -94,7 +94,7 @@ module AmazingPrint
     # Takes a value and returns true unless it is false or nil
     # This is an alternative to the less readable !!(value)
     # https://github.com/bbatsov/ruby-style-guide#no-bang-bang
-    def boolean(value)
+    def boolean(value) # rubocop:todo Naming/PredicateMethod
       value ? true : false
     end
   end
