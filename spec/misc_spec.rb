@@ -211,6 +211,101 @@ RSpec.describe 'AmazingPrint' do
       expect { irb.output_value }.not_to raise_error
       Object.instance_eval { remove_const :IRB }
     end
+
+    describe 'rdbg!' do
+      let(:debugger_session) do
+        Class.new do
+          class << self
+            attr_reader :extended_feature
+
+            def extend_feature(feature)
+              @extended_feature = feature
+            end
+
+            def thread_client_module
+              @extended_feature[:thread_client]
+            end
+          end
+        end
+      end
+
+      let(:debugger_config) { { no_color: false } }
+
+      # A dummy class that mimics the debugger's thread client behavior for testing `super`
+      let(:dummy_thread_client) do
+        Class.new do
+          def color_pp(obj, width)
+            "super called for #{obj.__id__} with width #{width}"
+          end
+        end
+      end
+
+      before do
+        # Mock the DEBUGGER__ constants
+        stub_const('DEBUGGER__::SESSION', debugger_session)
+        stub_const('DEBUGGER__::CONFIG', debugger_config)
+
+        # The module from rdbg! will be prepended to an instance of this class
+        @thread_client_instance = dummy_thread_client.new
+      end
+
+      after do
+        AmazingPrint.force_colors = nil
+      end
+
+      it 'does nothing if DEBUGGER__::SESSION is not defined' do
+        hide_const('DEBUGGER__::SESSION')
+        # We can't easily assert that a method wasn't called without more mocks,
+        # so we'll just ensure it doesn't raise an error.
+        expect { AmazingPrint.rdbg! }.not_to raise_error
+      end
+
+      context 'when DEBUGGER__::SESSION is defined' do
+        before do
+          AmazingPrint.rdbg!
+          # In a real scenario, `extend_feature` would handle this.
+          # For the test, we manually prepend the module to our dummy client instance.
+          @thread_client_instance.singleton_class.prepend(DEBUGGER__::SESSION.thread_client_module)
+        end
+
+        it 'extends DEBUGGER__::SESSION with a thread_client feature' do
+          expect(DEBUGGER__::SESSION.extended_feature).to have_key(:thread_client)
+          expect(DEBUGGER__::SESSION.thread_client_module).to be_a(Module)
+        end
+
+        it 'calls #ai on the object with correct options' do
+          obj = double('test object')
+          expected_opts = { multiline: true, index: false, indent: 2 }
+          allow(obj).to receive(:ai).with(expected_opts).and_return('mocked ai output')
+
+          output = @thread_client_instance.color_pp(obj, 80)
+          expect(output).to eq('mocked ai output')
+        end
+
+        it 'respects DEBUGGER__::CONFIG[:no_color]' do # rubocop:disable RSpec/NoExpectationExample
+          debugger_config[:no_color] = true
+          obj = double('test object')
+          expected_opts = { multiline: true, index: false, indent: 2, plain: true }
+          allow(obj).to receive(:ai).with(expected_opts)
+
+          @thread_client_instance.color_pp(obj, 80)
+        end
+
+        it 'falls back to super if object does not respond to #ai' do
+          obj = BasicObject.new
+          output = @thread_client_instance.color_pp(obj, 80)
+          expect(output).to eq("super called for #{obj.__id__} with width 80")
+        end
+
+        it 'falls back to super on StandardError during #ai' do
+          obj = double('failing object')
+          allow(obj).to receive(:ai).and_raise(StandardError, 'test error')
+
+          output = @thread_client_instance.color_pp(obj, 80)
+          expect(output).to eq("super called for #{obj.__id__} with width 80")
+        end
+      end
+    end
   end
 end
 

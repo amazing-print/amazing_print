@@ -7,6 +7,7 @@ module AmazingPrint
   module Formatters
     module Kernel32
       extend Fiddle::Importer
+
       dlload 'kernel32'
       extern 'unsigned long GetFileAttributesA(const char*)'
     end

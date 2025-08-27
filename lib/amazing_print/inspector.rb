@@ -20,7 +20,7 @@ module AmazingPrint
     ##
     # Unload the cached dotfile and load it again.
     #
-    def self.reload_dotfile
+    def self.reload_dotfile # rubocop:todo Naming/PredicateMethod
       @@dotfile = nil
       new.send :load_dotfile
       true
