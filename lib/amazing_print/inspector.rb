@@ -150,7 +150,12 @@ module AmazingPrint
       when File   then :file
       when Dir    then :dir
       when Struct then :struct
-      else object.class.to_s.gsub(/:+/, '_').downcase.to_sym
+      else
+        if defined?(Data) && object.is_a?(Data)
+          :struct
+        else
+          object.class.to_s.gsub(/:+/, '_').downcase.to_sym
+        end
       end
     end
 
