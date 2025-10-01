@@ -144,6 +144,7 @@ RSpec.describe 'AmazingPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_map
     it 'prints the class when type is undefined' do
       class Chamelion
         include MongoMapper::Document
+
         key :last_attribute
       end
 
@@ -161,16 +162,19 @@ RSpec.describe 'AmazingPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_map
       before :all do
         class Child
           include MongoMapper::EmbeddedDocument
+
           key :data
         end
 
         class Sibling
           include MongoMapper::Document
+
           key :title
         end
 
         class Parent
           include MongoMapper::Document
+
           key :name
 
           one :child

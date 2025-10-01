@@ -56,6 +56,7 @@ if ExtVerifier.has_rails?
 
   class TableFreeModel
     include ::ActiveModel::Validations
+
     attr_reader(:name)
 
     def attributes
@@ -66,6 +67,7 @@ if ExtVerifier.has_rails?
   class ActiveModelModel
     include ::ActiveModel::Model
     include ::ActiveModel::Attributes
+
     attribute :name, :string
     attribute :rank, :integer, default: 0
   end

@@ -644,6 +644,74 @@ RSpec.describe 'AmazingPrint' do
   end
 
   #------------------------------------------------------------------------------
+  if defined?(Data)
+    describe 'Data' do
+      SimpleData = Data.define :name, :address
+
+      before do
+        @struct = SimpleData.new name: 'Herman Munster', address: '1313 Mockingbird Lane'
+      end
+
+      it 'empty struct' do
+        expect(SimpleData.ai).to eq("\e[1;33mSimpleData < Data\e[0m")
+      end
+
+      it 'plain multiline' do
+        s1 = <<-EOS.strip
+    address = "1313 Mockingbird Lane",
+    name = "Herman Munster"
+        EOS
+        s2 = <<-EOS.strip
+    name = "Herman Munster",
+    address = "1313 Mockingbird Lane"
+        EOS
+
+        str = @struct.ai(plain: true)
+        expect(str).to satisfy { |out| out.match(s1) || out.match(s2) }
+        expect(str).to satisfy { |out| out.match('#<data SimpleData:0x') }
+      end
+
+      it 'plain multiline indented' do
+        s1 = <<-EOS.strip
+ address = "1313 Mockingbird Lane",
+ name = "Herman Munster"
+        EOS
+        s2 = <<-EOS.strip
+ name = "Herman Munster",
+ address = "1313 Mockingbird Lane"
+        EOS
+
+        str = @struct.ai(plain: true, indent: 1)
+        expect(str).to satisfy { |out| out.match(s1) || out.match(s2) }
+        expect(str).to satisfy { |out| out.match('#<data SimpleData:0x') }
+      end
+
+      it 'plain single line' do
+        s1 = 'address = "1313 Mockingbird Lane", name = "Herman Munster"'
+        s2 = 'name = "Herman Munster", address = "1313 Mockingbird Lane"'
+        str = @struct.ai(plain: true, multiline: false)
+        expect(str).to satisfy { |out| out.match(s1) || out.match(s2) }
+        expect(str).to satisfy { |out| out.match('#<data SimpleData:0x') }
+      end
+
+      it 'colored multiline (default)' do
+        s1 = <<-EOS.strip
+    address\e[0;37m = \e[0m\e[0;33m"1313 Mockingbird Lane"\e[0m,
+    name\e[0;37m = \e[0m\e[0;33m"Herman Munster"\e[0m
+        EOS
+        s2 = <<-EOS.strip
+    name\e[0;37m = \e[0m\e[0;33m"Herman Munster"\e[0m,
+    address\e[0;37m = \e[0m\e[0;33m"1313 Mockingbird Lane"\e[0m
+        EOS
+
+        str = @struct.ai
+        expect(str).to satisfy { |out| out.include?(s1) || out.include?(s2) }
+        expect(str).to satisfy { |out| out.match('#<data SimpleData:0x') }
+      end
+    end
+  end
+
+  #------------------------------------------------------------------------------
   describe 'Inherited from standard Ruby classes' do
     after do
       Object.instance_eval { remove_const :My } if defined?(My)

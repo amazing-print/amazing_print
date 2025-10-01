@@ -53,6 +53,35 @@ module AmazingPrint
       end
     end
 
+    def rdbg!
+      return unless defined?(::DEBUGGER__::SESSION)
+
+      ::DEBUGGER__::SESSION.extend_feature(
+        thread_client: Module.new do
+          # rdbg calls this for both p and pp printing paths
+          def color_pp(obj, width)
+            opts = {
+              multiline: true,
+              index: false,
+              indent: 2
+            }
+
+            opts[:plain] = true if ::DEBUGGER__::CONFIG[:no_color]
+
+            if obj.respond_to?(:ai)
+              obj.ai(opts)
+            else
+              # Fallback if AP isn't mixed into the object for some reason
+              super
+            end
+          rescue StandardError
+            # Never break the debugger; fall back to rdbg default
+            super
+          end
+        end
+      )
+    end
+
     ##
     # Reload the cached custom configurations.
     #
@@ -65,7 +94,7 @@ module AmazingPrint
     # Takes a value and returns true unless it is false or nil
     # This is an alternative to the less readable !!(value)
     # https://github.com/bbatsov/ruby-style-guide#no-bang-bang
-    def boolean(value)
+    def boolean(value) # rubocop:todo Naming/PredicateMethod
       value ? true : false
     end
   end

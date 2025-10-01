@@ -20,7 +20,7 @@ module AmazingPrint
     ##
     # Unload the cached dotfile and load it again.
     #
-    def self.reload_dotfile
+    def self.reload_dotfile # rubocop:todo Naming/PredicateMethod
       @@dotfile = nil
       new.send :load_dotfile
       true
@@ -150,7 +150,12 @@ module AmazingPrint
       when File   then :file
       when Dir    then :dir
       when Struct then :struct
-      else object.class.to_s.gsub(/:+/, '_').downcase.to_sym
+      else
+        if defined?(Data) && object.is_a?(Data)
+          :struct
+        else
+          object.class.to_s.gsub(/:+/, '_').downcase.to_sym
+        end
       end
     end
 
