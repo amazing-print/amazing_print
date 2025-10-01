@@ -5,6 +5,7 @@
 ## v2.0.0
 
 - Rework hash formats and add JSON format (#83)
+- Format Data objects using StructFormatter (#138)
 
 ## v1.8.1
 
