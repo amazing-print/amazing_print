@@ -344,6 +344,29 @@ RSpec.describe 'AmazingPrint' do
       EOS
     end
 
+    it 'colored with format_keys option disabled' do
+      hash_key =
+        if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.4')
+          ' {k: :v}'
+        else
+          '{:k=>:v}'
+        end
+
+      expect(@hash.ai(format_keys: false)).to eq <<~EOS.strip
+        {
+            1\e[0;37m => \e[0m{
+                sym: {
+                    "str"\e[0;37m => \e[0m{
+                          [1, 2, 3]\e[0;37m => \e[0m{
+                             #{hash_key}\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                        }
+                    }
+                }
+            }
+        }
+      EOS
+    end
+
     it 'colored multiline indented' do
       expect(@hash.ai(indent: 2)).to eq <<~EOS.strip
         {

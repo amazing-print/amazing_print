@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `format_keys` option to enable or disable the formatting of hash keys.
+
 ## v2.0.0
 
 - Rework hash formats and add JSON format (#83)

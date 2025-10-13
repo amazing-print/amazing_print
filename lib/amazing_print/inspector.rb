@@ -6,7 +6,7 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 
-# rubocop:disable Metrics/ClassLength, Metrics/MethodLength
+# rubocop:disable Metrics/MethodLength
 
 require_relative 'indentator'
 require_relative 'ext_loader'
@@ -34,6 +34,7 @@ module AmazingPrint
         multiline: true, # Display in multiple lines.
         plain: false, # Use colors.
         raw: false, # Do not recursively format instance variables.
+        format_keys: true, # Format hash keys.
         sort_keys: false,  # Do not sort hash keys.
         sort_vars: true,   # Sort instance variables.
         limit: false, # Limit arrays & hashes. Accepts bool or int.
@@ -204,4 +205,4 @@ module AmazingPrint
   end
 end
 
-# rubocop:enable Metrics/ClassLength, Metrics/MethodLength
+# rubocop:enable Metrics/MethodLength

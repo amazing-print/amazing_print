@@ -34,18 +34,19 @@ ap object, options = {}
 Default options:
 
 ```ruby
-indent:        4,      # Number of spaces for indenting.
-index:         true,   # Display array indices.
-html:          false,  # Use ANSI color codes rather than HTML.
-multiline:     true,   # Display in multiple lines.
-plain:         false,  # Use colors.
-raw:           false,  # Do not recursively format instance variables.
-sort_keys:     false,  # Do not sort hash keys.
-sort_vars:     true,   # Sort instance variables.
-limit:         false,  # Limit arrays & hashes. Accepts bool or int.
-hash_format:   :symbol,# The format for printing hashes. Can be one of :json, :rocket, or :symbol
-class_name:    :class, # Method called to report the instance class name. (e.g. :to_s)
-object_id:     true,   # Show object id.
+indent:        4,       # Number of spaces for indenting.
+index:         true,    # Display array indices.
+html:          false,   # Use ANSI color codes rather than HTML.
+multiline:     true,    # Display in multiple lines.
+plain:         false,   # Use colors.
+raw:           false,   # Do not recursively format instance variables.
+format_keys:   true,    # Format hash keys.
+sort_keys:     false,   # Do not sort hash keys.
+sort_vars:     true,    # Sort instance variables.
+limit:         false,   # Limit arrays & hashes. Accepts bool or int.
+hash_format:   :symbol, # The format for printing hashes. Can be one of :json, :rocket, or :symbol
+class_name:    :class,  # Method called to report the instance class name. (e.g. :to_s)
+object_id:     true,    # Show object id.
 color: {
   args:       :whiteish,
   array:      :white,
