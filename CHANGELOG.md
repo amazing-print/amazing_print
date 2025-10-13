@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `plain_keys` option disable colors for hash keys.
+
 ## v2.0.0
 
 - Rework hash formats and add JSON format (#83)

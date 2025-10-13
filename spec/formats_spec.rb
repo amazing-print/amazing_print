@@ -344,6 +344,22 @@ RSpec.describe 'AmazingPrint' do
       EOS
     end
 
+    it 'colored with plain_keys option enabled' do
+      expect(@hash.ai(plain_keys: true)).to eq <<~EOS.strip
+        {
+            1\e[0;37m => \e[0m{
+                sym: {
+                    "str"\e[0;37m => \e[0m{
+                        [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                            { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                        }
+                    }
+                }
+            }
+        }
+      EOS
+    end
+
     it 'colored multiline indented' do
       expect(@hash.ai(indent: 2)).to eq <<~EOS.strip
         {
