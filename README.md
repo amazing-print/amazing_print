@@ -267,16 +267,17 @@ rails>
 
 ### IRB integration ###
 To use amazing_print as the default formatter in irb and the Rails console, add the following
-code to your ~/.irbrc file:
+code to your `~/.irbrc` file:
 
 ```ruby
 require "amazing_print"
 AmazingPrint.irb!
+AmazingPrint.rdbg! # Enables integration with ruby debug
 ```
 
 ### PRY integration ###
 If you miss amazing_print's way of formatting output, here's how you can use it in place
-of the formatting which comes with pry. Add the following code to your ~/.pryrc:
+of the formatting which comes with pry. Add the following code to your `~/.pryrc`:
 
 ```ruby
 require "amazing_print"
@@ -284,7 +285,7 @@ AmazingPrint.pry!
 ```
 
 ### Logger Convenience Method ###
-amazing_print adds the 'ap' method to the Logger and ActiveSupport::BufferedLogger classes
+amazing_print adds the `ap` method to the `Logger` and `ActiveSupport::BufferedLogger` classes
 letting you call:
 
     logger.ap object
@@ -304,7 +305,7 @@ You can also pass additional options (providing `nil` or leaving off `level` wil
     logger.ap object, { level: :info, sort_keys: true }
 
 ### ActionView Convenience Method ###
-amazing_print adds the 'ap' method to the ActionView::Base class making it available
+amazing_print adds the `ap` method to the `ActionView::Base` class making it available
 within Rails templates. For example:
 
     <%= ap @accounts.first %>   # ERB
