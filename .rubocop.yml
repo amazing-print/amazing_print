@@ -13,6 +13,9 @@ Lint/RaiseException:
 Lint/StructNewOverride:
   Enabled: true
 
+Metrics/ClassLength:
+  Max: 250
+
 Style/FrozenStringLiteralComment:
   Exclude:
     - gemfiles/*

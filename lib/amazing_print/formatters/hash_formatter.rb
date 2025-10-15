@@ -135,22 +135,35 @@ module AmazingPrint
 
         # Move the colon to the right side of the symbol
         key_string = key.inspect.include?('"') ? key.inspect.sub(':', '') : key.to_s
-        awesome_key = inspector.awesome(key).sub(/#{Regexp.escape(key.inspect)}/, "#{key_string}:")
+        awesome_key = format_key(key).sub(/#{Regexp.escape(key.inspect)}/, "#{key_string}:")
 
         "#{align(awesome_key, width)} #{inspector.awesome(value)}"
       end
 
       def pre_ruby19_syntax(key, value, width)
-        awesome_key = single_line { inspector.awesome(key) }
+        awesome_key = single_line { format_key(key) }
+
         "#{align(awesome_key, width)}#{colorize(' => ', :hash)}#{inspector.awesome(value)}"
       end
 
+      def format_key(key)
+        if options[:plain_keys]
+          plain { inspector.awesome(key) }
+        else
+          inspector.awesome(key)
+        end
+      end
+
       def plain_single_line(&)
-        plain = options[:plain]
+        plain { single_line(&) }
+      end
+
+      def plain
+        old_plain = options[:plain]
         options[:plain] = true
-        single_line(&)
+        yield
       ensure
-        options[:plain] = plain
+        options[:plain] = old_plain
       end
 
       def single_line
