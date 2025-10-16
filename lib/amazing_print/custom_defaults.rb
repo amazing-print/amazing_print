@@ -66,7 +66,7 @@ module AmazingPrint
               indent: 2
             }
 
-            opts[:plain] = true if ::DEBUGGER__::CONFIG[:no_color]
+            opts[:colors] = :none if ::DEBUGGER__::CONFIG[:no_color]
 
             if obj.respond_to?(:ai)
               obj.ai(opts)

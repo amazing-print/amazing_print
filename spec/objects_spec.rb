@@ -24,7 +24,7 @@ RSpec.describe 'Objects' do
       end
 
       hello = Hello.new
-      out = hello.ai(plain: true, raw: true)
+      out = hello.ai(colors: :none, raw: true)
       str = <<~EOS.strip
         #<Hello:placeholder_id
             attr_accessor :dabra = 3,
@@ -33,7 +33,7 @@ RSpec.describe 'Objects' do
         >
       EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+      expect(hello.ai(colors: :none, raw: false)).to eq(hello.inspect)
     end
 
     it 'instance variables' do
@@ -46,7 +46,7 @@ RSpec.describe 'Objects' do
       end
 
       hello = Hello.new
-      out = hello.ai(plain: true, raw: true)
+      out = hello.ai(colors: :none, raw: true)
       str = <<~EOS.strip
         #<Hello:placeholder_id
             @abra = 1,
@@ -55,7 +55,7 @@ RSpec.describe 'Objects' do
         >
       EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+      expect(hello.ai(colors: :none, raw: false)).to eq(hello.inspect)
     end
 
     it 'attributes and instance variables' do
@@ -75,7 +75,7 @@ RSpec.describe 'Objects' do
       end
 
       hello = Hello.new
-      out = hello.ai(plain: true, raw: true)
+      out = hello.ai(colors: :none, raw: true)
       str = <<~EOS.strip
         #<Hello:placeholder_id
             @doo = 1,
@@ -87,7 +87,7 @@ RSpec.describe 'Objects' do
         >
       EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+      expect(hello.ai(colors: :none, raw: false)).to eq(hello.inspect)
     end
 
     it 'without the plain options print the colorized values' do
@@ -112,7 +112,7 @@ RSpec.describe 'Objects' do
         >
       EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+      expect(hello.ai(colors: :none, raw: false)).to eq(hello.inspect)
     end
 
     it 'with multine as false show inline values' do
@@ -128,12 +128,12 @@ RSpec.describe 'Objects' do
       end
 
       hello = Hello.new
-      out = hello.ai(multiline: false, plain: true, raw: true)
+      out = hello.ai(multiline: false, colors: :none, raw: true)
       str = <<~EOS.strip
         #<Hello:placeholder_id @dabra = 3, attr_reader :abra = 1, attr_writer :ca = 2>
       EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+      expect(hello.ai(colors: :none, raw: false)).to eq(hello.inspect)
     end
 
     it 'without the sort_vars option does not sort instance variables' do
@@ -157,7 +157,7 @@ RSpec.describe 'Objects' do
       end
 
       hello = Hello.new
-      out = hello.ai(plain: true, raw: true, sort_vars: false)
+      out = hello.ai(colors: :none, raw: true, sort_vars: false)
       str = <<~EOS.strip
         #<Hello:placeholder_id
             @scooby = 3,
@@ -169,7 +169,7 @@ RSpec.describe 'Objects' do
         >
       EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+      expect(hello.ai(colors: :none, raw: false)).to eq(hello.inspect)
     end
 
     it 'object_id' do
@@ -182,7 +182,7 @@ RSpec.describe 'Objects' do
       end
 
       hello = Hello.new
-      out = hello.ai(plain: true, raw: true, object_id: false)
+      out = hello.ai(colors: :none, raw: true, object_id: false)
       str = <<~EOS.strip
         #<Hello
             @abra = 1,
@@ -191,7 +191,7 @@ RSpec.describe 'Objects' do
         >
       EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+      expect(hello.ai(colors: :none, raw: false)).to eq(hello.inspect)
     end
 
     it 'class_name' do
@@ -208,7 +208,7 @@ RSpec.describe 'Objects' do
       end
 
       hello = Hello.new
-      out = hello.ai(plain: true, raw: true, class_name: :to_s)
+      out = hello.ai(colors: :none, raw: true, class_name: :to_s)
       str = <<~EOS.strip
         #<CustomizedHello:placeholder_id
             @abra = 1,
@@ -217,7 +217,7 @@ RSpec.describe 'Objects' do
         >
       EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+      expect(hello.ai(colors: :none, raw: false)).to eq(hello.inspect)
     end
   end
 end

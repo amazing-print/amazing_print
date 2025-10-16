@@ -2,7 +2,12 @@
 
 ## Unreleased
 
-- Add `plain_keys` option disable colors for hash keys.
+- Introduce new `colors` option that can have the following values:
+    - `:all`. Colors everything. Default.
+    - `:values_only`. Only colors hash values, not hash keys.
+    - `:none`. Disables colors.
+- Deprecate `plain` option which was used to disable colors. The new `colors`
+  option makes it redundant.
 
 ## v2.0.0
 

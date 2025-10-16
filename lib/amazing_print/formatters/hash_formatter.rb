@@ -86,7 +86,7 @@ module AmazingPrint
         if options[:html]
           single_line { inspector.awesome(key) }.size
         else
-          plain_single_line { inspector.awesome(key) }.size
+          no_colors { single_line { inspector.awesome(key) }.size }
         end
       end
 
@@ -147,23 +147,19 @@ module AmazingPrint
       end
 
       def format_key(key)
-        if options[:plain_keys]
-          plain { inspector.awesome(key) }
+        if options[:colors] == :values_only
+          no_colors { inspector.awesome(key) }
         else
           inspector.awesome(key)
         end
       end
 
-      def plain_single_line(&)
-        plain { single_line(&) }
-      end
-
-      def plain
-        old_plain = options[:plain]
-        options[:plain] = true
+      def no_colors
+        old_colors = options[:colors]
+        options[:colors] = :none
         yield
       ensure
-        options[:plain] = old_plain
+        options[:colors] = old_colors
       end
 
       def single_line

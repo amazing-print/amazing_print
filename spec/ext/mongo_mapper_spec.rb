@@ -22,12 +22,12 @@ RSpec.describe 'AmazingPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_map
   end
 
   before do
-    @ap = AmazingPrint::Inspector.new(plain: true, sort_keys: true)
+    @ap = AmazingPrint::Inspector.new(colors: :none, sort_keys: true)
   end
 
   describe 'with the raw option set to true' do
     # before { @ap.options[:raw] = true }
-    before { @ap = AmazingPrint::Inspector.new(plain: true, sort_keys: true, raw: true) }
+    before { @ap = AmazingPrint::Inspector.new(colors: :none, sort_keys: true, raw: true) }
 
     it 'prints class instance' do
       user = MongoUser.new(first_name: 'Al', last_name: 'Capone')
@@ -208,7 +208,7 @@ RSpec.describe 'AmazingPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_map
 
     describe 'with show associations turned on and inline embedded turned off' do
       before do
-        @ap = AmazingPrint::Inspector.new(plain: true, mongo_mapper: { show_associations: true })
+        @ap = AmazingPrint::Inspector.new(colors: :none, mongo_mapper: { show_associations: true })
       end
 
       it 'renders the class with associations shown' do
@@ -239,7 +239,7 @@ RSpec.describe 'AmazingPrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_map
 
     describe 'with show associations turned on and inline embedded turned on' do
       before do
-        @ap = AmazingPrint::Inspector.new plain: true,
+        @ap = AmazingPrint::Inspector.new colors: :none,
                                           mongo_mapper: {
                                             show_associations: true,
                                             inline_embedded: true

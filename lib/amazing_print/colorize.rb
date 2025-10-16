@@ -10,7 +10,7 @@ module AmazingPrint
     #------------------------------------------------------------------------------
     def colorize(str, type)
       str = CGI.escapeHTML(str) if options[:html]
-      return str if options[:plain] || !options[:color][type] || !inspector.colorize?
+      return str if options[:colors] == :none || !options[:color][type] || !inspector.colorize?
 
       AmazingPrint::Colors.public_send(options[:color][type], str, options[:html])
     end

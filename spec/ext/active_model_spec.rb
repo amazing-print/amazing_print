@@ -5,7 +5,7 @@ require 'active_record_helper'
 
 RSpec.describe 'ActiveModel formatting', skip: -> { !ExtVerifier.has_rails? }.call do
   before do
-    @ap = AmazingPrint::Inspector.new(plain: true)
+    @ap = AmazingPrint::Inspector.new(colors: :none)
   end
 
   describe 'ActiveModel class' do

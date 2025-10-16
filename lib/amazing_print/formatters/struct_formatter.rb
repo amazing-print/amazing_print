@@ -35,7 +35,7 @@ module AmazingPrint
             align(declaration, declaration.size)
           end
 
-          unless options[:plain]
+          if options[:colors] != :none
             key = if key =~ /(@\w+)/
                     key.sub(Regexp.last_match(1), colorize(Regexp.last_match(1), :variable))
                   else

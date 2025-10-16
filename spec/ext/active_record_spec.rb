@@ -14,7 +14,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       end
       @diana = User.new(name: 'Diana', rank: 1, admin: false, created_at: '1992-10-10 12:30:00')
       @laura = User.new(name: 'Laura', rank: 2, admin: true,  created_at: '2003-05-26 14:15:00')
-      @ap = AmazingPrint::Inspector.new(plain: true, sort_keys: true)
+      @ap = AmazingPrint::Inspector.new(colors: :none, sort_keys: true)
     end
 
     it 'display single record' do
@@ -87,7 +87,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
 
   describe 'Linked records (joins)' do
     before do
-      @ap = AmazingPrint::Inspector.new(plain: true)
+      @ap = AmazingPrint::Inspector.new(colors: :none)
     end
 
     it 'shows the entire record' do
@@ -108,7 +108,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
 
   describe 'ActiveRecord collection with counter cache', skip: -> { !defined?(Rails) || Rails::VERSION::STRING < '7.1.0' }.call do
     before do
-      @ap = AmazingPrint::Inspector.new(plain: true)
+      @ap = AmazingPrint::Inspector.new(colors: :none)
     end
 
     it 'preserves the collection' do
@@ -145,7 +145,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       end
       @diana = User.new(name: 'Diana', rank: 1, admin: false, created_at: '1992-10-10 12:30:00')
       @laura = User.new(name: 'Laura', rank: 2, admin: true,  created_at: '2003-05-26 14:15:00')
-      @ap = AmazingPrint::Inspector.new(plain: true, sort_keys: true, raw: true)
+      @ap = AmazingPrint::Inspector.new(colors: :none, sort_keys: true, raw: true)
     end
 
     it 'display single record' do
@@ -233,7 +233,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
   #------------------------------------------------------------------------------
   describe 'ActiveRecord class' do
     before do
-      @ap = AmazingPrint::Inspector.new(plain: true)
+      @ap = AmazingPrint::Inspector.new(colors: :none)
     end
 
     it 'prints the class' do
@@ -274,7 +274,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
   #------------------------------------------------------------------------------
   describe 'ActiveRecord methods formatting' do
     before do
-      @ap = AmazingPrint::Inspector.new(plain: true)
+      @ap = AmazingPrint::Inspector.new(colors: :none)
     end
 
     it 'formats class methods properly' do
