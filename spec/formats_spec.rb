@@ -17,7 +17,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline' do
-      expect(@arr.ai(plain: true)).to eq <<~EOS.strip
+      expect(@arr.ai(colors: :none)).to eq <<~EOS.strip
         [
             [0] 1,
             [1] :two,
@@ -34,7 +34,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline without index' do
-      expect(@arr.ai(plain: true, index: false)).to eq <<~EOS.strip
+      expect(@arr.ai(colors: :none, index: false)).to eq <<~EOS.strip
         [
             1,
             :two,
@@ -51,7 +51,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline indented' do
-      expect(@arr.ai(plain: true, indent: 2)).to eq <<~EOS.strip
+      expect(@arr.ai(colors: :none, indent: 2)).to eq <<~EOS.strip
         [
           [0] 1,
           [1] :two,
@@ -68,7 +68,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline indented without index' do
-      expect(@arr.ai(plain: true, indent: 2, index: false)).to eq <<~EOS.strip
+      expect(@arr.ai(colors: :none, indent: 2, index: false)).to eq <<~EOS.strip
         [
           1,
           :two,
@@ -85,7 +85,24 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain single line' do
-      expect(@arr.ai(plain: true, multiline: false)).to eq('[ 1, :two, "three", [ nil, [ true, false ] ] ]')
+      expect(@arr.ai(colors: :none, multiline: false)).to eq('[ 1, :two, "three", [ nil, [ true, false ] ] ]')
+    end
+
+    it 'supports deprecated plain option as an alias for no colors' do
+      expect(@arr.ai(plain: true)).to eq <<~EOS.strip
+        [
+            [0] 1,
+            [1] :two,
+            [2] "three",
+            [3] [
+                [0] nil,
+                [1] [
+                    [0] true,
+                    [1] false
+                ]
+            ]
+        ]
+      EOS
     end
 
     it 'colored multiline (default)' do
@@ -135,7 +152,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline' do
-      expect(@arr.ai(plain: true)).to eq <<~EOS.strip
+      expect(@arr.ai(colors: :none)).to eq <<~EOS.strip
         [
             [0] 1,
             [1] 2,
@@ -145,7 +162,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline without index' do
-      expect(@arr.ai(plain: true, index: false)).to eq <<~EOS.strip
+      expect(@arr.ai(colors: :none, index: false)).to eq <<~EOS.strip
         [
             1,
             2,
@@ -155,7 +172,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain single line' do
-      expect(@arr.ai(plain: true, multiline: false)).to eq('[ 1, 2, [...] ]')
+      expect(@arr.ai(colors: :none, multiline: false)).to eq('[ 1, 2, [...] ]')
     end
   end
 
@@ -166,7 +183,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain limited output large' do
-      expect(@arr.ai(plain: true, limit: true)).to eq <<~EOS.strip
+      expect(@arr.ai(colors: :none, limit: true)).to eq <<~EOS.strip
         [
             [  0] 1,
             [  1] 2,
@@ -181,7 +198,7 @@ RSpec.describe 'AmazingPrint' do
 
     it 'plain limited output small' do
       @arr = @arr[0..3]
-      expect(@arr.ai(plain: true, limit: true)).to eq <<~EOS.strip
+      expect(@arr.ai(colors: :none, limit: true)).to eq <<~EOS.strip
         [
             [0] 1,
             [1] 2,
@@ -192,7 +209,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain limited output with 10 lines' do
-      expect(@arr.ai(plain: true, limit: 10)).to eq <<~EOS.strip
+      expect(@arr.ai(colors: :none, limit: 10)).to eq <<~EOS.strip
         [
             [  0] 1,
             [  1] 2,
@@ -209,7 +226,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain limited output with 11 lines' do
-      expect(@arr.ai(plain: true, limit: 11)).to eq <<~EOS.strip
+      expect(@arr.ai(colors: :none, limit: 11)).to eq <<~EOS.strip
         [
             [  0] 1,
             [  1] 2,
@@ -234,7 +251,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain limited output' do
-      expect(@hash.ai(sort_keys: true, plain: true, limit: true)).to eq <<~EOS.strip
+      expect(@hash.ai(sort_keys: true, colors: :none, limit: true)).to eq <<~EOS.strip
         {
             "a" => :a,
             "b" => :b,
@@ -259,7 +276,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline' do
-      expect(@hash.ai(plain: true, hash_format: :rocket)).to eq <<~EOS.strip
+      expect(@hash.ai(colors: :none, hash_format: :rocket)).to eq <<~EOS.strip
         {
             1 => {
                 :sym => {
@@ -275,7 +292,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'symbol hash format' do
-      expect(@hash.ai(plain: true, hash_format: :symbol)).to eq <<~EOS.strip
+      expect(@hash.ai(colors: :none, hash_format: :symbol)).to eq <<~EOS.strip
         {
             1 => {
                 sym: {
@@ -291,7 +308,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline indented' do
-      expect(@hash.ai(plain: true, indent: 1, hash_format: :rocket)).to eq <<~EOS.strip
+      expect(@hash.ai(colors: :none, indent: 1, hash_format: :rocket)).to eq <<~EOS.strip
         {
          1 => {
           :sym => {
@@ -307,7 +324,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain single line' do
-      expect(@hash.ai(plain: true,
+      expect(@hash.ai(colors: :none,
                       multiline: false,
                       hash_format: :rocket)).to eq('{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }')
     end
@@ -344,8 +361,8 @@ RSpec.describe 'AmazingPrint' do
       EOS
     end
 
-    it 'colored with plain_keys option enabled' do
-      expect(@hash.ai(plain_keys: true)).to eq <<~EOS.strip
+    it 'colored with colors option set to :values_only' do
+      expect(@hash.ai(colors: :values_only)).to eq <<~EOS.strip
         {
             1\e[0;37m => \e[0m{
                 sym: {
@@ -392,7 +409,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline' do
-      expect(@hash.ai(plain: true)).to eq <<~EOS.strip
+      expect(@hash.ai(colors: :none)).to eq <<~EOS.strip
         {
             a: {...}
         }
@@ -400,7 +417,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain single line' do
-      expect(@hash.ai(plain: true, multiline: false)).to eq('{ a: {...} }')
+      expect(@hash.ai(colors: :none, multiline: false)).to eq('{ a: {...} }')
     end
   end
 
@@ -411,7 +428,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline' do
-      out = @hash.ai(plain: true, hash_format: :rocket)
+      out = @hash.ai(colors: :none, hash_format: :rocket)
       expect(out).to eq <<~EOS.strip
         {
                 "b" => "b",
@@ -423,7 +440,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline with sorted keys' do
-      expect(@hash.ai(plain: true, sort_keys: true, hash_format: :rocket)).to eq <<~EOS.strip
+      expect(@hash.ai(colors: :none, sort_keys: true, hash_format: :rocket)).to eq <<~EOS.strip
         {
                  :a => "a",
             "alpha" => "alpha",
@@ -442,7 +459,7 @@ RSpec.describe 'AmazingPrint' do
     #
     it 'hash keys must be left aligned' do
       hash = { [0, 0, 255] => :yellow, :red => 'rgb(255, 0, 0)', 'magenta' => 'rgb(255, 0, 255)' }
-      out = hash.ai(plain: true, indent: -4, sort_keys: true)
+      out = hash.ai(colors: :none, indent: -4, sort_keys: true)
       expect(out).to eq <<~EOS.strip
         {
             [ 0, 0, 255 ] => :yellow,
@@ -454,7 +471,7 @@ RSpec.describe 'AmazingPrint' do
 
     it 'nested hash keys should be indented (array of hashes)' do
       arr = [{ a: 1, bb: 22, ccc: 333 }, { 1 => :a, 22 => :bb, 333 => :ccc }]
-      out = arr.ai(plain: true, indent: -4, sort_keys: true, hash_format: :rocket)
+      out = arr.ai(colors: :none, indent: -4, sort_keys: true, hash_format: :rocket)
       expect(out).to eq <<~EOS.strip
         [
             [0] {
@@ -473,7 +490,7 @@ RSpec.describe 'AmazingPrint' do
 
     it 'nested hash keys should be indented (hash of hashes)' do
       arr = { first: { a: 1, bb: 22, ccc: 333 }, second: { 1 => :a, 22 => :bb, 333 => :ccc } }
-      out = arr.ai(plain: true, indent: -4, sort_keys: true, hash_format: :rocket)
+      out = arr.ai(colors: :none, indent: -4, sort_keys: true, hash_format: :rocket)
       expect(out).to eq <<~EOS.strip
         {
             :first  => {
@@ -496,7 +513,7 @@ RSpec.describe 'AmazingPrint' do
   #
   it 'hash keys must be left aligned' do
     hash = { [0, 0, 255] => :yellow, :bloodiest_red => 'rgb(255, 0, 0)', 'magenta' => 'rgb(255, 0, 255)' }
-    out = hash.ai(plain: true, indent: -2, hash_format: :symbol, sort_keys: true)
+    out = hash.ai(colors: :none, indent: -2, hash_format: :symbol, sort_keys: true)
     expect(out).to eq <<~EOS.strip
       {
         [ 0, 0, 255 ]  => :yellow,
@@ -509,7 +526,7 @@ RSpec.describe 'AmazingPrint' do
   #------------------------------------------------------------------------------
   describe 'Class' do
     it 'shows superclass (plain)' do
-      expect(self.class.ai(plain: true)).to eq("#{self.class} < #{self.class.superclass}")
+      expect(self.class.ai(colors: :none)).to eq("#{self.class} < #{self.class.superclass}")
     end
 
     it 'shows superclass (color)' do
@@ -521,13 +538,13 @@ RSpec.describe 'AmazingPrint' do
   describe 'File' do
     it 'displays a file (plain)', :unix do
       File.open(__FILE__, 'r') do |f|
-        expect(f.ai(plain: true)).to eq("#{f.inspect}\n" + `ls -alF #{f.path}`.chop)
+        expect(f.ai(colors: :none)).to eq("#{f.inspect}\n" + `ls -alF #{f.path}`.chop)
       end
     end
 
     it 'displays a file (plain) akin to powershell Get-ChildItem', :mswin do
       File.open(__FILE__, 'r') do |f|
-        expect(f.ai(plain: true)).to eq("#{f.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(f.path).to_s)
+        expect(f.ai(colors: :none)).to eq("#{f.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(f.path).to_s)
       end
     end
   end
@@ -536,13 +553,13 @@ RSpec.describe 'AmazingPrint' do
   describe 'Dir' do
     it 'displays a direcory (plain)', :unix do
       Dir.open(File.dirname(__FILE__)) do |d|
-        expect(d.ai(plain: true)).to eq("#{d.inspect}\n" + `ls -alF #{d.path}`.chop)
+        expect(d.ai(colors: :none)).to eq("#{d.inspect}\n" + `ls -alF #{d.path}`.chop)
       end
     end
 
     it 'displays a directory (plain) akin to powershell Get-ChildItem', :mswin do
       Dir.open(File.dirname(__FILE__)) do |d|
-        expect(d.ai(plain: true)).to eq("#{d.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(d.path).to_s)
+        expect(d.ai(colors: :none)).to eq("#{d.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(d.path).to_s)
       end
     end
   end
@@ -551,12 +568,12 @@ RSpec.describe 'AmazingPrint' do
   describe 'BigDecimal and Rational' do
     it 'presents BigDecimal object with arbitrary precision' do
       big = BigDecimal('201020102010201020102010201020102010.4')
-      expect(big.ai(plain: true)).to eq('201020102010201020102010201020102010.4')
+      expect(big.ai(colors: :none)).to eq('201020102010201020102010201020102010.4')
     end
 
     it 'presents Rational object with arbitrary precision' do
       rat = Rational(201_020_102_010_201_020_102_010_201_020_102_010, 2)
-      out = rat.ai(plain: true)
+      out = rat.ai(colors: :none)
       expect(out).to eq('100510051005100510051005100510051005/1')
     end
   end
@@ -584,15 +601,15 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'plain multiline' do
-      expect(@set.ai(plain: true)).to eq(@arr.ai(plain: true))
+      expect(@set.ai(colors: :none)).to eq(@arr.ai(colors: :none))
     end
 
     it 'plain multiline indented' do
-      expect(@set.ai(plain: true, indent: 1)).to eq(@arr.ai(plain: true, indent: 1))
+      expect(@set.ai(colors: :none, indent: 1)).to eq(@arr.ai(colors: :none, indent: 1))
     end
 
     it 'plain single line' do
-      expect(@set.ai(plain: true, multiline: false)).to eq(@arr.ai(plain: true, multiline: false))
+      expect(@set.ai(colors: :none, multiline: false)).to eq(@arr.ai(colors: :none, multiline: false))
     end
 
     it 'colored multiline (default)' do
@@ -625,7 +642,7 @@ RSpec.describe 'AmazingPrint' do
     name = "Herman Munster",
     address = "1313 Mockingbird Lane"
       EOS
-      expect(@struct.ai(plain: true)).to satisfy { |out| out.match(s1) || out.match(s2) }
+      expect(@struct.ai(colors: :none)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
 
     it 'plain multiline indented' do
@@ -637,13 +654,13 @@ RSpec.describe 'AmazingPrint' do
  name = "Herman Munster",
  address = "1313 Mockingbird Lane"
       EOS
-      expect(@struct.ai(plain: true, indent: 1)).to satisfy { |out| out.match(s1) || out.match(s2) }
+      expect(@struct.ai(colors: :none, indent: 1)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
 
     it 'plain single line' do
       s1 = 'address = "1313 Mockingbird Lane", name = "Herman Munster"'
       s2 = 'name = "Herman Munster", address = "1313 Mockingbird Lane"'
-      expect(@struct.ai(plain: true, multiline: false)).to satisfy { |out| out.match(s1) || out.match(s2) }
+      expect(@struct.ai(colors: :none, multiline: false)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
 
     it 'colored multiline (default)' do
@@ -682,7 +699,7 @@ RSpec.describe 'AmazingPrint' do
     address = "1313 Mockingbird Lane"
         EOS
 
-        str = @struct.ai(plain: true)
+        str = @struct.ai(colors: :none)
         expect(str).to satisfy { |out| out.match(s1) || out.match(s2) }
         expect(str).to satisfy { |out| out.match('#<data SimpleData:0x') }
       end
@@ -697,7 +714,7 @@ RSpec.describe 'AmazingPrint' do
  address = "1313 Mockingbird Lane"
         EOS
 
-        str = @struct.ai(plain: true, indent: 1)
+        str = @struct.ai(colors: :none, indent: 1)
         expect(str).to satisfy { |out| out.match(s1) || out.match(s2) }
         expect(str).to satisfy { |out| out.match('#<data SimpleData:0x') }
       end
@@ -705,7 +722,7 @@ RSpec.describe 'AmazingPrint' do
       it 'plain single line' do
         s1 = 'address = "1313 Mockingbird Lane", name = "Herman Munster"'
         s2 = 'name = "Herman Munster", address = "1313 Mockingbird Lane"'
-        str = @struct.ai(plain: true, multiline: false)
+        str = @struct.ai(colors: :none, multiline: false)
         expect(str).to satisfy { |out| out.match(s1) || out.match(s2) }
         expect(str).to satisfy { |out| out.match('#<data SimpleData:0x') }
       end
@@ -737,7 +754,7 @@ RSpec.describe 'AmazingPrint' do
       class My < Array; end
 
       my = My.new([1, :two, 'three', [nil, [true, false]]])
-      expect(my.ai(plain: true)).to eq <<~EOS.strip
+      expect(my.ai(colors: :none)).to eq <<~EOS.strip
         [
             [0] 1,
             [1] :two,
@@ -757,7 +774,7 @@ RSpec.describe 'AmazingPrint' do
       class My < Hash; end
 
       my = My[{ 1 => { sym: { 'str' => { [1, 2, 3] => { { k: :v } => Hash } } } } }]
-      expect(my.ai(plain: true, hash_format: :rocket)).to eq <<~EOS.strip
+      expect(my.ai(colors: :none, hash_format: :rocket)).to eq <<~EOS.strip
         {
             1 => {
                 :sym => {
@@ -780,13 +797,13 @@ RSpec.describe 'AmazingPrint' do
       rescue StandardError
         File.new(File::NULL)
       end
-      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
+      expect(my.ai(colors: :none)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
     it 'inherited from File should be displayed as File', :mswin do
       class My < File; end
       my = My.new(File::NULL) # it's /dev/null in Windows
-      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(my.path).to_s)
+      expect(my.ai(colors: :none)).to eq("#{my.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(my.path).to_s)
     end
 
     it 'inherited from Dir should be displayed as Dir', :unix do
@@ -794,7 +811,7 @@ RSpec.describe 'AmazingPrint' do
 
       require 'tmpdir'
       my = My.new(Dir.tmpdir)
-      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
+      expect(my.ai(colors: :none)).to eq("#{my.inspect}\n" + `ls -alF #{my.path}`.chop)
     end
 
     it 'inherited from Dir are displayed as Dir', :mswin do
@@ -802,7 +819,7 @@ RSpec.describe 'AmazingPrint' do
 
       require 'tmpdir'
       my = My.new(Dir.tmpdir)
-      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(my.path).to_s)
+      expect(my.ai(colors: :none)).to eq("#{my.inspect}\n" + AmazingPrint::Formatters::GetChildItem.new(my.path).to_s)
     end
 
     it 'handles a class that defines its own #send method' do
@@ -811,7 +828,7 @@ RSpec.describe 'AmazingPrint' do
       end
 
       my = My.new
-      expect { my.methods.ai(plain: true) }.not_to raise_error
+      expect { my.methods.ai(colors: :none) }.not_to raise_error
     end
 
     it 'handles a class defines its own #method method (ex. request.method)' do
@@ -822,7 +839,7 @@ RSpec.describe 'AmazingPrint' do
       end
 
       my = My.new
-      expect { my.methods.ai(plain: true) }.not_to raise_error
+      expect { my.methods.ai(colors: :none) }.not_to raise_error
     end
 
     describe 'should handle a class that defines its own #to_hash method' do
@@ -832,7 +849,7 @@ RSpec.describe 'AmazingPrint' do
         end
 
         my = My.new
-        expect { my.ai(plain: true) }.not_to raise_error
+        expect { my.ai(colors: :none) }.not_to raise_error
       end
 
       it 'that returns nil' do
@@ -843,7 +860,7 @@ RSpec.describe 'AmazingPrint' do
         end
 
         my = My.new
-        expect { my.ai(plain: true) }.not_to raise_error
+        expect { my.ai(colors: :none) }.not_to raise_error
       end
 
       it "that returns an object that doesn't support #keys" do
@@ -857,7 +874,7 @@ RSpec.describe 'AmazingPrint' do
         end
 
         my = My.new
-        expect { my.ai(plain: true) }.not_to raise_error
+        expect { my.ai(colors: :none) }.not_to raise_error
       end
 
       it "that returns an object that doesn't support subscripting" do
@@ -871,7 +888,7 @@ RSpec.describe 'AmazingPrint' do
         end
 
         my = My.new
-        expect { my.ai(plain: true) }.not_to raise_error
+        expect { my.ai(colors: :none) }.not_to raise_error
       end
     end
   end

@@ -32,8 +32,7 @@ module AmazingPrint
         index: true, # Display array indices.
         html: false, # Use ANSI color codes rather than HTML.
         multiline: true, # Display in multiple lines.
-        plain: false, # Use colors.
-        plain_keys: false, # Use colors for hash keys.
+        colors: :all, # Controls what should be colored. Can be one of :all, :values_only, or :none
         raw: false, # Do not recursively format instance variables.
         sort_keys: false,  # Do not sort hash keys.
         sort_vars: true,   # Sort instance variables.
@@ -165,6 +164,8 @@ module AmazingPrint
     #---------------------------------------------------------------------------
     def merge_options!(options = {})
       @options[:color].merge!(options.delete(:color) || {})
+      @options[:colors] = :none if options[:plain]
+
       @options.merge!(options)
     end
 

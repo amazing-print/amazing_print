@@ -23,7 +23,7 @@ RSpec.describe 'AmazingPrint/Ripple', skip: -> { !ExtVerifier.has_ripple? }.call
   end
 
   before do
-    @ap = AmazingPrint::Inspector.new plain: true, sort_keys: true
+    @ap = AmazingPrint::Inspector.new colors: :none, sort_keys: true
   end
 
   it 'prints class instance' do

@@ -29,7 +29,7 @@ RSpec.describe 'AmazingPrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? 
   end
 
   before do
-    @ap = AmazingPrint::Inspector.new plain: true
+    @ap = AmazingPrint::Inspector.new colors: :none
   end
 
   it 'prints class instance' do

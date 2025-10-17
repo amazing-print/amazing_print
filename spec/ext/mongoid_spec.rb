@@ -6,7 +6,7 @@ require 'spec_helper'
 
 RSpec.describe 'AmazingPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.call do
   before do
-    @ap = AmazingPrint::Inspector.new plain: true, sort_keys: true
+    @ap = AmazingPrint::Inspector.new colors: :none, sort_keys: true
   end
 
   describe 'Document' do

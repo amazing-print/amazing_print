@@ -5,7 +5,7 @@ require 'sequel_helper'
 
 RSpec.describe 'AmazingPrint/Sequel', skip: -> { !ExtVerifier.has_sequel? }.call do
   before do
-    @ap = AmazingPrint::Inspector.new plain: true, sort_keys: true
+    @ap = AmazingPrint::Inspector.new colors: :none, sort_keys: true
     @user1 = SequelUser.new first_name: 'Jeremy', last_name: 'Evans'
     @user2 = SequelUser.new first_name: 'Sequel', last_name: 'Five'
   end

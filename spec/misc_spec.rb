@@ -12,7 +12,7 @@ RSpec.describe 'AmazingPrint' do
           nil
         end
       end
-      expect(weird.new.ai(plain: true)).to eq('')
+      expect(weird.new.ai(colors: :none)).to eq('')
     end
 
     it 'handle frozen object.inspect' do
@@ -28,14 +28,14 @@ RSpec.describe 'AmazingPrint' do
     it 'handle array grep when pattern contains / chapacter' do
       hash = { '1/x' => 1, '2//x' => :'2' }
       grepped = hash.keys.sort.grep(%r{^(\d+)/}) { Regexp.last_match(1) }
-      expect(grepped.ai(plain: true, multiline: false)).to eq('[ "1", "2" ]')
+      expect(grepped.ai(colors: :none, multiline: false)).to eq('[ "1", "2" ]')
     end
 
     # See https://github.com/awesome-print/awesome_print/issues/85
     it "handle array grep when a method is defined in C and thus doesn't have a binding" do
       arr = (0..6).to_a
       grepped = arr.grep(1..4, &:succ)
-      expect(grepped.ai(plain: true, multiline: false)).to eq('[ 2, 3, 4, 5 ]')
+      expect(grepped.ai(colors: :none, multiline: false)).to eq('[ 2, 3, 4, 5 ]')
     end
 
     it 'returns value passed as a parameter' do
@@ -51,7 +51,7 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'format ENV as hash' do
-      expect(ENV.ai(plain: true)).to eq(ENV.to_hash.ai(plain: true))
+      expect(ENV.ai(colors: :none)).to eq(ENV.to_hash.ai(colors: :none))
       expect(ENV.ai).to eq(ENV.to_hash.ai)
     end
 
@@ -79,7 +79,7 @@ RSpec.describe 'AmazingPrint' do
   describe 'HTML output' do
     it 'wraps ap output with plain <pre> tag' do
       markup = rand
-      expect(markup.ai(html: true, plain: true)).to eq("<pre>#{markup}</pre>")
+      expect(markup.ai(html: true, colors: :none)).to eq("<pre>#{markup}</pre>")
     end
 
     it 'wraps ap output with <pre> tag with colorized <kbd>' do
@@ -111,7 +111,7 @@ RSpec.describe 'AmazingPrint' do
 
     it 'encodes HTML entities (plain)' do
       markup = ' &<hello>'
-      expect(markup.ai(html: true, plain: true)).to eq('<pre>&quot; &amp;&lt;hello&gt;&quot;</pre>')
+      expect(markup.ai(html: true, colors: :none)).to eq('<pre>&quot; &amp;&lt;hello&gt;&quot;</pre>')
     end
 
     it 'encodes HTML entities (color)' do
@@ -130,7 +130,7 @@ RSpec.describe 'AmazingPrint' do
     it 'properlies merge the defaults' do
       AmazingPrint.defaults = { indent: -2, sort_keys: true }
       hash = { [0, 0, 255] => :yellow, :red => 'rgb(255, 0, 0)', 'magenta' => 'rgb(255, 0, 255)' }
-      out = hash.ai(plain: true)
+      out = hash.ai(colors: :none)
       expect(out).to eq <<~EOS.strip
         {
           [ 0, 0, 255 ] => :yellow,
@@ -285,7 +285,7 @@ RSpec.describe 'AmazingPrint' do
         it 'respects DEBUGGER__::CONFIG[:no_color]' do # rubocop:disable RSpec/NoExpectationExample
           debugger_config[:no_color] = true
           obj = double('test object')
-          expected_opts = { multiline: true, index: false, indent: 2, plain: true }
+          expected_opts = { multiline: true, index: false, indent: 2, colors: :none }
           allow(obj).to receive(:ai).with(expected_opts)
 
           @thread_client_instance.color_pp(obj, 80)

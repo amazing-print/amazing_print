@@ -31,7 +31,7 @@ RSpec.describe 'AmazingPrint::ActiveSupport', skip: -> { !ExtVerifier.has_rails?
   # we ignore that and format Date instance as regular date.
   it 'formates Date object as date' do
     date = Date.new(2003, 5, 26)
-    expect(date.ai(plain: true)).to eq('Mon, 26 May 2003')
+    expect(date.ai(colors: :none)).to eq('Mon, 26 May 2003')
     expect(date.ai).to eq("\e[0;32mMon, 26 May 2003\e[0m")
   end
 end
