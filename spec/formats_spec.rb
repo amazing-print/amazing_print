@@ -88,6 +88,23 @@ RSpec.describe 'AmazingPrint' do
       expect(@arr.ai(colors: :none, multiline: false)).to eq('[ 1, :two, "three", [ nil, [ true, false ] ] ]')
     end
 
+    it 'supports deprecated plain option as an alias for no colors' do
+      expect(@arr.ai(plain: true)).to eq <<~EOS.strip
+        [
+            [0] 1,
+            [1] :two,
+            [2] "three",
+            [3] [
+                [0] nil,
+                [1] [
+                    [0] true,
+                    [1] false
+                ]
+            ]
+        ]
+      EOS
+    end
+
     it 'colored multiline (default)' do
       expect(@arr.ai).to eq <<~EOS.strip
         [
