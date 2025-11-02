@@ -152,7 +152,13 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome(@diana)
 
       raw_object_string =
-        if activerecord_7_2?
+        if activerecord_main?
+          ActiveRecordData.raw_main_diana
+        elsif activerecord_8_1?
+          ActiveRecordData.raw_8_1_diana
+        elsif activerecord_8_0?
+          ActiveRecordData.raw_8_0_diana
+        elsif activerecord_7_2?
           ActiveRecordData.raw_7_2_diana
         elsif activerecord_7_1?
           ActiveRecordData.raw_7_1_diana
@@ -192,7 +198,13 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       out = @ap.awesome([@diana, @laura])
 
       raw_object_string =
-        if activerecord_7_2?
+        if activerecord_main?
+          ActiveRecordData.raw_main_multi
+        elsif activerecord_8_1?
+          ActiveRecordData.raw_8_1_multi
+        elsif activerecord_8_0?
+          ActiveRecordData.raw_8_0_multi
+        elsif activerecord_7_2?
           ActiveRecordData.raw_7_2_multi
         elsif activerecord_7_1?
           ActiveRecordData.raw_7_1_multi
