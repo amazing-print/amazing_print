@@ -18,6 +18,7 @@
     @primary_key = "id",
     @readonly = false,
     @strict_loading = false,
+    attr_accessor :_last_transaction_return_status = nil,
     attr_accessor :_new_record_before_last_commit = nil,
     attr_accessor :attributes = #<ActiveModel::AttributeSet:placeholder_id
         @attributes = {
