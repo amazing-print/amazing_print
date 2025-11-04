@@ -42,4 +42,6 @@ AmazingPrint::Formatter.include AmazingPrint::ActiveSupport
 #
 # Colorize Rails logs.
 #
-AmazingPrint.force_colors! colors: ActiveSupport::LogSubscriber.colorize_logging if defined?(ActiveSupport::LogSubscriber)
+AmazingPrint.force_colors!(
+  colors: ActiveSupport.try(:colorize_logging) || ActiveSupport::LogSubscriber.colorize_logging
+)

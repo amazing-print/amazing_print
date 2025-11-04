@@ -61,17 +61,19 @@
                         attr_reader :precision = 6,
                         attr_reader :scale = nil
                     >,
-                    attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
+                    attr_reader :value_before_type_cast = "?"
                 >,
                         "id" => #<ActiveModel::Attribute::FromDatabase:placeholder_id
                     @original_attribute = nil,
                     attr_reader :name = "id",
                     attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer:placeholder_id
-                        @range = -9223372036854775808...9223372036854775808,
+                        @max = 9223372036854775808,
+                        @min = -9223372036854775808,
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
+                    attr_reader :value = nil,
                     attr_reader :value_before_type_cast = nil
                 >,
                       "name" => #<ActiveModel::Attribute::FromUser:placeholder_id
@@ -102,7 +104,8 @@
                         @original_attribute = nil,
                         attr_reader :name = "rank",
                         attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer:placeholder_id
-                            @range = -9223372036854775808...9223372036854775808,
+                            @max = 9223372036854775808,
+                            @min = -9223372036854775808,
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -111,7 +114,8 @@
                     >,
                     attr_reader :name = "rank",
                     attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer:placeholder_id
-                        @range = -9223372036854775808...9223372036854775808,
+                        @max = 9223372036854775808,
+                        @min = -9223372036854775808,
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -185,17 +189,19 @@
                         attr_reader :precision = 6,
                         attr_reader :scale = nil
                     >,
-                    attr_reader :value_before_type_cast = "2003-05-26 14:15:00"
+                    attr_reader :value_before_type_cast = "?"
                 >,
                         "id" => #<ActiveModel::Attribute::FromDatabase:placeholder_id
                     @original_attribute = nil,
                     attr_reader :name = "id",
                     attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer:placeholder_id
-                        @range = -9223372036854775808...9223372036854775808,
+                        @max = 9223372036854775808,
+                        @min = -9223372036854775808,
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
+                    attr_reader :value = nil,
                     attr_reader :value_before_type_cast = nil
                 >,
                       "name" => #<ActiveModel::Attribute::FromUser:placeholder_id
@@ -226,7 +232,8 @@
                         @original_attribute = nil,
                         attr_reader :name = "rank",
                         attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer:placeholder_id
-                            @range = -9223372036854775808...9223372036854775808,
+                            @max = 9223372036854775808,
+                            @min = -9223372036854775808,
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -235,7 +242,8 @@
                     >,
                     attr_reader :name = "rank",
                     attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer:placeholder_id
-                        @range = -9223372036854775808...9223372036854775808,
+                        @max = 9223372036854775808,
+                        @min = -9223372036854775808,
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil

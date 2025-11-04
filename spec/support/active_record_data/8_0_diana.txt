@@ -60,7 +60,7 @@
                     attr_reader :precision = 6,
                     attr_reader :scale = nil
                 >,
-                attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
+                attr_reader :value_before_type_cast = "?"
             >,
                     "id" => #<ActiveModel::Attribute::FromDatabase:placeholder_id
                 @original_attribute = nil,
