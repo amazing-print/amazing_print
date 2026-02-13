@@ -13,9 +13,9 @@ RSpec.describe 'Structs' do
       out = hello.ai(colors: :none, raw: true)
       str = <<~EOSTR.strip
         #<struct Hello:placeholder_id
-            ca = 2,
+               ca = 2,
             dabra = 3,
-            abra = 1
+             abra = 1
         >
       EOSTR
       expect(out).to be_similar_to(str)
@@ -26,9 +26,9 @@ RSpec.describe 'Structs' do
       out = hello.ai(raw: true)
       str = <<~EOSTR.strip
         #<struct Hello:placeholder_id
-            ca\e[0;37m = \e[0m\e[1;34m2\e[0m,
+               ca\e[0;37m = \e[0m\e[1;34m2\e[0m,
             dabra\e[0;37m = \e[0m\e[1;34m3\e[0m,
-            abra\e[0;37m = \e[0m\e[1;34m1\e[0m
+             abra\e[0;37m = \e[0m\e[1;34m1\e[0m
         >
       EOSTR
       expect(out).to be_similar_to(str)
@@ -48,9 +48,9 @@ RSpec.describe 'Structs' do
       out = hello.ai(colors: :none, raw: true, sort_keys: false)
       str = <<~EOSTR.strip
         #<struct Hello:placeholder_id
-            ca = 2,
+               ca = 2,
             dabra = 3,
-            abra = 1
+             abra = 1
         >
       EOSTR
       expect(out).to be_similar_to(str)
@@ -60,8 +60,8 @@ RSpec.describe 'Structs' do
       out = hello.ai(colors: :none, raw: true, sort_keys: true)
       str = <<~EOSTR.strip
         #<struct Hello:placeholder_id
-            abra = 1,
-            ca = 2,
+             abra = 1,
+               ca = 2,
             dabra = 3
         >
       EOSTR
@@ -72,9 +72,9 @@ RSpec.describe 'Structs' do
       out = hello.ai(colors: :none, raw: true, object_id: false)
       str = <<~EOSTR.strip
         #<struct Hello
-            ca = 2,
+               ca = 2,
             dabra = 3,
-            abra = 1
+             abra = 1
         >
       EOSTR
       expect(out).to be_similar_to(str)
@@ -94,8 +94,8 @@ RSpec.describe 'Structs' do
       out = hello.ai(colors: :none, raw: true, class_name: :to_s)
       str = <<~EOSTR.strip
         #<struct CustomizedHello:placeholder_id
-            abra = 1,
-            ca = 2,
+             abra = 1,
+               ca = 2,
             dabra = 3
         >
       EOSTR
@@ -123,9 +123,9 @@ RSpec.describe 'Structs' do
       out = hello.ai(colors: :none, raw: true, indent: 2)
       str = <<~EOSTR.strip
         #<struct Hello:placeholder_id
-          ca = 2,
+             ca = 2,
           dabra = 3,
-          abra = 1
+           abra = 1
         >
       EOSTR
       expect(out).to be_similar_to(str)
@@ -141,7 +141,7 @@ RSpec.describe 'Structs' do
             inner = #<struct Inner:placeholder_id
                 val = 42
             >,
-            name = "test"
+             name = "test"
         >
       EOSTR
       expect(out).to be_similar_to(str)

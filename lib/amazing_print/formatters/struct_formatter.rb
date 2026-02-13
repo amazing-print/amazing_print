@@ -20,21 +20,12 @@ module AmazingPrint
           [var.to_s, var]
         end
 
+        width = max_key_width(vars)
+        width += indentation if options[:indent].positive?
+
         data = (options[:sort_keys] ? vars.sort : vars).map do |declaration, var|
-          key = left_aligned do
-            align(declaration, declaration.size)
-          end
-
-          if options[:colors] != :none
-            key = if key =~ /(@\w+)/
-                    key.sub(Regexp.last_match(1), colorize(Regexp.last_match(1), :variable))
-                  else
-                    key.sub(/(attr_\w+)\s(:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
-                  end
-          end
-
           indented do
-            key + colorize(' = ', :hash) + inspector.awesome(struct.send(var))
+            align(declaration, width) + colorize(' = ', :hash) + inspector.awesome(struct.send(var))
           end
         end
 
@@ -65,12 +56,8 @@ module AmazingPrint
         # rubocop:enable Style/ColonMethodCall
       end
 
-      def left_aligned
-        current = options[:indent]
-        options[:indent] = 0
-        yield
-      ensure
-        options[:indent] = current
+      def max_key_width(keys)
+        keys.map { |declaration, _| declaration.size }.max || 0
       end
     end
   end
