@@ -4,7 +4,6 @@
 
 require 'spec_helper'
 require 'bigdecimal'
-require 'set'
 
 RSpec.describe 'AmazingPrint' do
   describe 'Array' do
