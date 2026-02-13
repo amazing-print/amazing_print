@@ -17,20 +17,10 @@ module AmazingPrint
 
       def format
         vars = variables.map do |var|
-          property = var.to_s[1..].to_sym # to_s because of some monkey patching done by Puppet.
-          accessor = if struct.respond_to?(:"#{property}=")
-                       struct.respond_to?(property) ? :accessor : :writer
-                     else
-                       struct.respond_to?(property) ? :reader : nil
-                     end
-          if accessor
-            ["attr_#{accessor} :#{property}", var]
-          else
-            [var.to_s, var]
-          end
+          [var.to_s, var]
         end
 
-        data = vars.sort.map do |declaration, var|
+        data = (options[:sort_keys] ? vars.sort : vars).map do |declaration, var|
           key = left_aligned do
             align(declaration, declaration.size)
           end
@@ -58,14 +48,20 @@ module AmazingPrint
       private
 
       def awesome_instance
-        # We need to ensure that the original Kernel#format is used here instead of the one defined
-        # above.
+        prefix =
+          if defined?(Data) && struct.is_a?(Data)
+            'data '
+          else
+            'struct '
+          end
+
+        str = prefix + struct.send(options[:class_name]).to_s
+        return str unless options[:object_id]
+
+        # We need to ensure that the original Kernel#format is used here instead of the one
+        # defined above.
         # rubocop:disable Style/ColonMethodCall
-        if defined?(Data) && struct.is_a?(Data)
-          Kernel::format("data #{struct.class}:0x%08x", struct.__id__ * 2)
-        else
-          Kernel::format("#{struct.class.superclass}:#{struct.class}:0x%08x", struct.__id__ * 2)
-        end
+        str + Kernel::format(':0x%08x', struct.__id__ * 2)
         # rubocop:enable Style/ColonMethodCall
       end
 
