@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if RUBY_PLATFORM != 'java' && RUBY_VERSION >= '3.2.0'
+if RUBY_PLATFORM != 'java' && RUBY_VERSION >= '3.3.0'
   appraise 'rails-main' do
     gem 'rails', github: 'rails/rails'
     gem 'sqlite3', '>= 2.1', platform: :mri
