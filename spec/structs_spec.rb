@@ -36,7 +36,7 @@ RSpec.describe 'Structs' do
       AmazingPrint.force_colors = false
     end
 
-    it 'with multine as false show inline values' do
+    it 'with multiline as false show inline values' do
       out = hello.ai(multiline: false, colors: :none, raw: true)
       str = <<~EOSTR.strip
         #<struct Hello:placeholder_id ca = 2, dabra = 3, abra = 1>
@@ -44,8 +44,8 @@ RSpec.describe 'Structs' do
       expect(out).to be_similar_to(str)
     end
 
-    it 'without the sort_keys option does not sort fields' do
-      out = hello.ai(colors: :none, raw: true, sort_keys: false)
+    it 'does not sort fields by default' do
+      out = hello.ai(colors: :none, raw: true)
       str = <<~EOSTR.strip
         #<struct Hello:placeholder_id
                ca = 2,
@@ -68,7 +68,7 @@ RSpec.describe 'Structs' do
       expect(out).to be_similar_to(str)
     end
 
-    it 'object_id' do
+    it 'respects object_id=false option' do
       out = hello.ai(colors: :none, raw: true, object_id: false)
       str = <<~EOSTR.strip
         #<struct Hello
@@ -80,7 +80,7 @@ RSpec.describe 'Structs' do
       expect(out).to be_similar_to(str)
     end
 
-    it 'class_name' do
+    it 'respects class_name option' do
       stub_const(
         'Hello',
         Struct.new(:abra, :ca, :dabra) do
