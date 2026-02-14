@@ -29,11 +29,11 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
     - name: Install Dependencies
       run: |
         sudo apt-get update
         sudo apt-get -y install libsqlite3-dev
-        bundle install --retry 3
     - name: Test with all appraisals
       if : ${{ matrix.ruby != 'head' }}
       run: bundle exec rake
