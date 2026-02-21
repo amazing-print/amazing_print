@@ -102,11 +102,3 @@ def stub_dotfile!
     .to receive(:load_dotfile)
     .and_return(true)
 end
-
-def capture!
-  standard = $stdout
-  $stdout = StringIO.new
-  yield
-ensure
-  $stdout = standard
-end

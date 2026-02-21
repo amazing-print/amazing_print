@@ -160,31 +160,9 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           ActiveRecordData.raw_8_0_diana
         elsif activerecord_7_2?
           ActiveRecordData.raw_7_2_diana
-        elsif activerecord_7_1?
-          ActiveRecordData.raw_7_1_diana
-        elsif activerecord_7_0?
-          ActiveRecordData.raw_7_0_diana
-        elsif activerecord_6_1?
-          ActiveRecordData.raw_6_1_diana
-        elsif activerecord_6_0?
-          ActiveRecordData.raw_6_0_diana
-        elsif activerecord_5_2?
-          ActiveRecordData.raw_5_2_diana
-        elsif activerecord_5_1?
-          ActiveRecordData.raw_5_1_diana
-        elsif activerecord_5_0?
-          ActiveRecordData.raw_5_0_diana
-        elsif activerecord_4_2?
-          ActiveRecordData.raw_4_2_diana
-        elsif activerecord_4_1?
-          ActiveRecordData.raw_4_1_diana
-        elsif activerecord_4_0?
-          ActiveRecordData.raw_4_0_diana
-        elsif activerecord_3_2?
-          ActiveRecordData.raw_3_2_diana
         end
 
-      if RUBY_PLATFORM == 'java' && !activerecord_6_1? && !activerecord_7_0? && !activerecord_7_1? && !activerecord_7_2?
+      if RUBY_PLATFORM == 'java' && !activerecord_7_2?
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
           'ArJdbc::SQLite3::SQLite3Integer'
@@ -206,31 +184,9 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           ActiveRecordData.raw_8_0_multi
         elsif activerecord_7_2?
           ActiveRecordData.raw_7_2_multi
-        elsif activerecord_7_1?
-          ActiveRecordData.raw_7_1_multi
-        elsif activerecord_7_0?
-          ActiveRecordData.raw_7_0_multi
-        elsif activerecord_6_1?
-          ActiveRecordData.raw_6_1_multi
-        elsif activerecord_6_0?
-          ActiveRecordData.raw_6_0_multi
-        elsif activerecord_5_2?
-          ActiveRecordData.raw_5_2_multi
-        elsif activerecord_5_1?
-          ActiveRecordData.raw_5_1_multi
-        elsif activerecord_5_0?
-          ActiveRecordData.raw_5_0_multi
-        elsif activerecord_4_2?
-          ActiveRecordData.raw_4_2_multi
-        elsif activerecord_4_1?
-          ActiveRecordData.raw_4_1_multi
-        elsif activerecord_4_0?
-          ActiveRecordData.raw_4_0_multi
-        elsif activerecord_3_2?
-          ActiveRecordData.raw_3_2_multi
         end
 
-      if RUBY_PLATFORM == 'java' && !activerecord_6_1? && !activerecord_7_0? && !activerecord_7_1? && !activerecord_7_2?
+      if RUBY_PLATFORM == 'java' && !activerecord_7_2?
         raw_object_string.gsub!(
           'ActiveRecord::ConnectionAdapters::SQLite3Adapter::SQLite3Integer',
           'ArJdbc::SQLite3::SQLite3Integer'
@@ -298,13 +254,9 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
           expect(out).to match(
             /\s+first\(\*\*,\s\?, &&\)\s+#</
           )
-        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.1.0')
+        else
           expect(out).to match(
             /\s*first\(\*(\*|args),\s+\?,\s+&(&|block)\)\s+#<Class:User> \(ActiveRecord::Querying\)/
-          )
-        elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
-          expect(out).to match(
-            /\s*first\(\*(\*|args),\s+&(&|block)\)\s+#<Class:User> \(ActiveRecord::Querying\)/
           )
         end
       else
@@ -317,7 +269,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         expect(out).to match(
           /\sprimary_key\(\)\s+#</
         )
-      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
+      else
         expect(out).to match(/\sprimary_key\(.*?\)\s+#<Class:User> \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
       end
 
@@ -328,7 +280,7 @@ RSpec.describe 'AmazingPrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
       elsif RUBY_PLATFORM == 'java'
         expect(out).to match(/\svalidate\(\*args, &block\)\s+#</)
-      elsif Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
+      else
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+#<Class:User> \(ActiveModel::Validations::ClassMethods\)/)
       end
     end

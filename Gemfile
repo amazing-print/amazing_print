@@ -6,8 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 # Development dependencies
-# Update this once https://github.com/thoughtbot/appraisal/pull/202 is released
-gem 'appraisal', git: 'https://github.com/thoughtbot/appraisal.git', branch: :main
+gem 'appraisal', '~> 2.5'
 
 gem 'bigdecimal'
 gem 'fakefs', '~> 1.2'
