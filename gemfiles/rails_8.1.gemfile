@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "appraisal", git: "https://github.com/thoughtbot/appraisal.git", branch: :main
+gem "appraisal", "~> 2.5"
 gem "bigdecimal"
 gem "fakefs", "~> 1.2"
 gem "logger", "~> 1.7"
