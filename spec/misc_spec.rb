@@ -202,14 +202,16 @@ RSpec.describe 'AmazingPrint' do
     end
 
     it 'returns the actual object when *not* running under console' do
-      expect(capture! { ap([1, 2, 3]) }).to eq([1, 2, 3])
-      expect(capture! { ap({ a: 1 }) }).to eq({ a: 1 })
+      allow(Kernel).to receive(:puts)
+      expect(ap([1, 2, 3])).to eq([1, 2, 3])
+      expect(ap({ a: 1 })).to eq({ a: 1 })
     end
 
     it 'returns nil when running under console' do
       class IRB; end
-      expect(capture! { ap([1, 2, 3]) }).to be_nil
-      expect(capture! { ap({ a: 1 }) }).to be_nil
+      allow(Kernel).to receive(:puts)
+      expect(ap([1, 2, 3])).to be_nil
+      expect(ap({ a: 1 })).to be_nil
       Object.instance_eval { remove_const :IRB }
     end
 
