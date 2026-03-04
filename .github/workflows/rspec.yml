@@ -29,11 +29,6 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-
-    # Workaround while waiting for https://github.com/actions/runner-images/issues/13647
-    # to be resolved
-    - name: Workaround to fix broken permissions on gems directory
-      run: gems=$(ruby -e 'puts Gem.default_dir')/gems; if test -k $gems; then echo "Sticky-bit workaround can be removed!"; else sudo chmod +t $gems; fi
     - name: Install Dependencies
       run: |
         sudo apt-get update
