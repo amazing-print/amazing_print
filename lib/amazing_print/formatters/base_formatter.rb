@@ -144,7 +144,8 @@ module AmazingPrint
       end
 
       def colorless(string)
-        string.gsub(/\e\[[\d;]+m/, '')
+        result = string.gsub(/\e\[[\d;]+m/, '')
+        result.gsub(%r{<kbd[^>]*>|</kbd>}, '')
       end
 
       def colorless_size(string)
