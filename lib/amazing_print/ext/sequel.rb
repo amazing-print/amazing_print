@@ -29,8 +29,8 @@ module AmazingPrint
     # Format Sequel Document object.
     #------------------------------------------------------------------------------
     def awesome_sequel_document(object)
-      data = object.values.sort_by(&:to_s).each_with_object({}) do |c, hash|
-        hash[c[0].to_sym] = c[1]
+      data = object.values.sort_by(&:to_s).to_h do |c|
+        [c[0].to_sym, c[1]]
       end
       data = { errors: object.errors, values: data } unless object.errors.empty?
       "#{object} #{awesome_hash(data)}"
