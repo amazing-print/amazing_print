@@ -331,11 +331,11 @@ RSpec.describe 'AmazingPrint' do
     it 'colored multiline (default)' do
       expect(@hash.ai).to eq <<~EOS.strip
         {
-            \e[1;34m1\e[0m\e[0;37m => \e[0m{
-                \e[0;36msym:\e[0m {
-                    \e[0;33m"str"\e[0m\e[0;37m => \e[0m{
-                        [ \e[1;34m1\e[0m, \e[1;34m2\e[0m, \e[1;34m3\e[0m ]\e[0;37m => \e[0m{
-                            { \e[0;36mk:\e[0m \e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+            1\e[0;37m => \e[0m{
+                sym: {
+                    "str"\e[0;37m => \e[0m{
+                        [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                            { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                         }
                     }
                 }
@@ -346,6 +346,22 @@ RSpec.describe 'AmazingPrint' do
 
     it 'colored with symbol hash syntax' do
       expect(@hash.ai(hash_format: :symbol)).to eq <<~EOS.strip
+        {
+            1\e[0;37m => \e[0m{
+                sym: {
+                    "str"\e[0;37m => \e[0m{
+                        [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                            { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                        }
+                    }
+                }
+            }
+        }
+      EOS
+    end
+
+    it 'colored with colors option set to :all' do
+      expect(@hash.ai(colors: :all)).to eq <<~EOS.strip
         {
             \e[1;34m1\e[0m\e[0;37m => \e[0m{
                 \e[0;36msym:\e[0m {
@@ -379,11 +395,11 @@ RSpec.describe 'AmazingPrint' do
     it 'colored multiline indented' do
       expect(@hash.ai(indent: 2)).to eq <<~EOS.strip
         {
-          \e[1;34m1\e[0m\e[0;37m => \e[0m{
-            \e[0;36msym:\e[0m {
-              \e[0;33m"str"\e[0m\e[0;37m => \e[0m{
-                [ \e[1;34m1\e[0m, \e[1;34m2\e[0m, \e[1;34m3\e[0m ]\e[0;37m => \e[0m{
-                  { \e[0;36mk:\e[0m \e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+          1\e[0;37m => \e[0m{
+            sym: {
+              "str"\e[0;37m => \e[0m{
+                [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                  { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                 }
               }
             }
@@ -395,7 +411,7 @@ RSpec.describe 'AmazingPrint' do
     it 'colored single line' do
       # puts @hash.ai(multiline: false)
       expect(@hash.ai(multiline: false, hash_format: :rocket)).to eq(
-        "{ \e[1;34m1\e[0m\e[0;37m => \e[0m{ \e[0;36m:sym\e[0m\e[0;37m => \e[0m{ \e[0;33m\"str\"\e[0m\e[0;37m => \e[0m{ [ \e[1;34m1\e[0m, \e[1;34m2\e[0m, \e[1;34m3\e[0m ]\e[0;37m => \e[0m{ { \e[0;36m:k\e[0m\e[0;37m => \e[0m\e[0;36m:v\e[0m }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m } } } } }" # rubocop:disable Layout/LineLength
+        "{ 1\e[0;37m => \e[0m{ :sym\e[0;37m => \e[0m{ \"str\"\e[0;37m => \e[0m{ [ 1, 2, 3 ]\e[0;37m => \e[0m{ { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m } } } } }"
       )
     end
   end

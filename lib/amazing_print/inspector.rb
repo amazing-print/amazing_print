@@ -32,7 +32,7 @@ module AmazingPrint
         index: true, # Display array indices.
         html: false, # Use ANSI color codes rather than HTML.
         multiline: true, # Display in multiple lines.
-        colors: :all, # Controls what should be colored. Can be one of :all, :values_only, or :none
+        colors: :values_only, # Controls what should be colored. Can be one of :all, :values_only, or :none
         raw: false, # Do not recursively format instance variables.
         sort_keys: false,  # Do not sort hash keys.
         sort_vars: true,   # Sort instance variables.
