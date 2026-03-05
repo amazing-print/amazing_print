@@ -103,7 +103,7 @@ RSpec.describe 'AmazingPrint' do
       expect(markup.ai(html: true)).to eq <<~EOS.strip
         <pre>[
             <kbd style="color:white">[0] </kbd>{
-                <kbd style="color:brown">&quot;hello&quot;</kbd><kbd style="color:slategray"> =&gt; </kbd><kbd style="color:brown">&quot;world&quot;</kbd>
+                &quot;hello&quot;<kbd style="color:slategray"> =&gt; </kbd><kbd style="color:brown">&quot;world&quot;</kbd>
             }
         ]</pre>
       EOS
@@ -122,7 +122,7 @@ RSpec.describe 'AmazingPrint' do
     it 'aligns hash keys in colored HTML output' do
       AmazingPrint.force_colors = true
       hash = { a: 1, foo: 2 }
-      expect(hash.ai(html: true)).to eq <<~EOS.strip
+      expect(hash.ai(html: true, colors: :all)).to eq <<~EOS.strip
         <pre>{
               <kbd style="color:darkcyan">a:</kbd> <kbd style="color:blue">1</kbd>,
             <kbd style="color:darkcyan">foo:</kbd> <kbd style="color:blue">2</kbd>

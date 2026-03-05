@@ -2,13 +2,13 @@
 
 ## Unreleased
 
-- Introduce new `colors` option that can have the following values:
-    - `:all`. Colors everything. Default.
-    - `:values_only`. Only colors hash values, not hash keys.
+- Change default coloring behavior to only color values, instead of keys and values
+- Add `colors` option that can have the following values:
+    - `:all`. Colors hash keys and values.
+    - `:values_only`. Only colors hash values, not hash keys. Default.
     - `:none`. Disables colors.
-- Deprecate `plain` option which was used to disable colors. The new `colors`
-  option makes it redundant.
-- Fix alignment when using `html: true` with colors.
+- Deprecate `plain` option in favor of `colors: :none`
+- Fix alignment when using `html: true` with colors
 
 ## v2.0.0
 
