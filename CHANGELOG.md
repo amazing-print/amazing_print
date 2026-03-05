@@ -8,6 +8,7 @@
     - `:none`. Disables colors.
 - Deprecate `plain` option which was used to disable colors. The new `colors`
   option makes it redundant.
+- Fix alignment when using `html: true` with colors.
 
 ## v2.0.0
 

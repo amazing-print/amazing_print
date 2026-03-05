@@ -84,7 +84,7 @@ module AmazingPrint
         return key.inspect.size if symbol?(key)
 
         if options[:html]
-          single_line { inspector.awesome(key) }.size
+          colorless_size(single_line { inspector.awesome(key) })
         else
           no_colors { single_line { inspector.awesome(key) }.size }
         end
