@@ -17,34 +17,15 @@ module AmazingPrint
 
       def format
         vars = variables.map do |var|
-          property = var.to_s[1..].to_sym # to_s because of some monkey patching done by Puppet.
-          accessor = if struct.respond_to?(:"#{property}=")
-                       struct.respond_to?(property) ? :accessor : :writer
-                     else
-                       struct.respond_to?(property) ? :reader : nil
-                     end
-          if accessor
-            ["attr_#{accessor} :#{property}", var]
-          else
-            [var.to_s, var]
-          end
+          [var.to_s, var]
         end
 
-        data = vars.sort.map do |declaration, var|
-          key = left_aligned do
-            align(declaration, declaration.size)
-          end
+        width = max_key_width(vars)
+        width += indentation if options[:indent].positive?
 
-          if options[:colors] != :none
-            key = if key =~ /(@\w+)/
-                    key.sub(Regexp.last_match(1), colorize(Regexp.last_match(1), :variable))
-                  else
-                    key.sub(/(attr_\w+)\s(:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
-                  end
-          end
-
+        data = (options[:sort_keys] ? vars.sort : vars).map do |declaration, var|
           indented do
-            key + colorize(' = ', :hash) + inspector.awesome(struct.send(var))
+            align(declaration, width) + colorize(' = ', :hash) + inspector.awesome(struct.send(var))
           end
         end
 
@@ -58,23 +39,25 @@ module AmazingPrint
       private
 
       def awesome_instance
-        # We need to ensure that the original Kernel#format is used here instead of the one defined
-        # above.
+        prefix =
+          if defined?(Data) && struct.is_a?(Data)
+            'data '
+          else
+            'struct '
+          end
+
+        str = prefix + struct.send(options[:class_name]).to_s
+        return str unless options[:object_id]
+
+        # We need to ensure that the original Kernel#format is used here instead of the one
+        # defined above.
         # rubocop:disable Style/ColonMethodCall
-        if defined?(Data) && struct.is_a?(Data)
-          Kernel::format("data #{struct.class}:0x%08x", struct.__id__ * 2)
-        else
-          Kernel::format("#{struct.class.superclass}:#{struct.class}:0x%08x", struct.__id__ * 2)
-        end
+        str + Kernel::format(':0x%08x', struct.__id__ * 2)
         # rubocop:enable Style/ColonMethodCall
       end
 
-      def left_aligned
-        current = options[:indent]
-        options[:indent] = 0
-        yield
-      ensure
-        options[:indent] = current
+      def max_key_width(keys)
+        keys.map { |declaration, _| declaration.size }.max || 0
       end
     end
   end

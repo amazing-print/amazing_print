@@ -115,7 +115,7 @@ RSpec.describe 'Objects' do
       expect(hello.ai(colors: :none, raw: false)).to eq(hello.inspect)
     end
 
-    it 'with multine as false show inline values' do
+    it 'with multiline as false show inline values' do
       class Hello
         attr_reader   :abra
         attr_writer   :ca
