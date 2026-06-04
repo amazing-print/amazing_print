@@ -24,7 +24,7 @@ end
 appraise 'rails-7.2' do
   # Waiting on ActiveRecord 7.2 support
   gem 'activerecord-jdbcsqlite3-adapter', '~> 72.0', platform: :jruby
-  gem 'rails', '~> 7.2.0'
+  gem 'rails', '~> 7.2.3.1'
   gem 'sqlite3', '~> 2.6', platform: :mri
 end
 
