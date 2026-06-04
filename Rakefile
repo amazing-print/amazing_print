@@ -15,7 +15,7 @@ task :default do
 end
 
 task :appraise do
-  exec 'appraisal install && appraisal rake'
+  exec 'appraisal install && rubocop -A gemfiles && appraisal rake'
 end
 
 desc 'Run all amazing_print gem specs'
