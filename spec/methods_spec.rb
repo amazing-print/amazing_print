@@ -62,13 +62,19 @@ RSpec.describe 'Single method' do
   end
 
   it 'plain: should handle a method with two arguments' do
-    method = ''.method(:tr)
-    expect(method.ai(colors: :none)).to eq('String#tr(arg1, arg2)')
+    class A
+      def two(foo, bar); end
+    end
+    method = A.new.method(:two)
+    expect(method.ai(colors: :none)).to eq('A#two(foo, bar)')
   end
 
   it 'color: should handle a method with two arguments' do
-    method = ''.method(:tr)
-    expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mtr\e[0m\e[0;37m(arg1, arg2)\e[0m")
+    class A
+      def two(foo, bar); end
+    end
+    method = A.new.method(:two)
+    expect(method.ai).to eq("\e[1;33mA\e[0m#\e[0;35mtwo\e[0m\e[0;37m(foo, bar)\e[0m")
   end
 
   it 'plain: should handle a method with multiple arguments' do
