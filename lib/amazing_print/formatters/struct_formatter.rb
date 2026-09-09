@@ -60,13 +60,12 @@ module AmazingPrint
       def awesome_instance
         # We need to ensure that the original Kernel#format is used here instead of the one defined
         # above.
-        # rubocop:disable Style/ColonMethodCall
+        # rubocop:disable-next Style/ColonMethodCall
         if defined?(Data) && struct.is_a?(Data)
           Kernel::format("data #{struct.class}:0x%08x", struct.__id__ * 2)
         else
           Kernel::format("#{struct.class.superclass}:#{struct.class}:0x%08x", struct.__id__ * 2)
         end
-        # rubocop:enable Style/ColonMethodCall
       end
 
       def left_aligned

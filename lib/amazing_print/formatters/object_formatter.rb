@@ -67,9 +67,8 @@ module AmazingPrint
 
         # We need to ensure that the original Kernel#format is used here instead of the one
         # defined above.
-        # rubocop:disable Style/ColonMethodCall
+        # rubocop:disable-next Style/ColonMethodCall
         str + Kernel::format(':0x%08x', object.__id__ * 2)
-        # rubocop:enable Style/ColonMethodCall
       end
 
       def left_aligned
