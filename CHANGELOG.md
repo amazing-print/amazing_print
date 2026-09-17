@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v3.0.0
+
 - Support Rails 8.2 (#144, #158)
 - Change default coloring behavior to only color values, instead of keys and values (#151)
 - Add `colors` option that can have the following values (#143):
