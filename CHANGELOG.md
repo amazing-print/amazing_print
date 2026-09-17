@@ -2,14 +2,21 @@
 
 ## Unreleased
 
+## v3.0.0
+
 - Support Rails 8.2 (#144, #158)
 - Change default coloring behavior to only color values, instead of keys and values (#151)
+- Support Ruby 4.0 (#150)
+- Fix alignment when using html: true with colors (#146)
+- Fix forcing colors on future version of Rails (#144)
 - Add `colors` option that can have the following values (#143):
     - `:all`. Colors hash keys and values.
     - `:values_only`. Only colors hash values, not hash keys. Default.
     - `:none`. Disables colors.
 - Deprecate `plain` option in favor of `colors: :none` (#143)
 - Fix alignment when using `html: true` with colors (#146)
+- Add option disable colors for hash keys (#142)
+- Document `rdbg!` feature (#139)
 
 ## v2.0.0
 
